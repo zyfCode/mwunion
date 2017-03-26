@@ -1,0 +1,11 @@
+*.settings
+*.settings/*
+*.classpath
+*.project
+**/target/*
+*/target
+*testlib*
+*/*.log*
+
+
+
