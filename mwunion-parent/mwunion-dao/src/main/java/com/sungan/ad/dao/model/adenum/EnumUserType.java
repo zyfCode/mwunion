@@ -16,8 +16,8 @@ import com.sungan.ad.exception.AdRuntimeException;
  */
 public enum EnumUserType{
 	STMASTER("0","站长  "),ADHOST("1","广告主"),RECEPTION("2","接待员");//* 0 站长 1 广告主
-	public static final String DICT_KEY="USER_STATUSS";
-	public static final String DICT_NAME="用户状态";
+	public static final String DICT_KEY="USER_TYPE";
+	public static final String DICT_NAME="用户类型";
 	private String key;
 	private String label;
 	

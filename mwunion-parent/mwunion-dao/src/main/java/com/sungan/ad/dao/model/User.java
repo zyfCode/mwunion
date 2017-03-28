@@ -1,10 +1,16 @@
 package com.sungan.ad.dao.model;
 
+import java.util.Date;
+
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.dao.model.adenum.EnumUserStatus;
+import com.sungan.ad.dao.model.adenum.EnumUserType;
+import com.sungan.ad.expand.common.annotation.DateToStr;
+import com.sungan.ad.expand.common.annotation.StatusCn;
 
 /**
  * 说明:
- * 
+ *     客户表
  * @author zhangyf
  * @date 2017年3月26日
  */
@@ -22,16 +28,20 @@ public class User implements AdObject{
 	/**用户密码*/
 	private String userPwd;
 	/**创建时间*/
-	private String createTime;
+	@DateToStr
+	private Date createTime;
 	/**修改时间*/
-	private String updateTime;
+	@DateToStr
+	private Date updateTime;
 	/**
 	 * 0正常   1停用   2注销
 	 */
+	@StatusCn(dictId=EnumUserStatus.DICT_KEY)
 	private String userStatus;
 	/**
 	 * 0 站长 1 广告主
 	 */
+	@StatusCn(dictId=EnumUserType.DICT_KEY)
 	private String userType;
 	public String getUserId() {
 		return userId;
@@ -57,16 +67,17 @@ public class User implements AdObject{
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
 	}
-	public String getCreateTime() {
+	
+	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getUserStatus() {

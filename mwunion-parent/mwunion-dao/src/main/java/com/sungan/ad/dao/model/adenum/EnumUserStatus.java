@@ -15,8 +15,8 @@ import com.sungan.ad.exception.AdRuntimeException;
  * @date 2017年3月26日
  */
 public enum EnumUserStatus{
-	NORMAL("0","正常 "),DISABLE("1","停用 "),CANCEL("1","停用 ");//* 0正常   1停用   2注销
-	public static final String DICT_KEY="USER_STATUSS";
+	NORMAL("0","正常 "),DISABLE("1","停用 "),CANCEL("2","注销 ");//* 0正常   1停用   2注销
+	public static final String DICT_KEY="USER_STATUS";
 	public static final String DICT_NAME="用户状态";
 	private String key;
 	private String label;

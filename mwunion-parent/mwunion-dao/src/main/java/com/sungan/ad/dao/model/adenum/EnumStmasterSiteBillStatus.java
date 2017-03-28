@@ -14,15 +14,19 @@ import com.sungan.ad.exception.AdRuntimeException;
  * @author zhangyf
  * @date 2017年3月26日
  */
-public enum EnumRecWorkStatus{
-	WORKING("0","在职"),UNWORKING("1","离职");//* 0 在职 1离职
-	public static final String DICT_KEY="RECCEPTER_STATUS";
-	public static final String DICT_NAME="接待员状态";
+public enum EnumStmasterSiteBillStatus{
+	UN_CLEAR("0","未清算 "),
+	CLEAR("1","已清算 "),
+	PARTIAL_CLEAR("2","部分结算 "),
+	WRITE_OFF("3","部分结算 ")
+	;
+	public static final String DICT_KEY="STMASTER_SITEBILL_STATUS";
+	public static final String DICT_NAME="日账单结算状态";
 	private String key;
 	private String label;
 	
 	
-	private EnumRecWorkStatus(String key, String label) {
+	private EnumStmasterSiteBillStatus(String key, String label) {
 		this.key = key;
 		this.label = label;
 		try {
@@ -54,9 +58,9 @@ public enum EnumRecWorkStatus{
 			
 			@Override
 			public List<DictItem> getItems() {
-				  EnumRecWorkStatus[] values = EnumRecWorkStatus.values();
+				  EnumStmasterSiteBillStatus[] values = EnumStmasterSiteBillStatus.values();
 				  List<DictItem> result = new ArrayList<DictItem>();
-				  for(EnumRecWorkStatus status:values){
+				  for(EnumStmasterSiteBillStatus status:values){
 					  DictItem item = new DictItem(status.getKey(), status.getLabel());
 					  result.add(item);
 				  }

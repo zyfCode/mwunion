@@ -1,10 +1,13 @@
 package com.sungan.ad.dao.model;
 
+import java.util.Date;
+
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
  * 说明:
- * 
+ *    广告主表
  * @author zhangyf
  * @date 2017年3月27日
  */
@@ -46,8 +49,10 @@ public class AdHost implements AdObject {
 	 * 广告主微信
 	 */
 	private String weChat;
-	private String createTime;
-	private String updateTime;
+	@DateToStr
+	private Date createTime;
+	@DateToStr
+	private Date updateTime;
 
 	private String remark;
 
@@ -133,19 +138,19 @@ public class AdHost implements AdObject {
 		this.weChat = weChat;
 	}
 
-	public String getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 }

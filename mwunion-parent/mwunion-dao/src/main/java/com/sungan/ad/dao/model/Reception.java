@@ -1,6 +1,9 @@
 package com.sungan.ad.dao.model;
 
+import java.util.Date;
+
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
  * 说明:
@@ -21,6 +24,11 @@ public class Reception implements AdObject {
 	private String userName;
 	/**在职状态 0 在职 1离职*/
 	private String workStatus;
+	@DateToStr
+	private Date createTime;
+	@DateToStr
+	private Date updateTime;
+	
 	public String getRecId() {
 		return recId;
 	}
