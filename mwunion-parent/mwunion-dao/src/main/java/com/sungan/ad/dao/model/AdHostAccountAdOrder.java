@@ -17,7 +17,7 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  */
 public class AdHostAccountAdOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String adOderId;
+	private String adOrderId;
 	private String accountId;   //账号ID
 	private String adHostId;    //广告主ID
 	@StatusCn(dictId=EnumAdHostAccountAdOrderType.DICT_KEY)
@@ -34,11 +34,19 @@ public class AdHostAccountAdOrder implements Serializable {
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
-	public String getAdOderId() {
-		return adOderId;
+	
+	
+	public String getAdOrderId() {
+		return adOrderId;
 	}
-	public void setAdOderId(String adOderId) {
-		this.adOderId = adOderId;
+	public void setAdOrderId(String adOrderId) {
+		this.adOrderId = adOrderId;
+	}
+	public String getAdOrderStaus() {
+		return adOrderStaus;
+	}
+	public void setAdOrderStaus(String adOrderStaus) {
+		this.adOrderStaus = adOrderStaus;
 	}
 	public String getAccountId() {
 		return accountId;

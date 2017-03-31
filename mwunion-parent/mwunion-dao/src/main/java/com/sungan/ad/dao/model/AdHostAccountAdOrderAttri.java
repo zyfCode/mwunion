@@ -17,7 +17,7 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  */
 public class AdHostAccountAdOrderAttri implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String adOderId;
+	private String adOrderId;
 	private String accountId; // 账号ID
 	private String adHostId; // 广告主ID
 	private BigDecimal adAmount; // 消费上限
@@ -28,12 +28,13 @@ public class AdHostAccountAdOrderAttri implements Serializable {
 	@DateToStr
 	private Date updateTime;
 
-	public String getAdOderId() {
-		return adOderId;
+	
+	public String getAdOrderId() {
+		return adOrderId;
 	}
 
-	public void setAdOderId(String adOderId) {
-		this.adOderId = adOderId;
+	public void setAdOrderId(String adOrderId) {
+		this.adOrderId = adOrderId;
 	}
 
 	public String getAccountId() {
