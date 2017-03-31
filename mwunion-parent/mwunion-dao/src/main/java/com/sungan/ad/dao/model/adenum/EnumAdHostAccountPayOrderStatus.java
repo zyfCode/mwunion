@@ -17,7 +17,7 @@ import com.sungan.ad.exception.AdRuntimeException;
 public enum EnumAdHostAccountPayOrderStatus {
 	UNSURE("0","未确认 "),
 	PAYING("1","待确认 "),
-	SHOWED("2","已确认 "),
+	SHOWED("2","充值成功 "),
 	PAY_FAIL("3","充值失败")
 	;//0 未确认 1 待确认 2 已确认 3充值失败
 	public static final String DICT_KEY="ADHOSTACCOUNTPAYORDER_STATUS";
