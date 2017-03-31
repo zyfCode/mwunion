@@ -3,6 +3,8 @@ package com.sungan.ad.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -17,7 +19,9 @@ public class StmasterSiteBillAnnexes implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	@Id
+	private String id;
 	private String siteBillId;
 	private String annxId;   //附件ID
 	private String annexesName; //附件名称 
@@ -25,6 +29,13 @@ public class StmasterSiteBillAnnexes implements Serializable {
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getSiteBillId() {
 		return siteBillId;
 	}

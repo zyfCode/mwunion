@@ -2,6 +2,8 @@ package com.sungan.ad.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.dao.model.adenum.EnumUserStatus;
 import com.sungan.ad.dao.model.adenum.EnumUserType;
@@ -20,6 +22,7 @@ public class User implements AdObject{
 	 */
 	private static final long serialVersionUID = 1L;
 	/**用户id*/
+	@Id
 	private String userId;
 	/**用户名称 */
 	private String userName;

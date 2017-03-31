@@ -3,6 +3,8 @@ package com.sungan.ad.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.dao.model.adenum.EnumStmasterStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
@@ -16,6 +18,7 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
 public class StmasterSite implements Serializable {
 	private static final long serialVersionUID = 1L; 
 	//站点ID
+	@Id
 	private String siteId;
 	//站长ID
 	private String stId;

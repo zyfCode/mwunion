@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.dao.model.adenum.EnumStmasterSiteBillStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
@@ -20,6 +22,7 @@ public class StmasterSiteBill implements Serializable {
 	// 站长ID
 	private String stId;
 	// 流水ID
+	@Id
 	private String stBillId;
 	// 结算流水号
 	private String stBillNo;

@@ -1,6 +1,11 @@
 package com.sungan.ad.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Id;
+
+import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
  * 说明:
@@ -14,6 +19,7 @@ public class AdHostAccountAdOrderSources implements Serializable {
 	private String accountId; // 账号ID
 	private String adHostId; // 广告主ID
 
+	@Id
 	private String sourceId; // 资源ID
 	private String sourceType; // 资源类型
 
@@ -22,9 +28,11 @@ public class AdHostAccountAdOrderSources implements Serializable {
 	private String sourcePath;// 本地路径（内网）
 
 	private String sourceUrl; // 公网访问路径
-
-	private String createTime;
-	private String updateTime;
+	
+	@DateToStr
+	private Date createTime;
+	@DateToStr
+	private Date updateTime;
 
 
 	public String getAccountId() {
@@ -91,19 +99,20 @@ public class AdHostAccountAdOrderSources implements Serializable {
 		this.sourceUrl = sourceUrl;
 	}
 
-	public String getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
 }

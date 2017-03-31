@@ -3,6 +3,8 @@ package com.sungan.ad.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -20,6 +22,7 @@ public class AdHostAccountPayOrderAnnexes implements Serializable {
 
 	private String adHostId;
 	private String payOrderId;
+	@Id
 	private String annxId;   //附件ID
 	private String annexesName; //附件名称 
 	@DateToStr

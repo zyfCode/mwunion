@@ -3,6 +3,8 @@ package com.sungan.ad.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 /**
  * 说明:
  *     记录流量   此表需要分表
@@ -12,6 +14,7 @@ import java.util.Date;
 public class PlatFlowCount implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
 	private String flowId;            //流量 id
 	private String orderId;           //订单id
 	private String adHostId;          //广告主

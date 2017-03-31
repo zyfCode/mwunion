@@ -2,6 +2,8 @@ package com.sungan.ad.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
@@ -15,6 +17,7 @@ public class Reception implements AdObject {
 
 	private static final long serialVersionUID = 1L;
 	/**接待员id*/
+	@Id
 	private String  recId;
 	/**接待员名称*/
 	private String recName;
@@ -29,6 +32,18 @@ public class Reception implements AdObject {
 	@DateToStr
 	private Date updateTime;
 	
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 	public String getRecId() {
 		return recId;
 	}

@@ -3,6 +3,8 @@ package com.sungan.ad.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -16,7 +18,8 @@ public class AdHostAccountAdOrderShowCunt implements Serializable {
 	private String adOrderId;
 	private String accountId;   //账号ID
 	private String adHostId;    //广告主ID
-	private String countId;
+	@Id
+	private String countId;     
 	private Long hitCount;
 	private Long showCount;
 	private Long uvCournt;

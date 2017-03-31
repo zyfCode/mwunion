@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.dao.model.adenum.EnumAdHostAccountSerialType;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
@@ -16,6 +18,7 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  */
 public class AdHostAccountSerial implements Serializable {
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String serialId; // 流水ID
 	private String accountId; // 账号ID
 	private String adHostId; // 广告主ID

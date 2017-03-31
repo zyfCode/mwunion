@@ -2,6 +2,8 @@ package com.sungan.ad.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
@@ -16,6 +18,7 @@ public class Stmaster implements AdObject {
 	/**
 	 * 站长id
 	 */
+	@Id
 	private String stmasterId;
 	/**
 	 * 用户名称
