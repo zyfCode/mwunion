@@ -41,6 +41,19 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<!-- web begin -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${springVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${springVersion}</version>
+			</dependency>
+	       <!-- web end -->
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>

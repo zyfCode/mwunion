@@ -11,5 +11,6 @@
   	<module>mwunion-commons-lang</module>
   	<module>mwunion-commons-dao</module>
   	<module>mwunion-commons-test</module>
+  	<module>mwunion-commons-web</module>
   </modules>
 </project>
