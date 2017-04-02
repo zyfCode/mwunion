@@ -62,13 +62,13 @@
 		<!-- 登录拦截器 -->
 <!-- 		<mvc:interceptor> -->
 <!-- 			<mvc:mapping path="/**" /> -->
-<!-- 			<!-- 放通portal页面 --> -->
+<!-- 			  放通portal页面 -->  
 <!-- 			<mvc:exclude-mapping path="/cm/**" /> -->
 <!-- 			<mvc:exclude-mapping path="/client/apploader**" /> -->
 <!-- 			<mvc:exclude-mapping path="/client/initconnector**" /> -->
 <!-- 			<mvc:exclude-mapping path="/client/info**" /> -->
 <!-- 			<mvc:exclude-mapping path="/login.htm**" /> -->
-<!-- 			<!--微信 相关  --> -->
+<!-- 			 微信 相关  --> 
 <!-- 			<mvc:exclude-mapping path="/wx/sungan/**" /> -->
 			
 <!-- 			<mvc:exclude-mapping path="/static/**" /> -->

@@ -6,6 +6,7 @@
 */target
 *testlib*
 */*.log*
+*/logs/
 
 
 
