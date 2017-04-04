@@ -55,7 +55,7 @@ public class PlatFlowCountServiceImpl implements PlatFlowCountService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		PlatFlowCount find = this.platFlowCountDAO.find(id);
 		if (find != null) {
 			platFlowCountDAO.delete(find);
@@ -63,7 +63,7 @@ public class PlatFlowCountServiceImpl implements PlatFlowCountService{
 	}
 	
 	@Override
-	public PlatFlowCountVo find(Long id) {
+	public PlatFlowCountVo find(String id) {
 		PlatFlowCount find = platFlowCountDAO.find(id);
 		if(find==null){
 			return null;

@@ -11,9 +11,9 @@ import com.sungan.ad.vo.PlatFlowCountVo;
  * 说明:
  */
 public interface PlatFlowCountService extends  MuService{
-	PlatFlowCountVo find(Long id);
+	PlatFlowCountVo find(String id);
 	String insert(PlatFlowCount record);
-	void delete(Long id);
+	void delete(String id);
 	void update(PlatFlowCount task);
 	List<PlatFlowCountVo> queryList(PlatFlowCount condition);
 	AdPager<PlatFlowCountVo> queryPager(PlatFlowCount condition,int pageIndex,int rows);

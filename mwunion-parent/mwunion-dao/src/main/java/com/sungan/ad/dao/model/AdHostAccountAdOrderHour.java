@@ -1,11 +1,15 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.dao.model.adenum.AdHostAccountAdOrderHourStatus;
-import com.sungan.ad.dao.model.adenum.EnumStmasterSiteHourStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
 
@@ -14,12 +18,18 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  * @author zhangyf
  * @date 2017年3月31日
  */
-public class AdHostAccountAdOrderHour implements Serializable{
+@Entity
+@Table(name="t_adhost_account_adorderhour")
+public class AdHostAccountAdOrderHour implements AdObject{
 	private static final long serialVersionUID = 1L;
-	private String adOrderId;
-	private String accountId;   //账号ID
-	private String adHostId;    //广告主ID
+	@Id
 	private String serialId;
+	@Column(length=64,nullable=false)
+	private String adOrderId;
+	@Column(length=64,nullable=false)
+	private String accountId;   //账号ID
+	@Column(length=64,nullable=false)
+	private String adHostId;    //广告主ID
 		//展示数
 		private Integer showCount;
 		//点击数
@@ -31,6 +41,7 @@ public class AdHostAccountAdOrderHour implements Serializable{
 		//流量结束时间
 		private Date endTime;
 		//结算流水号
+		@Column(length=64)
 		private String settlementNo;
 		//结算金额
 		private BigDecimal settlementAmount;

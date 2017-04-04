@@ -55,7 +55,7 @@ public class StmasterSiteBillServiceImpl implements StmasterSiteBillService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		StmasterSiteBill find = this.stmasterSiteBillDAO.find(id);
 		if (find != null) {
 			stmasterSiteBillDAO.delete(find);
@@ -63,7 +63,7 @@ public class StmasterSiteBillServiceImpl implements StmasterSiteBillService{
 	}
 	
 	@Override
-	public StmasterSiteBillVo find(Long id) {
+	public StmasterSiteBillVo find(String id) {
 		StmasterSiteBill find = stmasterSiteBillDAO.find(id);
 		if(find==null){
 			return null;

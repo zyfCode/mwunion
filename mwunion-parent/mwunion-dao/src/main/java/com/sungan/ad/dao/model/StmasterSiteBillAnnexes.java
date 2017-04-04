@@ -1,10 +1,13 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -13,7 +16,9 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月29日
  */
-public class StmasterSiteBillAnnexes implements Serializable {
+@Entity
+@Table(name="t_stmaster_sitebillannexes")
+public class StmasterSiteBillAnnexes implements AdObject {
 
 	/**
 	 * 
@@ -22,8 +27,11 @@ public class StmasterSiteBillAnnexes implements Serializable {
 	
 	@Id
 	private String id;
+	@Column(length=64,nullable=false)
 	private String siteBillId;
+	@Column(length=64)
 	private String annxId;   //附件ID
+	@Column(length=64)
 	private String annexesName; //附件名称 
 	@DateToStr
 	private Date createTime;

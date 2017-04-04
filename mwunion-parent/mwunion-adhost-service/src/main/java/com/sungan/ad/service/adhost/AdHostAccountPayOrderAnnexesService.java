@@ -11,9 +11,9 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountPayOrderAnnexesVo;
  * 说明:
  */
 public interface AdHostAccountPayOrderAnnexesService extends  MuService{
-	AdHostAccountPayOrderAnnexesVo find(Long id);
+	AdHostAccountPayOrderAnnexesVo find(String id);
 	String insert(AdHostAccountPayOrderAnnexes record);
-	void delete(Long id);
+	void delete(String id);
 	void update(AdHostAccountPayOrderAnnexes task);
 	List<AdHostAccountPayOrderAnnexesVo> queryList(AdHostAccountPayOrderAnnexes condition);
 	AdPager<AdHostAccountPayOrderAnnexesVo> queryPager(AdHostAccountPayOrderAnnexes condition,int pageIndex,int rows);

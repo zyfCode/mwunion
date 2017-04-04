@@ -54,7 +54,7 @@ public class AdHostAccountAdOrderHourServiceImpl implements AdHostAccountAdOrder
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		AdHostAccountAdOrderHour find = this.adHostAccountAdOrderHourDAO.find(id);
 		if (find != null) {
 			adHostAccountAdOrderHourDAO.delete(find);
@@ -62,7 +62,7 @@ public class AdHostAccountAdOrderHourServiceImpl implements AdHostAccountAdOrder
 	}
 	
 	@Override
-	public AdHostAccountAdOrderHourVo find(Long id) {
+	public AdHostAccountAdOrderHourVo find(String id) {
 		AdHostAccountAdOrderHour find = adHostAccountAdOrderHourDAO.find(id);
 		if(find==null){
 			return null;

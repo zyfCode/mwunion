@@ -11,9 +11,9 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountVo;
  * 说明:
  */
 public interface AdHostAccountService extends  MuService{
-	AdHostAccountVo find(Long id);
+	AdHostAccountVo find(String id);
 	String insert(AdHostAccount record);
-	void delete(Long id);
+	void delete(String id);
 	void update(AdHostAccount task);
 	List<AdHostAccountVo> queryList(AdHostAccount condition);
 	AdPager<AdHostAccountVo> queryPager(AdHostAccount condition,int pageIndex,int rows);

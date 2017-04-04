@@ -55,7 +55,7 @@ public class PlatMesgServiceImpl implements PlatMesgService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		PlatMesg find = this.platMesgDAO.find(id);
 		if (find != null) {
 			platMesgDAO.delete(find);
@@ -63,7 +63,7 @@ public class PlatMesgServiceImpl implements PlatMesgService{
 	}
 	
 	@Override
-	public PlatMesgVo find(Long id) {
+	public PlatMesgVo find(String id) {
 		PlatMesg find = platMesgDAO.find(id);
 		if(find==null){
 			return null;

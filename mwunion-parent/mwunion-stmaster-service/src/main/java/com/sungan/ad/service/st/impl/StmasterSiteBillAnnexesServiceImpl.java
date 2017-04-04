@@ -55,7 +55,7 @@ public class StmasterSiteBillAnnexesServiceImpl implements StmasterSiteBillAnnex
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		StmasterSiteBillAnnexes find = this.stmasterSiteBillAnnexesDAO.find(id);
 		if (find != null) {
 			stmasterSiteBillAnnexesDAO.delete(find);
@@ -63,7 +63,7 @@ public class StmasterSiteBillAnnexesServiceImpl implements StmasterSiteBillAnnex
 	}
 	
 	@Override
-	public StmasterSiteBillAnnexesVo find(Long id) {
+	public StmasterSiteBillAnnexesVo find(String id) {
 		StmasterSiteBillAnnexes find = stmasterSiteBillAnnexesDAO.find(id);
 		if(find==null){
 			return null;

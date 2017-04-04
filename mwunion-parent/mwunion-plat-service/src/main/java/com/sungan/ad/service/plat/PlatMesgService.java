@@ -11,9 +11,9 @@ import com.sungan.ad.vo.PlatMesgVo;
  * 说明:
  */
 public interface PlatMesgService extends  MuService{
-	PlatMesgVo find(Long id);
+	PlatMesgVo find(String id);
 	String insert(PlatMesg record);
-	void delete(Long id);
+	void delete(String id);
 	void update(PlatMesg task);
 	List<PlatMesgVo> queryList(PlatMesg condition);
 	AdPager<PlatMesgVo> queryPager(PlatMesg condition,int pageIndex,int rows);

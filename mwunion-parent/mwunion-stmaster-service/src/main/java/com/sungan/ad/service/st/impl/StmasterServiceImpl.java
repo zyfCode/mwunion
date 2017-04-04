@@ -55,7 +55,7 @@ public class StmasterServiceImpl implements StmasterService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		Stmaster find = this.stmasterDAO.find(id);
 		if (find != null) {
 			stmasterDAO.delete(find);
@@ -63,7 +63,7 @@ public class StmasterServiceImpl implements StmasterService{
 	}
 	
 	@Override
-	public StmasterVo find(Long id) {
+	public StmasterVo find(String id) {
 		Stmaster find = stmasterDAO.find(id);
 		if(find==null){
 			return null;

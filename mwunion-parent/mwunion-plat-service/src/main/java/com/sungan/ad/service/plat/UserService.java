@@ -11,9 +11,9 @@ import com.sungan.ad.vo.UserVo;
  * 说明:
  */
 public interface UserService extends  MuService{
-	UserVo find(Long id);
+	UserVo find(String id);
 	String insert(User record);
-	void delete(Long id);
+	void delete(String id);
 	void update(User task);
 	List<UserVo> queryList(User condition);
 	AdPager<UserVo> queryPager(User condition,int pageIndex,int rows);

@@ -1,13 +1,15 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.sungan.ad.dao.model.adenum.EnumAdHostAccountAdOrderStatus;
-import com.sungan.ad.dao.model.adenum.EnumAdHostAccountAdOrderType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
-import com.sungan.ad.expand.common.annotation.StatusCn;
 
 /**
  * 说明: 广告主订单表
@@ -15,11 +17,17 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  * @author zhangyf
  * @date 2017年3月29日
  */
-public class AdHostAccountAdOrderAttri implements Serializable {
+@Entity
+@Table(name="t_adhost_account_adorderattri")
+public class AdHostAccountAdOrderAttri implements AdObject {
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String adOrderAtrriId;
+	@Column(length=64,nullable=false)
 	private String adOrderId;
+	@Column(length=64,nullable=false)
 	private String accountId; // 账号ID
+	@Column(length=64,nullable=false)
 	private String adHostId; // 广告主ID
 	private BigDecimal adAmount; // 消费上限
 	private BigDecimal hitPrice; // 点击计费单价

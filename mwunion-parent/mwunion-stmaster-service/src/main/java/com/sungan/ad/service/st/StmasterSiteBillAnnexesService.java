@@ -11,9 +11,9 @@ import com.sungan.ad.vo.st.StmasterSiteBillAnnexesVo;
  * 说明:
  */
 public interface StmasterSiteBillAnnexesService extends  MuService{
-	StmasterSiteBillAnnexesVo find(Long id);
+	StmasterSiteBillAnnexesVo find(String id);
 	String insert(StmasterSiteBillAnnexes record);
-	void delete(Long id);
+	void delete(String id);
 	void update(StmasterSiteBillAnnexes task);
 	List<StmasterSiteBillAnnexesVo> queryList(StmasterSiteBillAnnexes condition);
 	AdPager<StmasterSiteBillAnnexesVo> queryPager(StmasterSiteBillAnnexes condition,int pageIndex,int rows);

@@ -11,9 +11,9 @@ import com.sungan.ad.vo.UserMesgVo;
  * 说明:
  */
 public interface UserMesgService extends  MuService{
-	UserMesgVo find(Long id);
+	UserMesgVo find(String id);
 	String insert(UserMesg record);
-	void delete(Long id);
+	void delete(String id);
 	void update(UserMesg task);
 	List<UserMesgVo> queryList(UserMesg condition);
 	AdPager<UserMesgVo> queryPager(UserMesg condition,int pageIndex,int rows);

@@ -11,9 +11,9 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountAdOrderDayVo;
  * 说明:
  */
 public interface AdHostAccountAdOrderDayService extends  MuService{
-	AdHostAccountAdOrderDayVo find(Long id);
+	AdHostAccountAdOrderDayVo find(String id);
 	String insert(AdHostAccountAdOrderDay record);
-	void delete(Long id);
+	void delete(String id);
 	void update(AdHostAccountAdOrderDay task);
 	List<AdHostAccountAdOrderDayVo> queryList(AdHostAccountAdOrderDay condition);
 	AdPager<AdHostAccountAdOrderDayVo> queryPager(AdHostAccountAdOrderDay condition,int pageIndex,int rows);

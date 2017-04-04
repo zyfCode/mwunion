@@ -11,9 +11,9 @@ import ${package}.vo.${domain}Vo;
  * 说明:
  */
 public interface ${domain}Service extends  MadService{
-	${domain}Vo find(Long id);
+	${domain}Vo find(String id);
 	Long insert(${domain} record);
-	void delete(Long id);
+	void delete(String id);
 	void update(${domain} task);
 	List<${domain}Vo> queryList(${domain} condition);
 	AdPager<${domain}Vo> queryPager(${domain} condition,int pageIndex,int rows);

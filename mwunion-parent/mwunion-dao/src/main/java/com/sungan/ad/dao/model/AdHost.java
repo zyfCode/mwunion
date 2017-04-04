@@ -2,6 +2,11 @@ package com.sungan.ad.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
@@ -11,43 +16,54 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月27日
  */
+@Entity
+@Table(name="t_adhost")
 public class AdHost implements AdObject {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 广告主id
 	 */
+	@Id
 	private String adhostId;
 	/**
 	 * 用户名称
 	 */
+	@Column(length=64)
 	private String userName;
 	/**
 	 * 用户id
 	 */
+	@Column(length=64,nullable=false)
 	private String userId;
 	/**
 	 * 接待员id
 	 */
+	@Column(length=64)
 	private String recId;
 	/**
 	 * 接待员名称
 	 */
+	@Column(length=64)
 	private String recName;
 	/**
 	 * 广告主qq
 	 */
+	@Column(length=64)
 	private String adhostQQ;
 	/**
 	 * 广告主email
 	 */
+	@Column(length=64)
 	private String adhostEmail;
 	/**
 	 * 广告主手机
 	 */
+	@Column(length=64)
 	private String mobile;
 	/**
 	 * 广告主微信
 	 */
+	@Column(length=64)
 	private String weChat;
 	@DateToStr
 	private Date createTime;

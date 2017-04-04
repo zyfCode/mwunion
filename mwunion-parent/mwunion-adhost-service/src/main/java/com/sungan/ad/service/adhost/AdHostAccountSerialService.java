@@ -11,9 +11,9 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountSerialVo;
  * 说明:
  */
 public interface AdHostAccountSerialService extends  MuService{
-	AdHostAccountSerialVo find(Long id);
+	AdHostAccountSerialVo find(String id);
 	String insert(AdHostAccountSerial record);
-	void delete(Long id);
+	void delete(String id);
 	void update(AdHostAccountSerial task);
 	List<AdHostAccountSerialVo> queryList(AdHostAccountSerial condition);
 	AdPager<AdHostAccountSerialVo> queryPager(AdHostAccountSerial condition,int pageIndex,int rows);

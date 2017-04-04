@@ -1,9 +1,14 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -12,9 +17,13 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月29日
  */
-public class AdHostAccount implements Serializable {
+@Entity
+@Table(name="t_adhost_account")
+public class AdHostAccount implements AdObject {
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String accountId;   //账号ID
+	@Column(length=64,nullable=false)
 	private String adHostId;    //广告主ID
 	private BigDecimal accountAmount; // 账户余额
 	private BigDecimal useAmount; // 已经用金额

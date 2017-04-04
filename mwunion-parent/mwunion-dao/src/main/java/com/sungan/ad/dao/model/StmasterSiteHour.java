@@ -1,9 +1,14 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.dao.model.adenum.EnumStmasterSiteHourStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
@@ -14,15 +19,21 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  * @author zhangyf
  * @date 2017年3月28日
  */
-public class StmasterSiteHour implements Serializable {
+@Entity
+@Table(name="t_stmaster_sitehour")
+public class StmasterSiteHour implements AdObject {
 	private static final long serialVersionUID = 1L; 
+	//流水ID
+	@Id
+	private String stSerialId;
 	//站点ID
+	@Column(length=64,nullable=false)
 	private String siteId;
 	//站长ID
+	@Column(length=64,nullable=false)
 	private String stId;
-	//流水ID
-	private String stSerialId;
 	//站点名称 
+	@Column(length=64)
 	private String siteName;
 	//展示数
 	private Integer showCount;
@@ -31,14 +42,18 @@ public class StmasterSiteHour implements Serializable {
 	//IP数
 	private Integer ipCount;
 	//流量开始时间
+	@DateToStr
 	private Date beginTime;
 	//流量结束时间
+	@DateToStr
 	private Date endTime;
 	//结算流水号
+	@Column(length=64)
 	private String settlementNo;
 	//结算金额
 	private BigDecimal settlementAmount;
 	//结算日期
+	@Column(length=64)
 	private Date settlementTime;
 	//流量日期，精确到天
 	private Integer recordDay;

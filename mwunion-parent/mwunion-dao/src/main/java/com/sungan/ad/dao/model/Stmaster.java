@@ -2,7 +2,10 @@ package com.sungan.ad.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
@@ -13,6 +16,8 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月27日
  */
+@Entity
+@Table(name="t_stmaster")
 public class Stmaster implements AdObject {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -23,10 +28,12 @@ public class Stmaster implements AdObject {
 	/**
 	 * 用户名称
 	 */
+	@Column(length=64)
 	private String userName;
 	/**
 	 * 用户id
 	 */
+	@Column(length=64,nullable=false)
 	private String userId;
 	/**
 	 * 接待员id
@@ -35,28 +42,33 @@ public class Stmaster implements AdObject {
 	/**
 	 * 接待员名称
 	 */
+	@Column(length=64)
 	private String recName;
 	/**
 	 * 站长qq
 	 */
+	@Column(length=64)
 	private String stmasterQQ;
 	/**
 	 * 站长email
 	 */
+	@Column(length=64)
 	private String stmasterEmail;
 	/**
 	 * 站长手机
 	 */
+	@Column(length=64)
 	private String mobile;
 	/**
 	 * 站长微信
 	 */
+	@Column(length=64)
 	private String weChat;
 	@DateToStr
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
-	
+	@Column(length=128)
 	private String remark;
 	
 

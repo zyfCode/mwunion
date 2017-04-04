@@ -11,9 +11,9 @@ import com.sungan.ad.vo.ReceptionVo;
  * 说明:
  */
 public interface ReceptionService extends  MuService{
-	ReceptionVo find(Long id);
+	ReceptionVo find(String id);
 	String insert(Reception record);
-	void delete(Long id);
+	void delete(String id);
 	void update(Reception task);
 	List<ReceptionVo> queryList(Reception condition);
 	AdPager<ReceptionVo> queryPager(Reception condition,int pageIndex,int rows);

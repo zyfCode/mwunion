@@ -55,7 +55,7 @@ public class StmasterSiteServiceImpl implements StmasterSiteService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		StmasterSite find = this.stmasterSiteDAO.find(id);
 		if (find != null) {
 			stmasterSiteDAO.delete(find);
@@ -63,7 +63,7 @@ public class StmasterSiteServiceImpl implements StmasterSiteService{
 	}
 	
 	@Override
-	public StmasterSiteVo find(Long id) {
+	public StmasterSiteVo find(String id) {
 		StmasterSite find = stmasterSiteDAO.find(id);
 		if(find==null){
 			return null;

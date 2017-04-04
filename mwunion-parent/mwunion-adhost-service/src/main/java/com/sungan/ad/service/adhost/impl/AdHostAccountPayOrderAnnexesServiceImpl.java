@@ -54,7 +54,7 @@ public class AdHostAccountPayOrderAnnexesServiceImpl implements AdHostAccountPay
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		AdHostAccountPayOrderAnnexes find = this.adHostAccountPayOrderAnnexesDAO.find(id);
 		if (find != null) {
 			adHostAccountPayOrderAnnexesDAO.delete(find);
@@ -62,7 +62,7 @@ public class AdHostAccountPayOrderAnnexesServiceImpl implements AdHostAccountPay
 	}
 	
 	@Override
-	public AdHostAccountPayOrderAnnexesVo find(Long id) {
+	public AdHostAccountPayOrderAnnexesVo find(String id) {
 		AdHostAccountPayOrderAnnexes find = adHostAccountPayOrderAnnexesDAO.find(id);
 		if(find==null){
 			return null;

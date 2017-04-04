@@ -54,7 +54,7 @@ public class AdHostAccountAdOrderServiceImpl implements AdHostAccountAdOrderServ
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		AdHostAccountAdOrder find = this.adHostAccountAdOrderDAO.find(id);
 		if (find != null) {
 			adHostAccountAdOrderDAO.delete(find);
@@ -62,7 +62,7 @@ public class AdHostAccountAdOrderServiceImpl implements AdHostAccountAdOrderServ
 	}
 	
 	@Override
-	public AdHostAccountAdOrderVo find(Long id) {
+	public AdHostAccountAdOrderVo find(String id) {
 		AdHostAccountAdOrder find = adHostAccountAdOrderDAO.find(id);
 		if(find==null){
 			return null;

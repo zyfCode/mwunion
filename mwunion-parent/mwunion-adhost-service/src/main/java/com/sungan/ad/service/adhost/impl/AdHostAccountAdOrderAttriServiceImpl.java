@@ -54,7 +54,7 @@ public class AdHostAccountAdOrderAttriServiceImpl implements AdHostAccountAdOrde
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		AdHostAccountAdOrderAttri find = this.adHostAccountAdOrderAttriDAO.find(id);
 		if (find != null) {
 			adHostAccountAdOrderAttriDAO.delete(find);
@@ -62,7 +62,7 @@ public class AdHostAccountAdOrderAttriServiceImpl implements AdHostAccountAdOrde
 	}
 	
 	@Override
-	public AdHostAccountAdOrderAttriVo find(Long id) {
+	public AdHostAccountAdOrderAttriVo find(String id) {
 		AdHostAccountAdOrderAttri find = adHostAccountAdOrderAttriDAO.find(id);
 		if(find==null){
 			return null;

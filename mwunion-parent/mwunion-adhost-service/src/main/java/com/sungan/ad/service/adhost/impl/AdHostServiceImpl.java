@@ -54,7 +54,7 @@ public class AdHostServiceImpl implements AdHostService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		AdHost find = this.adHostDAO.find(id);
 		if (find != null) {
 			adHostDAO.delete(find);
@@ -62,7 +62,7 @@ public class AdHostServiceImpl implements AdHostService{
 	}
 	
 	@Override
-	public AdHostVo find(Long id) {
+	public AdHostVo find(String id) {
 		AdHost find = adHostDAO.find(id);
 		if(find==null){
 			return null;

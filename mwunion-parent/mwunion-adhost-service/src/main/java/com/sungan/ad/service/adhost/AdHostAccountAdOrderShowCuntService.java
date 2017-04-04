@@ -11,9 +11,9 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountAdOrderShowCuntVo;
  * 说明:
  */
 public interface AdHostAccountAdOrderShowCuntService extends  MuService{
-	AdHostAccountAdOrderShowCuntVo find(Long id);
+	AdHostAccountAdOrderShowCuntVo find(String id);
 	String insert(AdHostAccountAdOrderShowCunt record);
-	void delete(Long id);
+	void delete(String id);
 	void update(AdHostAccountAdOrderShowCunt task);
 	List<AdHostAccountAdOrderShowCuntVo> queryList(AdHostAccountAdOrderShowCunt condition);
 	AdPager<AdHostAccountAdOrderShowCuntVo> queryPager(AdHostAccountAdOrderShowCunt condition,int pageIndex,int rows);

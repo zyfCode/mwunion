@@ -11,9 +11,9 @@ import com.sungan.ad.vo.st.StmasterSiteHourVo;
  * 说明:
  */
 public interface StmasterSiteHourService extends  MuService{
-	StmasterSiteHourVo find(Long id);
+	StmasterSiteHourVo find(String id);
 	String insert(StmasterSiteHour record);
-	void delete(Long id);
+	void delete(String id);
 	void update(StmasterSiteHour task);
 	List<StmasterSiteHourVo> queryList(StmasterSiteHour condition);
 	AdPager<StmasterSiteHourVo> queryPager(StmasterSiteHour condition,int pageIndex,int rows);

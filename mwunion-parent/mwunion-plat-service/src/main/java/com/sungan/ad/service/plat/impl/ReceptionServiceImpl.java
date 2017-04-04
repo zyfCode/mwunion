@@ -55,7 +55,7 @@ public class ReceptionServiceImpl implements ReceptionService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		Reception find = this.receptionDAO.find(id);
 		if (find != null) {
 			receptionDAO.delete(find);
@@ -63,7 +63,7 @@ public class ReceptionServiceImpl implements ReceptionService{
 	}
 	
 	@Override
-	public ReceptionVo find(Long id) {
+	public ReceptionVo find(String id) {
 		Reception find = receptionDAO.find(id);
 		if(find==null){
 			return null;

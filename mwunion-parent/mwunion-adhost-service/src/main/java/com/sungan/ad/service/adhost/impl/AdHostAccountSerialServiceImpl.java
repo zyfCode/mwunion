@@ -55,7 +55,7 @@ public class AdHostAccountSerialServiceImpl implements AdHostAccountSerialServic
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		AdHostAccountSerial find = this.adHostAccountSerialDAO.find(id);
 		if (find != null) {
 			adHostAccountSerialDAO.delete(find);
@@ -63,7 +63,7 @@ public class AdHostAccountSerialServiceImpl implements AdHostAccountSerialServic
 	}
 	
 	@Override
-	public AdHostAccountSerialVo find(Long id) {
+	public AdHostAccountSerialVo find(String id) {
 		AdHostAccountSerial find = adHostAccountSerialDAO.find(id);
 		if(find==null){
 			return null;

@@ -1,9 +1,12 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 
 /**
  * 说明:
@@ -11,7 +14,9 @@ import javax.persistence.Id;
  * @author zhangyf
  * @date 2017年3月31日
  */
-public class PlatFlowCount implements Serializable{
+@Entity
+@Table(name="t_plat_flowcount")
+public class PlatFlowCount implements AdObject{
 	private static final long serialVersionUID = 1L;
 	
 	@Id

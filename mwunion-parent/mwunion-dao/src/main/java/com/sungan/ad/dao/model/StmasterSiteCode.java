@@ -1,8 +1,13 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -11,16 +16,24 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月28日
  */
-public class StmasterSiteCode implements Serializable {
+@Entity
+@Table(name="t_stmaster_sitecode")
+public class StmasterSiteCode implements AdObject {
 	private static final long serialVersionUID = 1L; 
-	//代码ID
-	private String siteId;
 	//站点代码
+	@Id
 	private String siteCodeId;
+	//代码ID
+	@Column(length=64,nullable=false)
+	private String siteId;
 	//站长ID
+	@Column(length=64,nullable=false)
 	private String stId;
+	@Column(length=512)
 	private String siteCodeUrl;
+	@Column(columnDefinition="TEXT")
 	private String siteCodeContent;
+	@Column(length=64)
 	private String siteCodeName;
 	@DateToStr
 	private Date createTime;

@@ -1,9 +1,14 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.dao.model.adenum.EnumAdHostAccountPayOrderStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
@@ -14,15 +19,21 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  * @author zhangyf
  * @date 2017年3月29日
  */
-public class AdHostAccountPayOrder implements Serializable {
+@Entity
+@Table(name="t_adhost_payorder")
+public class AdHostAccountPayOrder implements AdObject {
 	private static final long serialVersionUID = 1L;
+	@Id
 	private String payOrderId;
+	@Column(length=64,nullable=false)
 	private String accountId;   //账号ID
+	@Column(length=64,nullable=false)
 	private String adHostId;    //广告主ID
 	private BigDecimal accountAmount; // 充值金额
 	@StatusCn(dictId=EnumAdHostAccountPayOrderStatus.DICT_KEY)
 	private String payOrderStatus;
 	private Integer version;        //版本号
+	@DateToStr
 	private Date sureTime;        //确认时间
 	@DateToStr
 	private Date createTime;

@@ -11,9 +11,9 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountAdOrderHourVo;
  * 说明:
  */
 public interface AdHostAccountAdOrderHourService extends  MuService{
-	AdHostAccountAdOrderHourVo find(Long id);
+	AdHostAccountAdOrderHourVo find(String id);
 	String insert(AdHostAccountAdOrderHour record);
-	void delete(Long id);
+	void delete(String id);
 	void update(AdHostAccountAdOrderHour task);
 	List<AdHostAccountAdOrderHourVo> queryList(AdHostAccountAdOrderHour condition);
 	AdPager<AdHostAccountAdOrderHourVo> queryPager(AdHostAccountAdOrderHour condition,int pageIndex,int rows);

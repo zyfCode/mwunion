@@ -258,6 +258,23 @@
 			<artifactId>mwunion-dao</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.sungan.ad</groupId>
+			<artifactId>mwunion-adhost-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sungan.ad</groupId>
+			<artifactId>mwunion-stmaster-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sungan.ad</groupId>
+			<artifactId>mwunion-plat-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.sungan.ad</groupId>
 			<artifactId>mwunion-commons-web</artifactId>

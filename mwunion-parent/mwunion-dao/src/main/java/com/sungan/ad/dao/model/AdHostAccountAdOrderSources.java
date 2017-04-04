@@ -1,10 +1,13 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -13,20 +16,26 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月31日
  */
-public class AdHostAccountAdOrderSources implements Serializable {
+@Entity
+@Table(name="t_adhost_account_adordersources")
+public class AdHostAccountAdOrderSources implements AdObject {
 	private static final long serialVersionUID = 1L;
-	private String adOrderId;
-	private String accountId; // 账号ID
-	private String adHostId; // 广告主ID
-
+	
 	@Id
 	private String sourceId; // 资源ID
+	@Column(length=64,nullable=false)
+	private String adOrderId;
+	@Column(length=64,nullable=false)
+	private String accountId; // 账号ID
+	@Column(length=64,nullable=false)
+	private String adHostId; // 广告主ID
+	@Column(length=64)
 	private String sourceType; // 资源类型
-
+	@Column(length=64)
 	private String sourceName;// 资源名称
-
+	@Column(length=256)
 	private String sourcePath;// 本地路径（内网）
-
+	@Column(length=256)
 	private String sourceUrl; // 公网访问路径
 	
 	@DateToStr

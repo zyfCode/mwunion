@@ -2,7 +2,10 @@ package com.sungan.ad.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.dao.model.adenum.EnumUserStatus;
@@ -16,6 +19,8 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
  * @author zhangyf
  * @date 2017年3月26日
  */
+@Entity
+@Table(name="t_user")
 public class User implements AdObject{
 	/**
 	 * 
@@ -25,10 +30,13 @@ public class User implements AdObject{
 	@Id
 	private String userId;
 	/**用户名称 */
+	@Column(length=64)
 	private String userName;
 	/**用户账号*/
+	@Column(length=64)
 	private String userAcount;
 	/**用户密码*/
+	@Column(length=256)
 	private String userPwd;
 	/**创建时间*/
 	@DateToStr
@@ -40,11 +48,13 @@ public class User implements AdObject{
 	 * 0正常   1停用   2注销
 	 */
 	@StatusCn(dictId=EnumUserStatus.DICT_KEY)
+	@Column(length=2)
 	private String userStatus;
 	/**
 	 * 0 站长 1 广告主
 	 */
 	@StatusCn(dictId=EnumUserType.DICT_KEY)
+	@Column(length=2)
 	private String userType;
 	public String getUserId() {
 		return userId;

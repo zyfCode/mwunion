@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		User find = this.userDAO.find(id);
 		if (find != null) {
 			userDAO.delete(find);
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public UserVo find(Long id) {
+	public UserVo find(String id) {
 		User find = userDAO.find(id);
 		if(find==null){
 			return null;

@@ -1,8 +1,13 @@
 package com.sungan.ad.dao.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.sungan.ad.common.dao.AdObject;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 
 /**
@@ -11,19 +16,27 @@ import com.sungan.ad.expand.common.annotation.DateToStr;
  * @author zhangyf
  * @date 2017年3月28日
  */
-public class StmasterAccount implements Serializable {
+@Entity
+@Table(name="t_stmaster_account")
+public class StmasterAccount implements AdObject {
 	private static final long serialVersionUID = 1L;
-	// 站长ID
-	private String stId;
 	// 账户ID
+	@Id
 	private String accountId;
+	// 站长ID
+	@Column(length=64,nullable=false)
+	private String stId;
 	// 账户类型 0 支付宝 1 微信 2 银联
+	@Column(length=64)
 	private String accountType;
 	// 开户地址
+	@Column(length=64)
 	private String accountAddr;
 	// 收款人
+	@Column(length=64)
 	private String accountMan;
 	// 收款人账号
+	@Column(length=64)
 	private String accountNo;
 	@DateToStr
 	private Date createTime;

@@ -55,7 +55,7 @@ public class StmasterSiteHourServiceImpl implements StmasterSiteHourService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		StmasterSiteHour find = this.stmasterSiteHourDAO.find(id);
 		if (find != null) {
 			stmasterSiteHourDAO.delete(find);
@@ -63,7 +63,7 @@ public class StmasterSiteHourServiceImpl implements StmasterSiteHourService{
 	}
 	
 	@Override
-	public StmasterSiteHourVo find(Long id) {
+	public StmasterSiteHourVo find(String id) {
 		StmasterSiteHour find = stmasterSiteHourDAO.find(id);
 		if(find==null){
 			return null;

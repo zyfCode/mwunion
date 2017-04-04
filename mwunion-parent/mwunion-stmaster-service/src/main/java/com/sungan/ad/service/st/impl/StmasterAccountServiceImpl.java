@@ -54,7 +54,7 @@ public class StmasterAccountServiceImpl implements StmasterAccountService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		StmasterAccount find = this.stmasterAccountDAO.find(id);
 		if (find != null) {
 			stmasterAccountDAO.delete(find);
@@ -62,7 +62,7 @@ public class StmasterAccountServiceImpl implements StmasterAccountService{
 	}
 	
 	@Override
-	public StmasterAccountVo find(Long id) {
+	public StmasterAccountVo find(String id) {
 		StmasterAccount find = stmasterAccountDAO.find(id);
 		if(find==null){
 			return null;

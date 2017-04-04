@@ -11,9 +11,9 @@ import com.sungan.ad.vo.st.StmasterAccountVo;
  * 说明:
  */
 public interface StmasterAccountService extends  MuService{
-	StmasterAccountVo find(Long id);
+	StmasterAccountVo find(String id);
 	String insert(StmasterAccount record);
-	void delete(Long id);
+	void delete(String id);
 	void update(StmasterAccount task);
 	List<StmasterAccountVo> queryList(StmasterAccount condition);
 	AdPager<StmasterAccountVo> queryPager(StmasterAccount condition,int pageIndex,int rows);

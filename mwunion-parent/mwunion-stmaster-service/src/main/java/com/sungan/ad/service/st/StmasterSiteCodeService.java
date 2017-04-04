@@ -11,9 +11,9 @@ import com.sungan.ad.vo.st.StmasterSiteCodeVo;
  * 说明:
  */
 public interface StmasterSiteCodeService extends  MuService{
-	StmasterSiteCodeVo find(Long id);
+	StmasterSiteCodeVo find(String id);
 	String insert(StmasterSiteCode record);
-	void delete(Long id);
+	void delete(String id);
 	void update(StmasterSiteCode task);
 	List<StmasterSiteCodeVo> queryList(StmasterSiteCode condition);
 	AdPager<StmasterSiteCodeVo> queryPager(StmasterSiteCode condition,int pageIndex,int rows);

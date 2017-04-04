@@ -55,7 +55,7 @@ public class UserMesgServiceImpl implements UserMesgService{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		UserMesg find = this.userMesgDAO.find(id);
 		if (find != null) {
 			userMesgDAO.delete(find);
@@ -63,7 +63,7 @@ public class UserMesgServiceImpl implements UserMesgService{
 	}
 	
 	@Override
-	public UserMesgVo find(Long id) {
+	public UserMesgVo find(String id) {
 		UserMesg find = userMesgDAO.find(id);
 		if(find==null){
 			return null;
