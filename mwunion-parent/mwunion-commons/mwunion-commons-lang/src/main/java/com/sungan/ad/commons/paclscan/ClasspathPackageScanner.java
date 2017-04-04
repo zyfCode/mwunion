@@ -98,7 +98,13 @@ public class ClasspathPackageScanner implements  PackageScanner {
         for (String name : names) {
             if (isClassFile(name)) {
                 //nameList.add(basePackage + "." + StringUtil.trimExtension(name));
-                nameList.add(toFullyQualifiedName(name, basePackage));
+            	  if (isJarFile(filePath)){
+            		  name = name.replace(".class", "");
+            		  name = name.replaceAll("\\/", "\\.");
+            		  nameList.add(name);
+            	  }else{
+            		  nameList.add(toFullyQualifiedName(name, basePackage));
+            	  }
             } else {
                 // this is a directory
                 // check this directory for more classes

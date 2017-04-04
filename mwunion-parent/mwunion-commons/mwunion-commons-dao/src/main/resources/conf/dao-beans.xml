@@ -51,7 +51,7 @@
 		<property name="dataSource" ref="p6dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>com.sungan.ad.domain</value>
+				<value>com.sungan.ad.dao.model</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

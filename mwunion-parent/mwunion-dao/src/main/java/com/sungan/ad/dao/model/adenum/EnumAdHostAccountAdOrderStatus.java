@@ -20,7 +20,7 @@ public enum EnumAdHostAccountAdOrderStatus {
 	STOP("1","暂停"),
 	DONED("1","完成")
 	;//贴片 刷量
-	public static final String DICT_KEY="ADHOSTACCOUNTPAYORDER_STATUS";
+	public static final String DICT_KEY="ADHOSTACCOUNTADORDER_STATUS";
 	public static final String DICT_NAME="站点状态";
 	private String key;
 	private String label;

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.sungan.ad.commons.DictUtil;
+import com.sungan.ad.commons.paclscan.ClasspathPackageScanner;
+import com.sungan.ad.commons.paclscan.PackageScanner;
 
 /**
  * 说明:

@@ -6,9 +6,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 import com.sungan.ad.commons.dict.DictHandler;
 import com.sungan.ad.commons.dict.DictItem;
+import com.sungan.ad.commons.paclscan.ClasspathPackageScanner;
+import com.sungan.ad.commons.paclscan.PackageScanner;
 import com.sungan.ad.exception.AdRuntimeException;
 
 /**
@@ -17,7 +21,8 @@ import com.sungan.ad.exception.AdRuntimeException;
  * @author zhangyf
  * @date 2017年3月26日
  */
-public class DictHandlerImpl extends DictHandler{
+@Component("dicthandler")
+public class DictHandlerImpl extends DictHandler {
 	private static Log log = LogFactory.getLog(DictHandlerImpl.class); 
 	private static Map<String,EnumCommon> pool = new ConcurrentHashMap<String,EnumCommon>();
 	
@@ -52,6 +57,20 @@ public class DictHandlerImpl extends DictHandler{
 		}
 		DictItem item = enumCommon.getItem(key);
 		return item;
+	}
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		super.afterPropertiesSet();
+		String pack = "com.sungan.ad.dao.model.adenum";
+		PackageScanner scan = new ClasspathPackageScanner(pack);
+		List<String> fullyQualifiedClassNameList = scan.getFullyQualifiedClassNameList();
+		for (String str : fullyQualifiedClassNameList) {
+			if(str.contains("$")){
+				continue;
+			}
+			log.info("加载class:"+str); 
+			Class.forName(str);
+		}
 	}
 
 }

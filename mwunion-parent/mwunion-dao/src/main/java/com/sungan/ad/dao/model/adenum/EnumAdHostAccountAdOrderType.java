@@ -18,7 +18,7 @@ public enum EnumAdHostAccountAdOrderType {
 	AD_HIT("0","贴片 "),
 	AD_SHOW("1","刷量 ")
 	;//贴片 刷量
-	public static final String DICT_KEY="ADHOSTACCOUNTPAYORDER_STATUS";
+	public static final String DICT_KEY="ADHOSTACCOUNTPAYORDER_TYPE";
 	public static final String DICT_NAME="站点状态";
 	private String key;
 	private String label;

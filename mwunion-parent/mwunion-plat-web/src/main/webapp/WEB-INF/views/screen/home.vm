@@ -30,7 +30,7 @@
 			{"id":"101","title":"广告主列表","url":""}
 			,{"id":"102","title":"站长列表","url":""}
 			,{"id":"103","title":"站长黑名单","url":""}
-			,{"id":"104","title":"接待员","url":""}
+			,{"id":"104","title":"接待员","url":"${appServer}/user/reception.htm"}
 		]}
 		,{"id":"20","title":"广告主","items":[
 				{"id":"201","title":"账户管理","url":""}

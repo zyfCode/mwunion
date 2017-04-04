@@ -39,10 +39,21 @@ import net.sf.json.JSONObject;
 public class TaskMain {
 
 	@Test
-	public void test2() throws IOException {
-		PackageScanner scan = new ClasspathPackageScanner("com.sungan.ad.dao.model");
+	public void test2() throws IOException, ClassNotFoundException {
+//		PackageScanner scan = new ClasspathPackageScanner("com.sungan.ad.dao.model.adenum");
+//		List<String> fullyQualifiedClassNameList = scan.getFullyQualifiedClassNameList();
+//		System.out.println(fullyQualifiedClassNameList);
+		String pack = "org.apache.http.io";
+		PackageScanner scan = new ClasspathPackageScanner(pack);
 		List<String> fullyQualifiedClassNameList = scan.getFullyQualifiedClassNameList();
-		System.out.println(fullyQualifiedClassNameList);
+		for (String str : fullyQualifiedClassNameList) {
+			if(str.contains("$")){
+				continue;
+			}
+			System.out.println(str);
+//			log.info("加载class:"+str); 
+//			Class.forName(str);
+		}
 	}
 
 	public static void main(String[] args) {

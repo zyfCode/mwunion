@@ -1,0 +1,216 @@
+#@screen({"title":"客户端查询"})  
+    #@form({"name":"receptionsearchForm"})  
+        #@panel({"title":"查询条件"})  
+		   	           #textfield({"label":"接待员名称 ", "name":"recName ","value":"","defValue":""})  
+		   	           #textfield({"label":"登录账号", "name":"userName ","value":"","defValue":""})  
+					    #combox({"name":"workStatus","label":"工作状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "RECCEPTER_STATUS"})
+		   #button_group({"buttons":[  
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"} ,
+				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
+            ]})  
+        #end  
+    #end  
+    #datagrid({  
+        "id":"receptionTable",  
+        "name":"receptionTable",  
+        "bindFormName":"receptionsearchForm",  
+        "title":"查询列表",    
+        "autoLoad":true,  
+        "url":"/reception/listreception.json",  
+		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[ 
+            {"name":"recId",  
+            "text":"recId",  
+            "hAlign":"center",  
+            "tAlign":"center",
+			"hidden":true
+            },
+
+            {"name":"recName",  
+            "text":"名称",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"userId",  
+            "text":"userId",  
+            "hAlign":"center",  
+            "tAlign":"center",
+			"hidden":true
+            },
+
+            {"name":"userName",  
+            "text":"登录账号",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"workStatus",  
+            "text":"工作状态",  
+            "hAlign":"center",  
+            "tAlign":"center",
+			"hidden":true
+            },
+            {"name":"workStatusCn",  
+            "text":"工作状态",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"recPhone",  
+            "text":"手机号",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"recWeChat",  
+            "text":"微信",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"recQQ",  
+            "text":"QQ",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"createTime",  
+            "text":"创建时间",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"updateTime",  
+            "text":"修改时间",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+			{  
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"200",  
+                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true",  
+        "events":[{"event":"rowClick","function":"queryTableClick"},  
+                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
+       })  
+            
+    #@window({"title":"编辑窗口", "name":"receptionEdit", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"receptionEditForm","url":""})  
+            #@panel({})  
+			                  #textfield({"label":"recName", "name":"recName","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"userName", "name":"userName","value":"","defValue":"","check":"required"})  
+							  #combox({"name":"workStatus","label":"工作状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "RECCEPTER_STATUS"})
+							  #textfield({"label":"recPhone", "name":"recPhone","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"recWeChat", "name":"recWeChat","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"recQQ", "name":"recQQ","value":"","defValue":"","check":"required"})  
+			  			  #end  
+        #end  
+    #end  
+	
+	
+	    #@window({"title":"添加", "name":"receptionAdd", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"receptionAddForm","url":""})  
+            #@panel({})  
+			                  #textfield({"label":"recName", "name":"recName","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"userName", "name":"userName","value":"","defValue":"","check":"required"})  
+			                  #combox({"name":"workStatus","label":"工作状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "RECCEPTER_STATUS"})
+							  #textfield({"label":"recPhone", "name":"recPhone","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"recWeChat", "name":"recWeChat","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"recQQ", "name":"recQQ","value":"","defValue":"","check":"required"})  
+			              #end  
+        #end  
+    #end  
+#end  
+  
+  
+#jscode()  
+    var action = "";  
+  
+      
+    function add(rowData){  
+        Horn.getComp("receptionAddForm").reset();  
+        Horn.getComp("receptionAdd").show();  
+    }  
+      
+    function edit(rowData){  
+        rowDatarowData = rowData || Horn.getComp('receptionTable').getSelecteds().length && (Horn.getComp('receptionTable').getSelecteds())[0];  
+        Horn.getComp("receptionEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("receptionEdit").show();  
+    }  
+      
+    function del(rowData){  
+	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
+		 	 rowDatarowData = rowData || Horn.getComp('receptionTable').getSelecteds().length && (Horn.getComp('receptionTable').getSelecteds())[0];  
+               var id =  rowData.rowdata.id;  
+        	   	$.post("${imageServer}/reception/deletereception",{"id":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("receptionTable").load();  
+            				   Horn.Tip.info("删除成功");  
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg); 
+            			 }
+            		 }
+            	},"json")
+        },function(){  
+            log("确认框的取消执行了")  
+        });
+    }  
+	
+	function addSubmit(){
+		Horn.getComp("receptionAdd").hide();  
+		var data = $("form[name='receptionAddForm']").serializeJSON();
+    	$.post("${imageServer}/reception/addreception",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("receptionTable").load();  
+    				 Horn.Tip.success("添加成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+	}
+	
+    function saveData() {  
+		Horn.getComp("receptionEdit").hide();  
+    		//JSON.stringify($("form[name='receptionEditForm']").serializeJSON());
+    	var data = $("form[name='receptionEditForm']").serializeJSON();
+    	$.post("${imageServer}/reception/updatereception",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("receptionTable").load();  
+    				 Horn.Tip.success("更新成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+    }  
+      	function resetSearch(){
+			Horn.getComp("receptionTable").baseParams={};
+			 Horn.getComp("receptionTable").load();  
+		}
+      
+    function queryData() {  
+   		 Horn.getComp("receptionTable").load();  
+    }  
+#end  
