@@ -1,0 +1,226 @@
+#@screen({"title":"客户端查询"})  
+    #@form({"name":"adhostaccountsearchForm"})  
+        #@panel({"title":"查询条件"})  
+			           #textfield({"label":"serialVersionUID ", "name":"serialVersionUID ","value":"","defValue":""})  
+		   	           #textfield({"label":"accountId ", "name":"accountId ","value":"","defValue":""})  
+		   	           #textfield({"label":"adHostId ", "name":"adHostId ","value":"","defValue":""})  
+		   	           #textfield({"label":"accountAmount ", "name":"accountAmount ","value":"","defValue":""})  
+		   	           #textfield({"label":"useAmount ", "name":"useAmount ","value":"","defValue":""})  
+		   	           #textfield({"label":"frozenAmount ", "name":"frozenAmount ","value":"","defValue":""})  
+		   	           #textfield({"label":"version ", "name":"version ","value":"","defValue":""})  
+		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
+		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
+		   	            #button_group({"buttons":[  
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
+				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
+            ]})  
+        #end  
+    #end  
+    #datagrid({  
+        "id":"adhostaccountTable",  
+        "name":"adhostaccountTable",  
+        "bindFormName":"adhostaccountsearchForm",  
+        "title":"查询列表",    
+        "autoLoad":true,  
+        "url":"/adhostaccount/listadhostaccount.json",  
+		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[ 
+            {"name":"serialVersionUID",  
+            "text":"serialVersionUID",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"accountId",  
+            "text":"accountId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"adHostId",  
+            "text":"adHostId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"accountAmount",  
+            "text":"accountAmount",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"useAmount",  
+            "text":"useAmount",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"frozenAmount",  
+            "text":"frozenAmount",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"version",  
+            "text":"version",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"createTime",  
+            "text":"createTime",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"updateTime",  
+            "text":"updateTime",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+
+			{  
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"200",  
+                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true",  
+        "events":[{"event":"rowClick","function":"queryTableClick"},  
+                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
+       })  
+            
+    #@window({"title":"编辑窗口", "name":"adhostaccountEdit", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"adhostaccountEditForm","url":""})  
+            #@panel({})  
+			                #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"accountAmount", "name":"accountAmount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"useAmount", "name":"useAmount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"frozenAmount", "name":"frozenAmount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"version", "name":"version","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
+			  			  #end  
+        #end  
+    #end  
+	
+	
+	    #@window({"title":"添加", "name":"adhostaccountAdd", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"adhostaccountAddForm","url":""})  
+            #@panel({})  
+                               #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"accountAmount", "name":"accountAmount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"useAmount", "name":"useAmount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"frozenAmount", "name":"frozenAmount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"version", "name":"version","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
+			              #end  
+        #end  
+    #end  
+#end  
+  
+  
+#jscode()  
+    var action = "";  
+  
+      
+    function add(rowData){  
+        Horn.getComp("adhostaccountAddForm").reset();  
+        Horn.getComp("adhostaccountAdd").show();  
+    }  
+      
+    function edit(rowData){  
+        rowDatarowData = rowData || Horn.getComp('adhostaccountTable').getSelecteds().length && (Horn.getComp('adhostaccountTable').getSelecteds())[0];  
+        Horn.getComp("adhostaccountEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("adhostaccountEdit").show();  
+    }  
+      
+    function del(rowData){  
+	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
+		 	 rowDatarowData = rowData || Horn.getComp('adhostaccountTable').getSelecteds().length && (Horn.getComp('adhostaccountTable').getSelecteds())[0];  
+               var id =  rowData.rowdata.id;  
+        	   	$.post("${imageServer}/adhostaccount/deleteadhostaccount",{"id":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("adhostaccountTable").load();  
+            				   Horn.Tip.info("删除成功");  
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg); 
+            			 }
+            		 }
+            	},"json")
+        },function(){  
+            log("确认框的取消执行了")  
+        });
+    }  
+	
+	function addSubmit(){
+		var form = $("form[name='adhostaccountAddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("adhostaccountAdd").hide();  
+		var data = $("form[name='adhostaccountAddForm']").serializeJSON();
+    	$.post("${imageServer}/adhostaccount/addadhostaccount",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("adhostaccountTable").load();  
+    				 Horn.Tip.success("添加成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+	}
+	
+    function saveData() {  
+		var form = $("form[name='adhostaccountEditForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("adhostaccountEdit").hide();  
+    		//JSON.stringify($("form[name='adhostaccountEditForm']").serializeJSON());
+    	var data = $("form[name='adhostaccountEditForm']").serializeJSON();
+    	$.post("${imageServer}/adhostaccount/updateadhostaccount",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("adhostaccountTable").load();  
+    				 Horn.Tip.success("更新成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+    }  
+      	function resetSearch(){
+			Horn.getComp("adhostaccountTable").baseParams={};
+			 Horn.getComp("adhostaccountTable").load();  
+		}
+      
+    function queryData() {  
+   		 Horn.getComp("adhostaccountTable").load();  
+    }  
+#end  

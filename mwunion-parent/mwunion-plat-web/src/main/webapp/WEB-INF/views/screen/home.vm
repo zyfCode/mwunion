@@ -12,7 +12,7 @@
 	]}
 	,"screen":{
 		"limit":10,
-		"homePage":{"title":"欢迎使用","icon":"home fa fa-home","url":"${appServer}/task/listapptask.htm"}
+		"homePage":{"title":"欢迎使用","icon":"home fa fa-home","url":"${appServer}/static/home.html"}
 		,"tools":[{"title":"宽松版","url":"${appServer}/home.htm?theme=horn"},{"title":"经典灰","url":"${appServer}/home.htm?theme=classic"},{"title":"紧凑版","url":"${appServer}/home.htm?theme=mini"}]
 	}
 	,"navigation":{"items":[
@@ -27,24 +27,25 @@
 			{"id":"001","title":"面版信息","url":""}
 		]}
 		,{"id":"10","title":"用户管理","items":[
-			{"id":"101","title":"广告主列表","url":""}
-			,{"id":"102","title":"站长列表","url":""}
-			,{"id":"103","title":"站长黑名单","url":""}
+			{"id":"101","title":"广告主列表","url":"${appServer}/user/adhost.htm"}
+			,{"id":"102","title":"站长列表","url":"${appServer}/user/stmaster.htm"}
+			,{"id":"103","title":"站长黑名单","url":"${appServer}/user/black_stmaster.htm"}
 			,{"id":"104","title":"接待员","url":"${appServer}/user/reception.htm"}
 		]}
 		,{"id":"20","title":"广告主","items":[
-				{"id":"201","title":"账户管理","url":""}
-				,{"id":"202","title":"允值订单","url":""}
-				,{"id":"203","title":"广告订单","url":""}
-				,{"id":"204","title":"广告流水","url":""}
-				,{"id":"205","title":"广告流量","url":""}
+				{"id":"201","title":"账户管理","url":"${appServer}/adhost/adhostaccount.htm"}
+				,{"id":"202","title":"允值订单","url":"${appServer}/adhost/adhostaccountpayorder.htm"}
+				,{"id":"203","title":"广告订单","url":"${appServer}/adhost/adhostaccountadorder.htm"}
+				,{"id":"204","title":"广告流水","url":"${appServer}/adhost/"}
+				,{"id":"205","title":"广告流量","url":"${appServer}/adhost/adhostaccountadordershowcunt.htm"}
 				,{"id":"206","title":"报表","url":""}
 		]}
 		,{"id":"30","title":"站长","items":[
-				{"id":"301","title":"账户管理","url":""}
-				,{"id":"302","title":"账单","url":""}
-				,{"id":"303","title":"日流水","url":""}
-				,{"id":"304","title":"周流水","url":""}
+				{"id":"301","title":"账户管理","url":"${appServer}/stmaster/stmasteraccount.htm"}
+				,{"id":"302","title":"账单","url":"${appServer}/stmaster/stmastersitebill.htm"}
+				,{"id":"303","title":"日流水","url":"${appServer}/stmaster/"}
+				,{"id":"304","title":"周流水","url":"${appServer}/stmaster/"}
+				,{"id":"304","title":"代码管理","url":"${appServer}/stmaster/"}
 				,{"id":"304","title":"报表","url":""}
 		]}
 		,{"id":"40","title":"站长","items":[

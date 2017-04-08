@@ -5,7 +5,7 @@ ${vcKey}@screen({"title":"客户端查询"})
            ${vcKey}textfield({"label":"$something ", "name":"$something ","value":"","defValue":""})  
 		   	#end
             ${vcKey}button_group({"buttons":[  
-                {"label":"查询","event":"queryData()","className":"u-btn-primary"}  
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
 				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
             ]})  
         ${vcKey}end  
@@ -111,6 +111,11 @@ ${vcKey}jscode()
     }  
 	
 	function addSubmit(){
+		var form = $("form[name='${contollerMapping}AddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
 		Horn.getComp("${contollerMapping}Add").hide();  
 		var data = $("form[name='${contollerMapping}AddForm']").serializeJSON();
     	$.post("${imageServer}/${contollerMapping}/add${suffix}",data,function(backData){
@@ -126,6 +131,11 @@ ${vcKey}jscode()
 	}
 	
     function saveData() {  
+		var form = $("form[name='${contollerMapping}EditForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
 		Horn.getComp("${contollerMapping}Edit").hide();  
     		//JSON.stringify($("form[name='${contollerMapping}EditForm']").serializeJSON());
     	var data = $("form[name='${contollerMapping}EditForm']").serializeJSON();

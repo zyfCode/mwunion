@@ -1,0 +1,205 @@
+#@screen({"title":"客户端查询"})  
+    #@form({"name":"stmastersearchForm"})  
+        #@panel({"title":"查询条件"})  
+		   	           #textfield({"label":"stmasterId ", "name":"stmasterId ","value":"","defValue":""})  
+		   	           #textfield({"label":"userName ", "name":"userName ","value":"","defValue":""})  
+		   	           #textfield({"label":"userId ", "name":"userId ","value":"","defValue":""})  
+		   	           #textfield({"label":"recId ", "name":"recId ","value":"","defValue":""})  
+		   	           #textfield({"label":"recName ", "name":"recName ","value":"","defValue":""})  
+		   	           #textfield({"label":"stmasterQQ ", "name":"stmasterQQ ","value":"","defValue":""})  
+		   	           #textfield({"label":"stmasterEmail ", "name":"stmasterEmail ","value":"","defValue":""})  
+		   	           #textfield({"label":"mobile ", "name":"mobile ","value":"","defValue":""})  
+		   	           #textfield({"label":"weChat ", "name":"weChat ","value":"","defValue":""})  
+		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
+		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
+		   	           #textfield({"label":"remark ", "name":"remark ","value":"","defValue":""})  
+		   	            #button_group({"buttons":[  
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
+				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
+            ]})  
+        #end  
+    #end  
+    #datagrid({  
+        "id":"stmasterTable",  
+        "name":"stmasterTable",  
+        "bindFormName":"stmastersearchForm",  
+        "title":"查询列表",    
+        "autoLoad":true,  
+        "url":"/stmaster/liststmaster.json",  
+		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[ 
+            {"name":"stmasterId",  
+            "text":"stmasterId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+            {"name":"userName",  
+            "text":"userName",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"userId",  
+            "text":"userId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"recId",  
+            "text":"recId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"recName",  
+            "text":"recName",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"stmasterQQ",  
+            "text":"stmasterQQ",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"stmasterEmail",  
+            "text":"stmasterEmail",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"mobile",  
+            "text":"mobile",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"weChat",  
+            "text":"weChat",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"createTime",  
+            "text":"createTime",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"updateTime",  
+            "text":"updateTime",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"remark",  
+            "text":"remark",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+
+			{  
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"200",  
+                "buttons":[{"label":"解除黑名单","event":"edit"},{"label":"删除","event":"del"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true",  
+        "events":[{"event":"rowClick","function":"queryTableClick"},  
+                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
+       })  
+#end  
+  
+  
+#jscode()  
+    var action = "";  
+  
+      
+    function add(rowData){  
+        Horn.getComp("stmasterAddForm").reset();  
+        Horn.getComp("stmasterAdd").show();  
+    }  
+      
+    function edit(rowData){  
+        rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];  
+        Horn.getComp("stmasterEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("stmasterEdit").show();  
+    }  
+      
+    function del(rowData){  
+	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
+		 	 rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];  
+               var id =  rowData.rowdata.id;  
+        	   	$.post("${imageServer}/stmaster/deletestmaster",{"id":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("stmasterTable").load();  
+            				   Horn.Tip.info("删除成功");  
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg); 
+            			 }
+            		 }
+            	},"json")
+        },function(){  
+            log("确认框的取消执行了")  
+        });
+    }  
+	
+	function addSubmit(){
+		var form = $("form[name='stmasterAddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("stmasterAdd").hide();  
+		var data = $("form[name='stmasterAddForm']").serializeJSON();
+    	$.post("${imageServer}/stmaster/addstmaster",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("stmasterTable").load();  
+    				 Horn.Tip.success("添加成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+	}
+	
+    function saveData() {  
+		var form = $("form[name='stmasterEditForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("stmasterEdit").hide();  
+    		//JSON.stringify($("form[name='stmasterEditForm']").serializeJSON());
+    	var data = $("form[name='stmasterEditForm']").serializeJSON();
+    	$.post("${imageServer}/stmaster/updatestmaster",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("stmasterTable").load();  
+    				 Horn.Tip.success("更新成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+    }  
+      	function resetSearch(){
+			Horn.getComp("stmasterTable").baseParams={};
+			 Horn.getComp("stmasterTable").load();  
+		}
+      
+    function queryData() {  
+   		 Horn.getComp("stmasterTable").load();  
+    }  
+#end  

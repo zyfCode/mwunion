@@ -1,0 +1,253 @@
+#@screen({"title":"客户端查询"})  
+    #@form({"name":"adhostaccountadordershowcuntsearchForm"})  
+        #@panel({"title":"查询条件"})  
+			           #textfield({"label":"serialVersionUID ", "name":"serialVersionUID ","value":"","defValue":""})  
+		   	           #textfield({"label":"countId ", "name":"countId ","value":"","defValue":""})  
+		   	           #textfield({"label":"adOrderId ", "name":"adOrderId ","value":"","defValue":""})  
+		   	           #textfield({"label":"accountId ", "name":"accountId ","value":"","defValue":""})  
+		   	           #textfield({"label":"adHostId ", "name":"adHostId ","value":"","defValue":""})  
+		   	           #textfield({"label":"hitCount ", "name":"hitCount ","value":"","defValue":""})  
+		   	           #textfield({"label":"showCount ", "name":"showCount ","value":"","defValue":""})  
+		   	           #textfield({"label":"uvCournt ", "name":"uvCournt ","value":"","defValue":""})  
+		   	           #textfield({"label":"ipCount ", "name":"ipCount ","value":"","defValue":""})  
+		   	           #textfield({"label":"flowDate ", "name":"flowDate ","value":"","defValue":""})  
+		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
+		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
+		   	            #button_group({"buttons":[  
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
+				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
+            ]})  
+        #end  
+    #end  
+    #datagrid({  
+        "id":"adhostaccountadordershowcuntTable",  
+        "name":"adhostaccountadordershowcuntTable",  
+        "bindFormName":"adhostaccountadordershowcuntsearchForm",  
+        "title":"查询列表",    
+        "autoLoad":true,  
+        "url":"/adhostaccountadordershowcunt/listadhostaccountadordershowcunt.json",  
+		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[ 
+            {"name":"serialVersionUID",  
+            "text":"serialVersionUID",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"countId",  
+            "text":"countId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"adOrderId",  
+            "text":"adOrderId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"accountId",  
+            "text":"accountId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"adHostId",  
+            "text":"adHostId",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"hitCount",  
+            "text":"hitCount",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"showCount",  
+            "text":"showCount",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"uvCournt",  
+            "text":"uvCournt",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"ipCount",  
+            "text":"ipCount",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"flowDate",  
+            "text":"flowDate",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"createTime",  
+            "text":"createTime",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"updateTime",  
+            "text":"updateTime",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+
+			{  
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"200",  
+                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true",  
+        "events":[{"event":"rowClick","function":"queryTableClick"},  
+                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
+       })  
+            
+    #@window({"title":"编辑窗口", "name":"adhostaccountadordershowcuntEdit", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"adhostaccountadordershowcuntEditForm","url":""})  
+            #@panel({})  
+			                #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"countId", "name":"countId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"adOrderId", "name":"adOrderId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"hitCount", "name":"hitCount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"showCount", "name":"showCount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"uvCournt", "name":"uvCournt","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"ipCount", "name":"ipCount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"flowDate", "name":"flowDate","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
+			  			  #end  
+        #end  
+    #end  
+	
+	
+	    #@window({"title":"添加", "name":"adhostaccountadordershowcuntAdd", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"adhostaccountadordershowcuntAddForm","url":""})  
+            #@panel({})  
+                               #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"countId", "name":"countId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"adOrderId", "name":"adOrderId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"hitCount", "name":"hitCount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"showCount", "name":"showCount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"uvCournt", "name":"uvCournt","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"ipCount", "name":"ipCount","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"flowDate", "name":"flowDate","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
+			              #end  
+        #end  
+    #end  
+#end  
+  
+  
+#jscode()  
+    var action = "";  
+  
+      
+    function add(rowData){  
+        Horn.getComp("adhostaccountadordershowcuntAddForm").reset();  
+        Horn.getComp("adhostaccountadordershowcuntAdd").show();  
+    }  
+      
+    function edit(rowData){  
+        rowDatarowData = rowData || Horn.getComp('adhostaccountadordershowcuntTable').getSelecteds().length && (Horn.getComp('adhostaccountadordershowcuntTable').getSelecteds())[0];  
+        Horn.getComp("adhostaccountadordershowcuntEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("adhostaccountadordershowcuntEdit").show();  
+    }  
+      
+    function del(rowData){  
+	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
+		 	 rowDatarowData = rowData || Horn.getComp('adhostaccountadordershowcuntTable').getSelecteds().length && (Horn.getComp('adhostaccountadordershowcuntTable').getSelecteds())[0];  
+               var id =  rowData.rowdata.id;  
+        	   	$.post("${imageServer}/adhostaccountadordershowcunt/deleteadhostaccountadordershowcunt",{"id":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("adhostaccountadordershowcuntTable").load();  
+            				   Horn.Tip.info("删除成功");  
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg); 
+            			 }
+            		 }
+            	},"json")
+        },function(){  
+            log("确认框的取消执行了")  
+        });
+    }  
+	
+	function addSubmit(){
+		var form = $("form[name='adhostaccountadordershowcuntAddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("adhostaccountadordershowcuntAdd").hide();  
+		var data = $("form[name='adhostaccountadordershowcuntAddForm']").serializeJSON();
+    	$.post("${imageServer}/adhostaccountadordershowcunt/addadhostaccountadordershowcunt",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("adhostaccountadordershowcuntTable").load();  
+    				 Horn.Tip.success("添加成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+	}
+	
+    function saveData() {  
+		var form = $("form[name='adhostaccountadordershowcuntEditForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("adhostaccountadordershowcuntEdit").hide();  
+    		//JSON.stringify($("form[name='adhostaccountadordershowcuntEditForm']").serializeJSON());
+    	var data = $("form[name='adhostaccountadordershowcuntEditForm']").serializeJSON();
+    	$.post("${imageServer}/adhostaccountadordershowcunt/updateadhostaccountadordershowcunt",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("adhostaccountadordershowcuntTable").load();  
+    				 Horn.Tip.success("更新成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+    }  
+      	function resetSearch(){
+			Horn.getComp("adhostaccountadordershowcuntTable").baseParams={};
+			 Horn.getComp("adhostaccountadordershowcuntTable").load();  
+		}
+      
+    function queryData() {  
+   		 Horn.getComp("adhostaccountadordershowcuntTable").load();  
+    }  
+#end  

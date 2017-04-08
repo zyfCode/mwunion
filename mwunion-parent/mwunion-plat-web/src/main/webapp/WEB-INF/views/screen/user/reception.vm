@@ -111,12 +111,12 @@
             ]})  
         #@form({"name":"receptionEditForm","url":""})  
             #@panel({})  
-			                  #textfield({"label":"recName", "name":"recName","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"userName", "name":"userName","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"接待员名称", "name":"recName","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"用户账号", "name":"userName","value":"","defValue":"","disabled":true})  
 							  #combox({"name":"workStatus","label":"工作状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "RECCEPTER_STATUS"})
-							  #textfield({"label":"recPhone", "name":"recPhone","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recWeChat", "name":"recWeChat","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recQQ", "name":"recQQ","value":"","defValue":"","check":"required"})  
+							  #textfield({"label":"手机号", "name":"recPhone","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"微信号", "name":"recWeChat","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"QQ", "name":"recQQ","value":"","defValue":"","check":"required"})  
 			  			  #end  
         #end  
     #end  
@@ -129,12 +129,14 @@
             ]})  
         #@form({"name":"receptionAddForm","url":""})  
             #@panel({})  
-			                  #textfield({"label":"recName", "name":"recName","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"userName", "name":"userName","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"接待员名称", "name":"recName","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"用户账号", "name":"userName","value":"","defValue":"","check":"required"})  
+			                  #password({"label":"用户密码", "name":"userPwd","value":"","defValue":"","check":"required"})  
+			                  #password({"label":"重复密码", "name":"dUserPwd","value":"","defValue":"","check":"required"})  
 			                  #combox({"name":"workStatus","label":"工作状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "RECCEPTER_STATUS"})
-							  #textfield({"label":"recPhone", "name":"recPhone","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recWeChat", "name":"recWeChat","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recQQ", "name":"recQQ","value":"","defValue":"","check":"required"})  
+							  #textfield({"label":"手机号", "name":"recPhone","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"微信号", "name":"recWeChat","value":"","defValue":"","check":"required"})  
+			                  #textfield({"label":"QQ", "name":"recQQ","value":"","defValue":"","check":"required"})  
 			              #end  
         #end  
     #end  
@@ -176,6 +178,11 @@
     }  
 	
 	function addSubmit(){
+		var form = $("form[name='receptionAddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
 		Horn.getComp("receptionAdd").hide();  
 		var data = $("form[name='receptionAddForm']").serializeJSON();
     	$.post("${imageServer}/reception/addreception",data,function(backData){
