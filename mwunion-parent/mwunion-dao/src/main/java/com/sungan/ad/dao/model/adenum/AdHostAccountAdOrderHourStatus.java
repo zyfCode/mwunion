@@ -1,12 +1,12 @@
 package com.sungan.ad.dao.model.adenum;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sungan.ad.common.dict.DictHandlerImpl;
 import com.sungan.ad.common.dict.EnumCommon;
 import com.sungan.ad.commons.dict.DictItem;
 import com.sungan.ad.exception.AdRuntimeException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 说明:
@@ -30,6 +30,15 @@ public enum AdHostAccountAdOrderHourStatus{
 		} catch (Exception e) {
 			throw new AdRuntimeException("",e);
 		}
+	}
+	public static AdHostAccountAdOrderHourStatus match(String key){
+		AdHostAccountAdOrderHourStatus[] values = AdHostAccountAdOrderHourStatus.values();
+		for(AdHostAccountAdOrderHourStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
 	}
 	public String getKey(){
 		return this.key;

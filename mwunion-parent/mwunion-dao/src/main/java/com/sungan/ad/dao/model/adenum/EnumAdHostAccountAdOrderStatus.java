@@ -34,6 +34,15 @@ public enum EnumAdHostAccountAdOrderStatus {
 			throw new AdRuntimeException("",e);
 		}
 	}
+	public static EnumAdHostAccountAdOrderStatus match(String key){
+		EnumAdHostAccountAdOrderStatus[] values = EnumAdHostAccountAdOrderStatus.values();
+		for(EnumAdHostAccountAdOrderStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
 	public String getKey(){
 		return this.key;
 	}

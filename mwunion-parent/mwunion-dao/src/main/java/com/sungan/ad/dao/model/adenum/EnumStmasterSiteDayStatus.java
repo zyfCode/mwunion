@@ -31,6 +31,16 @@ public enum EnumStmasterSiteDayStatus{
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumStmasterSiteDayStatus match(String key){
+		EnumStmasterSiteDayStatus[] values = EnumStmasterSiteDayStatus.values();
+		for(EnumStmasterSiteDayStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
 	public String getKey(){
 		return this.key;
 	}

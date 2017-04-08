@@ -20,8 +20,8 @@ public enum AdHostAccountAdOrderDayStatus{
 	public static final String DICT_NAME="天账单结算状态";
 	private String key;
 	private String label;
-	
-	
+
+
 	private AdHostAccountAdOrderDayStatus(String key, String label) {
 		this.key = key;
 		this.label = label;
@@ -30,6 +30,15 @@ public enum AdHostAccountAdOrderDayStatus{
 		} catch (Exception e) {
 			throw new AdRuntimeException("",e);
 		}
+	}
+	public static AdHostAccountAdOrderDayStatus match(String key){
+		AdHostAccountAdOrderDayStatus[] values = AdHostAccountAdOrderDayStatus.values();
+		for(AdHostAccountAdOrderDayStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
 	}
 	public String getKey(){
 		return this.key;

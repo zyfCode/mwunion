@@ -31,6 +31,17 @@ public enum EnumStmasterStatus{
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumStmasterStatus match(String key){
+		EnumStmasterStatus[] values = EnumStmasterStatus.values();
+		for(EnumStmasterStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
+
 	public String getKey(){
 		return this.key;
 	}

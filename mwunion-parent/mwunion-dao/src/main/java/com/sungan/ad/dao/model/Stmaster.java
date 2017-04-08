@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.dao.model.adenum.EnumUserStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
+import com.sungan.ad.expand.common.annotation.StatusCn;
 
 /**
  * 说明:
@@ -25,16 +27,22 @@ public class Stmaster implements AdObject {
 	 */
 	@Id
 	private String stmasterId;
+
+	@Column(length = 64)
+	private String stmasterName;
 	/**
 	 * 用户名称
 	 */
 	@Column(length=64)
-	private String userName;
+	private String userAccount;
 	/**
 	 * 用户id
 	 */
 	@Column(length=64,nullable=false)
 	private String userId;
+
+	@StatusCn(dictId  = EnumUserStatus.DICT_KEY)
+	private String userStatus;
 	/**
 	 * 接待员id
 	 */
@@ -70,7 +78,22 @@ public class Stmaster implements AdObject {
 	private Date updateTime;
 	@Column(length=128)
 	private String remark;
-	
+
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public String getStmasterName() {
+		return stmasterName;
+	}
+
+	public void setStmasterName(String stmasterName) {
+		this.stmasterName = stmasterName;
+	}
 
 	public String getRemark() {
 		return remark;
@@ -88,12 +111,12 @@ public class Stmaster implements AdObject {
 		this.stmasterId = stmasterId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserAccount() {
+		return userAccount;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	public String getUserId() {

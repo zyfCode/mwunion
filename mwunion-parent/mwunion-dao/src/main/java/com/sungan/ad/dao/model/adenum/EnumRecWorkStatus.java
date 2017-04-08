@@ -31,6 +31,16 @@ public enum EnumRecWorkStatus{
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumRecWorkStatus match(String key){
+		EnumRecWorkStatus[] values = EnumRecWorkStatus.values();
+		for(EnumRecWorkStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
 	public String getKey(){
 		return this.key;
 	}

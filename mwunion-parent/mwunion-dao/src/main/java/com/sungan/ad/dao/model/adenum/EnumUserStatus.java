@@ -31,6 +31,16 @@ public enum EnumUserStatus{
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumUserStatus match(String key){
+		EnumUserStatus[] values = EnumUserStatus.values();
+		for(EnumUserStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
 	public String getKey(){
 		return this.key;
 	}

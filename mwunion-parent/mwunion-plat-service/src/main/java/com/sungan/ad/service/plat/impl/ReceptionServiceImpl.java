@@ -1,20 +1,23 @@
 package com.sungan.ad.service.plat.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.sungan.ad.common.dao.AdPager;
 import com.sungan.ad.commons.AdCommonsUtil;
 import com.sungan.ad.commons.IdGeneratorFactory;
 import com.sungan.ad.dao.ReceptionDAO;
+import com.sungan.ad.dao.UserDAO;
 import com.sungan.ad.dao.model.Reception;
+import com.sungan.ad.dao.model.User;
+import com.sungan.ad.dao.model.adenum.EnumUserStatus;
+import com.sungan.ad.dao.model.adenum.EnumUserType;
 import com.sungan.ad.exception.AdRuntimeException;
 import com.sungan.ad.expand.common.annotation.parser.AnnotationParser;
 import com.sungan.ad.service.plat.ReceptionService;
 import com.sungan.ad.vo.ReceptionVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 说明:
@@ -26,7 +29,9 @@ public class ReceptionServiceImpl implements ReceptionService{
 	
 	@Autowired
 	private ReceptionDAO receptionDAO;
-	
+
+	@Autowired
+	private UserDAO userDAO;
 
 	public ReceptionDAO getReceptionDAO() {
 		return receptionDAO;
@@ -38,8 +43,21 @@ public class ReceptionServiceImpl implements ReceptionService{
 
 	@Override
 	public String insert(Reception record) {
+		User user = new User();
+		String userId = IdGeneratorFactory.nextId();
+		user.setUserId(userId);
+		user.setCreateTime(new Date());
+		user.setUpdateTime(new Date());
+		user.setUserAcount(record.getUserAccount());
+		user.setUserName(record.getRecName());
+		int length = record.getMobile().length();
+		String pwd = record.getMobile().substring(length - 6, length);
+		user.setUserPwd(pwd);  //密码为手机后6位
+		user.setUserStatus(EnumUserStatus.NORMAL.getKey());
+		user.setUserType(EnumUserType.RECEPTION.getKey());
+		userDAO.insert(user);
 		String nextId = IdGeneratorFactory.nextId();
-		//record.setId(nextId);
+		record.setUserId(userId);
 		record.setRecId(nextId);
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
@@ -58,6 +76,11 @@ public class ReceptionServiceImpl implements ReceptionService{
 	public void delete(String id) {
 		Reception find = this.receptionDAO.find(id);
 		if (find != null) {
+			String userId = find.getUserId();
+			User user = userDAO.find(userId);
+			if(user!=null){
+				user.delete(user);
+			}
 			receptionDAO.delete(find);
 		}
 	}

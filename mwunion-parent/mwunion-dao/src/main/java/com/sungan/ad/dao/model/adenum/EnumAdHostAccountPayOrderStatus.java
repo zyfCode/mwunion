@@ -24,8 +24,7 @@ public enum EnumAdHostAccountPayOrderStatus {
 	public static final String DICT_NAME="站点状态";
 	private String key;
 	private String label;
-	
-	
+
 	private EnumAdHostAccountPayOrderStatus(String key, String label) {
 		this.key = key;
 		this.label = label;
@@ -34,6 +33,15 @@ public enum EnumAdHostAccountPayOrderStatus {
 		} catch (Exception e) {
 			throw new AdRuntimeException("",e);
 		}
+	}
+	public static EnumAdHostAccountPayOrderStatus match(String key){
+		EnumAdHostAccountPayOrderStatus[] values = EnumAdHostAccountPayOrderStatus.values();
+		for(EnumAdHostAccountPayOrderStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
 	}
 	public String getKey(){
 		return this.key;

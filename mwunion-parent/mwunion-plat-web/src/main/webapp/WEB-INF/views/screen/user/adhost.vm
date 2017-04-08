@@ -1,255 +1,231 @@
-#@screen({"title":"客户端查询"})  
-    #@form({"name":"adhostsearchForm"})  
-        #@panel({"title":"查询条件"})  
-		   	           #textfield({"label":"adhostId ", "name":"adhostId ","value":"","defValue":""})  
-		   	           #textfield({"label":"userName ", "name":"userName ","value":"","defValue":""})  
-		   	           #textfield({"label":"userId ", "name":"userId ","value":"","defValue":""})  
-		   	           #textfield({"label":"recId ", "name":"recId ","value":"","defValue":""})  
-		   	           #textfield({"label":"recName ", "name":"recName ","value":"","defValue":""})  
-		   	           #textfield({"label":"adhostQQ ", "name":"adhostQQ ","value":"","defValue":""})  
-		   	           #textfield({"label":"adhostEmail ", "name":"adhostEmail ","value":"","defValue":""})  
-		   	           #textfield({"label":"mobile ", "name":"mobile ","value":"","defValue":""})  
-		   	           #textfield({"label":"weChat ", "name":"weChat ","value":"","defValue":""})  
-		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"remark ", "name":"remark ","value":"","defValue":""})  
-		   	           #button_group({"buttons":[  
-                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
-				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
-            ]})  
-        #end  
-    #end  
-    #datagrid({  
-        "id":"adhostTable",  
-        "name":"adhostTable",  
-        "bindFormName":"adhostsearchForm",  
-        "title":"查询列表",    
-        "autoLoad":true,  
-        "url":"/adhost/listadhost.json",  
-		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
-        "items":[ 
-            {"name":"adhostId",  
-            "text":"adhostId",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+#@screen({"title":"客户端查询"})
+    #@form({"name":"adhostsearchForm"})
+        #@panel({"title":"查询条件"})
+            #textfield({"label":"账号", "name":"userName ","value":"","defValue":""})
+            #textfield({"label":"广告主", "name":"adhostName ","value":"","defValue":""})
+            #textfield({"label":"接待员 ", "name":"recName ","value":"","defValue":""})
+            #button_group({"buttons":[
+            {"label":"查询","event":"queryData()","className":"u-btn-primary"},
+            {"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}
+            ]})
+        #end
+    #end
+    #datagrid({
+        "id":"adhostTable",
+        "name":"adhostTable",
+        "bindFormName":"adhostsearchForm",
+        "title":"查询列表",
+        "autoLoad":true,
+        "url":"/adhost/listadhost.json",
+        "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[
+    {"name":"adhostId",
+        "text":"adhostId",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":true
+    },
 
-            {"name":"userName",  
-            "text":"userName",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"userAccount",
+        "text":"账号",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"userId",  
-            "text":"userId",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"userId",
+        "text":"userId",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden": true
+    },
 
-            {"name":"recId",  
-            "text":"recId",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"recId",
+        "text":"recId",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":true
+    },
 
-            {"name":"recName",  
-            "text":"recName",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"recName",
+        "text":"接待员",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"adhostQQ",  
-            "text":"adhostQQ",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"adhostQQ",
+        "text":"QQ",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"adhostEmail",  
-            "text":"adhostEmail",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"adhostEmail",
+        "text":"email",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"mobile",  
-            "text":"mobile",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"mobile",
+        "text":"手机号",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"weChat",  
-            "text":"weChat",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"weChat",
+        "text":"微信",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"createTime",  
-            "text":"createTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"createTime",
+        "text":"接入时间",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
-            {"name":"updateTime",  
-            "text":"updateTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    {"name":"remark",
+        "text":"描述",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+    {
+        "name":"operation",
+        "text":"操作",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":false,
+        "width":"200",
+        "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+    }
+    ],
+        "numbercolumn":"true",
+        "pageConfig":{"pageSize":10,"pageNo":1},
+        "rowSelect":"false",
+        "hasPage":"true",
+        "events":[{"event":"rowClick","function":"queryTableClick"},
+    {"event":"rowDblclick","function":"queryTableDbClick"}]
+    })
 
-            {"name":"remark",  
-            "text":"remark",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
+    #@window({"title":"编辑窗口", "name":"adhostEdit", "width":"750", "height":"250",
+        "buttons":[
+    {"label":"提交","event":"saveData()","className":"u-btn-primary"},
+    {"label":"重置","event":"resetDataForm()"}
+    ]})
+        #@form({"name":"adhostEditForm","url":""})
+            #@panel({})
+                #textfield({"label":"adhostId", "name":"adhostId","value":"","defValue":"","check":"required","hidden":true})
+                #textfield({"label":"名称", "name":"adhostName","value":"","defValue":"","check":"required"})
+                #textfield({"label":"接待员", "name":"recName","value":"","defValue":"","check":"required"})
+                #textfield({"label":"QQ", "name":"adhostQQ","value":"","defValue":"","check":"required"})
+                #textfield({"label":"邮箱", "name":"adhostEmail","value":"","defValue":"","check":"required"})
+                #textfield({"label":"手机号", "name":"mobile","value":"","defValue":"","check":"required"})
+                #textfield({"label":"微信", "name":"weChat","value":"","defValue":""})
+                #textfield({"label":"备注", "name":"remark","value":"","defValue":""})
+            #end
+        #end
+    #end
 
 
-			{  
-                "name":"operation",  
-                "text":"操作",  
-                "hAlign":"center",  
-                "tAlign":"center",  
-                "hidden":false,  
-                "width":"200",  
-                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
-			}
-        ],  
-        "numbercolumn":"true",  
-        "pageConfig":{"pageSize":10,"pageNo":1},  
-        "rowSelect":"false",  
-        "hasPage":"true",  
-        "events":[{"event":"rowClick","function":"queryTableClick"},  
-                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
-       })  
-            
-    #@window({"title":"编辑窗口", "name":"adhostEdit", "width":"750", "height":"250",  
-            "buttons":[  
-                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
-                {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"adhostEditForm","url":""})  
-            #@panel({})  
-			                #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adhostId", "name":"adhostId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"userName", "name":"userName","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"userId", "name":"userId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recId", "name":"recId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recName", "name":"recName","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adhostQQ", "name":"adhostQQ","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adhostEmail", "name":"adhostEmail","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"mobile", "name":"mobile","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"weChat", "name":"weChat","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"remark", "name":"remark","value":"","defValue":"","check":"required"})  
-			  			  #end  
-        #end  
-    #end  
-	
-	
-	    #@window({"title":"添加", "name":"adhostAdd", "width":"750", "height":"250",  
-            "buttons":[  
-                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
-                {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"adhostAddForm","url":""})  
-            #@panel({})  
-                               #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adhostId", "name":"adhostId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"userName", "name":"userName","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"userId", "name":"userId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recId", "name":"recId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"recName", "name":"recName","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adhostQQ", "name":"adhostQQ","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adhostEmail", "name":"adhostEmail","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"mobile", "name":"mobile","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"weChat", "name":"weChat","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"remark", "name":"remark","value":"","defValue":"","check":"required"})  
-			              #end  
-        #end  
-    #end  
-#end  
-  
-  
-#jscode()  
-    var action = "";  
-  
-      
-    function add(rowData){  
-        Horn.getComp("adhostAddForm").reset();  
-        Horn.getComp("adhostAdd").show();  
-    }  
-      
-    function edit(rowData){  
-        rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];  
-        Horn.getComp("adhostEditForm").setValues(rowData.rowdata);  
-        Horn.getComp("adhostEdit").show();  
-    }  
-      
-    function del(rowData){  
-	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
-		 	 rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];  
-               var id =  rowData.rowdata.id;  
-        	   	$.post("${imageServer}/adhost/deleteadhost",{"id":id},function(backData){
-            		if(backData){
-            			if(backData.success){
-            				 Horn.getComp("adhostTable").load();  
-            				   Horn.Tip.info("删除成功");  
-            			 }else{
-            				Horn.Tip.warn(backData.errorMesg); 
-            			 }
-            		 }
-            	},"json")
-        },function(){  
-            log("确认框的取消执行了")  
-        });
-    }  
-	
-	function addSubmit(){
-		var form = $("form[name='adhostAddForm']")
-		var result = Horn.Validate.isFormValidate(form);
-		if(!result){
-			return;
-		}
-		Horn.getComp("adhostAdd").hide();  
-		var data = $("form[name='adhostAddForm']").serializeJSON();
-    	$.post("${imageServer}/adhost/addadhost",data,function(backData){
-    		if(backData){
-    			if(backData.success){
-    				 Horn.getComp("adhostTable").load();  
-    				 Horn.Tip.success("添加成功"); 
-    			 }else{
-    				Horn.Tip.warn(backData.errorMesg); 
-    			 }
-    		 }
-    	},"json")
-	}
-	
-    function saveData() {  
-		var form = $("form[name='adhostEditForm']")
-		var result = Horn.Validate.isFormValidate(form);
-		if(!result){
-			return;
-		}
-		Horn.getComp("adhostEdit").hide();  
-    		//JSON.stringify($("form[name='adhostEditForm']").serializeJSON());
-    	var data = $("form[name='adhostEditForm']").serializeJSON();
-    	$.post("${imageServer}/adhost/updateadhost",data,function(backData){
-    		if(backData){
-    			if(backData.success){
-    				 Horn.getComp("adhostTable").load();  
-    				 Horn.Tip.success("更新成功"); 
-    			 }else{
-    				Horn.Tip.warn(backData.errorMesg); 
-    			 }
-    		 }
-    	},"json")
-    }  
-      	function resetSearch(){
-			Horn.getComp("adhostTable").baseParams={};
-			 Horn.getComp("adhostTable").load();  
-		}
-      
-    function queryData() {  
-   		 Horn.getComp("adhostTable").load();  
-    }  
+    #@window({"title":"添加", "name":"adhostAdd", "width":"750", "height":"250",
+        "buttons":[
+    {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},
+    {"label":"重置","event":"resetDataForm()"}
+    ]})
+        #@form({"name":"adhostAddForm","url":""})
+            #@panel({})
+                #textfield({"label":"账号", "name":"userAccount","value":"","defValue":"","check":"required"})
+                #textfield({"label":"名称", "name":"adhostName","value":"","defValue":"","check":"required"})
+                #textfield({"label":"接待员", "name":"recName","value":"","defValue":"","check":"required"})
+                #textfield({"label":"QQ", "name":"adhostQQ","value":"","defValue":"","check":"required"})
+                #textfield({"label":"邮箱", "name":"adhostEmail","value":"","defValue":"","check":"required"})
+                #textfield({"label":"手机号", "name":"mobile","value":"","defValue":"","check":"required"})
+                #textfield({"label":"微信", "name":"weChat","value":"","defValue":""})
+                #textfield({"label":"备注", "name":"remark","value":"","defValue":""})
+            #end
+        #end
+    #end
+#end
+
+
+#jscode()
+var action = "";
+
+
+function add(rowData){
+Horn.getComp("adhostAddForm").reset();
+Horn.getComp("adhostAdd").show();
+}
+
+function edit(rowData){
+rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
+Horn.getComp("adhostEditForm").setValues(rowData.rowdata);
+Horn.getComp("adhostEdit").show();
+}
+
+function del(rowData){
+Horn.Msg.confirm("确认","这是一条确认信息",function(){
+rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
+var id =  rowData.rowdata.id;
+$.post("${imageServer}/adhost/deleteadhost",{"id":id},function(backData){
+if(backData){
+if(backData.success){
+Horn.getComp("adhostTable").load();
+Horn.Tip.info("删除成功");
+}else{
+Horn.Tip.warn(backData.errorMesg);
+}
+}
+},"json")
+},function(){
+log("确认框的取消执行了")
+});
+}
+
+function addSubmit(){
+var form = $("form[name='adhostAddForm']")
+var result = Horn.Validate.isFormValidate(form);
+if(!result){
+return;
+}
+Horn.getComp("adhostAdd").hide();
+var data = $("form[name='adhostAddForm']").serializeJSON();
+$.post("${imageServer}/adhost/addadhost",data,function(backData){
+if(backData){
+if(backData.success){
+Horn.getComp("adhostTable").load();
+Horn.Tip.success("添加成功");
+}else{
+Horn.Tip.warn(backData.errorMesg);
+}
+}
+},"json")
+}
+
+function saveData() {
+var form = $("form[name='adhostEditForm']")
+var result = Horn.Validate.isFormValidate(form);
+if(!result){
+return;
+}
+Horn.getComp("adhostEdit").hide();
+//JSON.stringify($("form[name='adhostEditForm']").serializeJSON());
+var data = $("form[name='adhostEditForm']").serializeJSON();
+$.post("${imageServer}/adhost/updateadhost",data,function(backData){
+if(backData){
+if(backData.success){
+Horn.getComp("adhostTable").load();
+Horn.Tip.success("更新成功");
+}else{
+Horn.Tip.warn(backData.errorMesg);
+}
+}
+},"json")
+}
+function resetSearch(){
+Horn.getComp("adhostTable").baseParams={};
+Horn.getComp("adhostTable").load();
+}
+
+function queryData() {
+Horn.getComp("adhostTable").load();
+}
 #end  

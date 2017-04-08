@@ -35,6 +35,17 @@ public enum EnumStmasterSiteBillStatus{
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumStmasterSiteBillStatus match(String key){
+		EnumStmasterSiteBillStatus[] values = EnumStmasterSiteBillStatus.values();
+		for(EnumStmasterSiteBillStatus engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
+
 	public String getKey(){
 		return this.key;
 	}

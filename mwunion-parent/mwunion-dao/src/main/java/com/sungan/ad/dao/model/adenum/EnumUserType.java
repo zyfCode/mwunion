@@ -31,6 +31,15 @@ public enum EnumUserType{
 			throw new AdRuntimeException("",e);
 		}
 	}
+	public static EnumUserType match(String key){
+		EnumUserType[] values = EnumUserType.values();
+		for(EnumUserType engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
 	public String getKey(){
 		return this.key;
 	}

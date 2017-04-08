@@ -32,6 +32,16 @@ public enum EnumAdHostAccountAdOrderType {
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumAdHostAccountAdOrderType match(String key){
+		EnumAdHostAccountAdOrderType[] values = EnumAdHostAccountAdOrderType.values();
+		for(EnumAdHostAccountAdOrderType engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
 	public String getKey(){
 		return this.key;
 	}

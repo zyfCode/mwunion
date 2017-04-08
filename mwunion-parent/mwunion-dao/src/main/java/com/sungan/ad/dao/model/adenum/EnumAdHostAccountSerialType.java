@@ -34,6 +34,16 @@ public enum EnumAdHostAccountSerialType {
 			throw new AdRuntimeException("",e);
 		}
 	}
+	public static EnumAdHostAccountSerialType match(String key){
+		EnumAdHostAccountSerialType[] values = EnumAdHostAccountSerialType.values();
+		for(EnumAdHostAccountSerialType engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
+
 	public String getKey(){
 		return this.key;
 	}

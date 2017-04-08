@@ -3,6 +3,10 @@ package com.sungan.ad.service.adhost.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.dao.UserDAO;
+import com.sungan.ad.dao.model.User;
+import com.sungan.ad.dao.model.adenum.EnumUserStatus;
+import com.sungan.ad.dao.model.adenum.EnumUserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +30,8 @@ public class AdHostServiceImpl implements AdHostService{
 	
 	@Autowired
 	private AdHostDAO adHostDAO;
-	
+	@Autowired
+	private UserDAO userDAO;
 
 	public AdHostDAO getAdHostDAO() {
 		return adHostDAO;
@@ -38,8 +43,22 @@ public class AdHostServiceImpl implements AdHostService{
 
 	@Override
 	public String insert(AdHost record) {
+		User user = new User();
+		String userId = IdGeneratorFactory.nextId();
+		user.setUserId(userId);
+		user.setCreateTime(new Date());
+		user.setUpdateTime(new Date());
+		user.setUserAcount(record.getUserAccount());
+		user.setUserName(record.getAdhostName());
+		int length = record.getMobile().length();
+		String pwd = record.getMobile().substring(length - 6, length);
+		user.setUserPwd(pwd);  //密码为手机后6位
+		user.setUserStatus(EnumUserStatus.NORMAL.getKey());
+		user.setUserType(EnumUserType.ADHOST.getKey());
+		userDAO.insert(user);
 		String nextId = IdGeneratorFactory.nextId();
 		record.setAdhostId(nextId);
+		record.setUserId(userId);
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
 		adHostDAO.insert(record);

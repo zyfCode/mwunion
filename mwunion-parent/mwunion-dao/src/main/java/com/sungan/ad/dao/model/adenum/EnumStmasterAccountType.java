@@ -31,6 +31,17 @@ public enum EnumStmasterAccountType{
 			throw new AdRuntimeException("",e);
 		}
 	}
+
+	public static EnumStmasterAccountType match(String key){
+		EnumStmasterAccountType[] values = EnumStmasterAccountType.values();
+		for(EnumStmasterAccountType engine:values){
+			if(engine.getKey().equals(key)){
+				return engine;
+			}
+		}
+		return null;
+	}
+
 	public String getKey(){
 		return this.key;
 	}

@@ -25,11 +25,16 @@ public class AdHost implements AdObject {
 	 */
 	@Id
 	private String adhostId;
+
+	/**
+	 * 广告主名称
+	 */
+	private String adhostName;
 	/**
 	 * 用户名称
 	 */
 	@Column(length=64)
-	private String userName;
+	private String userAccount;
 	/**
 	 * 用户id
 	 */
@@ -72,6 +77,14 @@ public class AdHost implements AdObject {
 
 	private String remark;
 
+	public String getAdhostName() {
+		return adhostName;
+	}
+
+	public void setAdhostName(String adhostName) {
+		this.adhostName = adhostName;
+	}
+
 	public String getRemark() {
 		return remark;
 	}
@@ -104,12 +117,12 @@ public class AdHost implements AdObject {
 		this.adhostEmail = adhostEmail;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserAccount() {
+		return userAccount;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	public String getUserId() {
