@@ -43,6 +43,7 @@ public class TaskMain {
 //		PackageScanner scan = new ClasspathPackageScanner("com.sungan.ad.dao.model.adenum");
 //		List<String> fullyQualifiedClassNameList = scan.getFullyQualifiedClassNameList();
 //		System.out.println(fullyQualifiedClassNameList);
+		System.out.print("hello");
 		String pack = "org.apache.http.io";
 		PackageScanner scan = new ClasspathPackageScanner(pack);
 		List<String> fullyQualifiedClassNameList = scan.getFullyQualifiedClassNameList();
