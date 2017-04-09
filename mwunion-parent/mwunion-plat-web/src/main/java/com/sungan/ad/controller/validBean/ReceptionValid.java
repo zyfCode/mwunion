@@ -1,10 +1,9 @@
 package com.sungan.ad.controller.validBean;
 
-import javax.validation.constraints.Pattern;
-
+import com.sungan.ad.dao.model.Reception;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.sungan.ad.dao.model.Reception;
+import javax.validation.constraints.Pattern;
 
 /**
  * 说明:
@@ -14,8 +13,8 @@ public class ReceptionValid  extends Reception{
 
 	@NotBlank
 	@Override
-	public String getRecPhone() {
-		return super.getRecPhone();
+	public String getMobile() {
+		return super.getMobile();
 	}
 
 	@NotBlank
@@ -27,8 +26,8 @@ public class ReceptionValid  extends Reception{
 	@NotBlank
 	@Pattern(regexp="\\w+")
 	@Override
-	public String getUserName() {
-		return super.getUserName();
+	public String getUserAccount() {
+		return super.getUserAccount();
 	}
 	
 	@NotBlank

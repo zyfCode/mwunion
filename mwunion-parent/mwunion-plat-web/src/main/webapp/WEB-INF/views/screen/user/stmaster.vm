@@ -1,10 +1,10 @@
 #@screen({"title":"客户端查询"})
     #@form({"name":"stmastersearchForm"})
         #@panel({"title":"查询条件"})
-            #textfield({"label":"账号 ", "name":"userName ","value":"","defValue":""})
-            #textfield({"label":"站长", "name":"stmasterName ","value":"","defValue":""})
-            #textfield({"label":"接待员", "name":"recName ","value":"","defValue":""})
-            #textfield({"label":"手机号 ", "name":"mobile ","value":"","defValue":""})
+            #textfield({"label":"账号 ", "name":"userAccount","value":"","defValue":""})
+            #textfield({"label":"站长", "name":"stmasterName","value":"","defValue":""})
+            #textfield({"label":"接待员", "name":"recName","value":"","defValue":""})
+            #textfield({"label":"手机号 ", "name":"mobile","value":"","defValue":""})
             #button_group({"buttons":[
             {"label":"查询","event":"queryData()","className":"u-btn-primary"},
             {"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}
@@ -26,8 +26,13 @@
         "tAlign":"center",
         "hidden":true
     },
-    {"name":"userName",
+    {"name":"userAccount",
         "text":"账号",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+    {"name":"stmasterName",
+        "text":"站长",
         "hAlign":"center",
         "tAlign":"center"
     },
@@ -76,7 +81,12 @@
         "tAlign":"center"
     },
 
-    {"name":"createTime",
+    {"name":"userStatusCn",
+        "text":"状态",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+    {"name":"createTimeStr",
         "text":"接入时间",
         "hAlign":"center",
         "tAlign":"center"
@@ -94,7 +104,7 @@
         "tAlign":"center",
         "hidden":false,
         "width":"200",
-        "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+        "buttons":[{"label":"修改","event":"edit"},{"label":"暂停","event":"disable"},{"label":"注销","event":"cancel"},{"label":"详情","event":"del"}]
     }
     ],
         "numbercolumn":"true",
@@ -107,12 +117,12 @@
 
     #@window({"title":"编辑窗口", "name":"stmasterEdit", "width":"750", "height":"250",
         "buttons":[
-    {"label":"提交","event":"saveData()","className":"u-btn-primary"},
-    {"label":"重置","event":"resetDataForm()"}
+    {"label":"提交","event":"saveData()","className":"u-btn-primary"}
     ]})
         #@form({"name":"stmasterEditForm","url":""})
             #@panel({})
-                #textfield({"label":"stmasterId", "name":"stmasterId","value":"","defValue":"","check":"required","hidden":true})
+                #textfield({"label":"stmasterId", "name":"stmasterId","value":"","defValue":"","check":"required",
+                    "hidden":true})
                 #textfield({"label":"接待员", "name":"recName","value":"","defValue":"","check":"required"})
                 #textfield({"label":"QQ", "name":"stmasterQQ","value":"","defValue":"","check":"required"})
                 #textfield({"label":"邮箱", "name":"stmasterEmail","value":"","defValue":"","check":
@@ -125,21 +135,29 @@
     #end
 
 
-    #@window({"title":"添加", "name":"stmasterAdd", "width":"750", "height":"250",
+    #@window({"scroll":true,"title":"添加", "name":"stmasterAdd", "width":"900", "height":"350","isDrag":true,
         "buttons":[
-    {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},
-    {"label":"重置","event":"resetDataForm()"}
+    {"label":"提交","event":"addSubmit()","className":"u-btn-primary"}
     ]})
         #@form({"name":"stmasterAddForm","url":""})
-            #@panel({})
-                #textfield({"label":"账号", "name":"userName","value":"","defValue":"","check":"required"})
-                #textfield({"label":"手机号", "name":"recName","value":"","defValue":"","check":"required"})
-                #textfield({"label":"QQ", "name":"stmasterQQ","value":"","defValue":"","check":"required"})
-                #textfield({"label":"邮箱", "name":"stmasterEmail","value":"","defValue":"","check":
-                    "required"})
-                #textfield({"label":"手机号", "name":"mobile","value":"","defValue":"","check":"required"})
-                #textfield({"label":"微信号", "name":"weChat","value":"","defValue":"","check":"required"})
-                #textfield({"label":"备注", "name":"remark","value":"","defValue":"","check":"required"})
+            #@fieldset({"title":"基本信息"})
+                #@panel({})
+                    #textfield({"label":"账号", "name":"userAccount","value":"","defValue":"","check":"required;username"})
+                    #textfield({"label":"站长名称", "name":"stmasterName","value":"","defValue":"","check":"required"})
+                    #textfield({"label":"接待员", "name":"recName","value":"","defValue":"","check":"required"})
+                    #textfield({"label":"手机号", "name":"mobile","value":"","defValue":"","check":"required;mobile"})
+                    #textfield({"label":"QQ", "name":"stmasterQQ","value":"","defValue":"","check":"qq"})
+                    #textfield({"label":"邮箱", "name":"stmasterEmail","value":"","defValue":"","check":"email"})
+                    #textfield({"label":"微信号", "name":"weChat","value":"","defValue":""})
+                    #textfield({"label":"备注", "name":"remark","value":"","defValue":""})
+                #end
+            #end
+            #@fieldset({"title":"站点信息"})
+                #@panel({})
+                    #textfield({"label":"站点名", "name":"siteName","value":"","defValue":""})
+                    #textfield({"label":"站点权重", "name":"countWeight","value":"","defValue":"","check":"intege1"})
+                    #textarea({ "label":"站点URL","name":"siteUrl","cols":3,"value":"","check":"url"})
+                #end
             #end
         #end
     #end
@@ -156,28 +174,64 @@ Horn.getComp("stmasterAdd").show();
 }
 
 function edit(rowData){
-rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
-Horn.getComp("stmasterEditForm").setValues(rowData.rowdata);
-Horn.getComp("stmasterEdit").show();
+    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    Horn.getComp("stmasterEditForm").setValues(rowData.rowdata);
+    Horn.getComp("stmasterEdit").show();
 }
 
 function del(rowData){
 Horn.Msg.confirm("确认","这是一条确认信息",function(){
-rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
-var id =  rowData.rowdata.id;
-$.post("${imageServer}/stmaster/deletestmaster",{"id":id},function(backData){
-if(backData){
-if(backData.success){
-Horn.getComp("stmasterTable").load();
-Horn.Tip.info("删除成功");
-}else{
-Horn.Tip.warn(backData.errorMesg);
+    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    var id =  rowData.rowdata.stmasterId;
+    $.post("${imageServer}/stmaster/deletestmaster",{"stmasterId":id},function(backData){
+    if(backData){
+        if(backData.success){
+            Horn.getComp("stmasterTable").load();
+            Horn.Tip.info("删除成功");
+        }else{
+              Horn.Tip.warn(backData.errorMesg);
+        }
+        }
+        },"json")
+    },function(){
+         log("确认框的取消执行了")
+    });
 }
+function cancel(rowData){
+    Horn.Msg.confirm("确认","这是一条确认信息",function(){
+    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    var id =  rowData.rowdata.stmasterId;
+    $.post("${imageServer}/stmaster/cancelstmaster",{"stmasterId":id},function(backData){
+        if(backData){
+            if(backData.success){
+                Horn.getComp("stmasterTable").load();
+                Horn.Tip.info("注销成功");
+            }else{
+                 Horn.Tip.warn(backData.errorMesg);
+            }
+        }
+    },"json")
+    },function(){
+     log("确认框的取消执行了")
+    });
 }
-},"json")
-},function(){
-log("确认框的取消执行了")
-});
+function cancel(rowData){
+    Horn.Msg.confirm("确认","这是一条确认信息",function(){
+    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    var id =  rowData.rowdata.stmasterId;
+    $.post("${imageServer}/stmaster/disablestmaster",{"stmasterId":id},function(backData){
+        if(backData){
+            if(backData.success){
+                Horn.getComp("stmasterTable").load();
+                Horn.Tip.info("停用成功");
+            }else{
+                 Horn.Tip.warn(backData.errorMesg);
+            }
+        }
+    },"json")
+    },function(){
+     log("确认框的取消执行了")
+    });
 }
 
 function addSubmit(){

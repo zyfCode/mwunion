@@ -24,6 +24,18 @@ public class StmasterController {
 	private StmasterService service;
 	
 	
+	@RequestMapping("/disablestmaster")
+	@ResponseBody
+	public Object disablestmaster  (String stmasterId){
+		service.disable(stmasterId);
+		return new AdResponse();
+	}
+	@RequestMapping("/cancelstmaster")
+	@ResponseBody
+	public Object cancelstmaster  (String stmasterId){
+		service.cancel(stmasterId);
+		return new AdResponse();
+	}
 	@RequestMapping("/deletestmaster")
 	@ResponseBody
 	public Object deletestmaster  (Stmaster record){

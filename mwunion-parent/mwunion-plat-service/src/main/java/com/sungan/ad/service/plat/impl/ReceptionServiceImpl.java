@@ -79,7 +79,7 @@ public class ReceptionServiceImpl implements ReceptionService{
 			String userId = find.getUserId();
 			User user = userDAO.find(userId);
 			if(user!=null){
-				user.delete(user);
+				userDAO.delete(user);
 			}
 			receptionDAO.delete(find);
 		}

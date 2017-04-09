@@ -78,10 +78,12 @@ public class AnnotationParser {
 						SimpleDateFormat fortmat  = new SimpleDateFormat(value);
 						String sourceVal = fortmat.format(date);
 						String fileName = name+"Str";
-						Field targetFile = newInstance.getClass().getDeclaredField(fileName);
-						if(targetFile==null){
-//							throw new RuntimeException(t.getName()+"类型中不存在"+fileName+"属性");
+						Field targetFile = null;
+						try {
+							targetFile = newInstance.getClass().getDeclaredField(fileName);
+						} catch (NoSuchFieldException e){
 							log.warn(t.getName()+"类型中不存在"+fileName+"属性");
+							continue;
 						}
 						targetFile.setAccessible(true);
 						targetFile.set(newInstance, sourceVal);
@@ -109,8 +111,14 @@ public class AnnotationParser {
 							valuCn = entryMap.get(object);
 						}
 						String statusFileCn = name+"Cn";
-						Field targetFile = newInstance.getClass().getDeclaredField(statusFileCn);
-						
+						Field targetFile = null;
+						try {
+							targetFile = newInstance.getClass().getDeclaredField(statusFileCn);
+						} catch (NoSuchFieldException e) {
+							log.warn(t.getName()+"类型中不存在"+statusFileCn+"属性");
+							continue;
+						}
+
 						targetFile.setAccessible(true);
 						targetFile.set(newInstance, valuCn);
 					}
