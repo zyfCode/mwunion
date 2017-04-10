@@ -1,0 +1,50 @@
+#@screen({"title":"客户端查询"})
+    #@panel({"name":"mainPanel","title":"基本信息"})
+    <div class="g-row">
+        <div class="g-grid-4">
+            #@panel({"cols":1,"title":"账户信息"})
+                    #label({"label":"未结算","name":"key5","value":"$10000.00元","defValue":""})
+                    #label({"label":"已经结算","name":"key5","value":"$5000.00元","defValue":""})
+                    #label({"label":"今日流量","name":"key5","value":"$100.52元","defValue":""})
+                #end
+        </div>
+        <div class="g-grid-8">
+            #@panel({"cols":2,"title":"站长信息"})
+                    #label({"label":"站长","name":"key5","value":"站长","defValue":""})
+                    #label({"label":"接待员","name":"key5","value":"接待员","defValue":""})
+                    #label({"label":"手机号","name":"key5","value":"1523333333","defValue":""})
+                    #label({"label":"QQ","name":"key5","value":"11111","defValue":""})
+                    #label({"label":"邮箱","name":"key5","value":"11111@qq.com","defValue":""})
+                    #label({"label":"状态","name":"key5","value":"信用","defValue":""})
+                #end
+        </div>
+    #end
+    #@tab_panel({})
+        #@tab_panel_content({"name":"info1","title":"资源"})
+            <div class="g-row">
+                <div class="g-grid-6">
+                    #@panel({"name":"codePanel","title":"代码库"})
+                        hello
+                    #end
+                </div>
+                <div class="g-grid-6">
+                    #@panel({"name":"mainPanel","title":"站点"})
+                        hello
+                    #end
+                </div>
+            </div>
+        #end
+        #@tab_panel_content({"name":"content1","title":"账单","lazy":"${appServer}/stmaster/home_acount_info.htm"})
+        #end
+        #@tab_panel_content({"name":"info2","title":"今日流量"})
+            #@panel({"cols":4})
+                hello
+            #end
+        #end
+        #@tab_panel_content({"name":"info2","title":"周流量"})
+            #@panel({"cols":4})
+                hello
+            #end
+        #end
+    #end
+#end

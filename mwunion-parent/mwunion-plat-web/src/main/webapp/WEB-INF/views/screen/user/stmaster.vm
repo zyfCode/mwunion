@@ -104,7 +104,7 @@
         "tAlign":"center",
         "hidden":false,
         "width":"200",
-        "buttons":[{"label":"修改","event":"edit"},{"label":"暂停","event":"disable"},{"label":"注销","event":"cancel"},{"label":"详情","event":"del"}]
+        "buttons":[{"label":"修改","event":"edit"},{"label":"暂停","event":"disable"},{"label":"注销","event":"cancel"},{"label":"详情","event":"stInfo"}]
     }
     ],
         "numbercolumn":"true",
@@ -196,6 +196,10 @@ Horn.Msg.confirm("确认","这是一条确认信息",function(){
     },function(){
          log("确认框的取消执行了")
     });
+}
+
+function stInfo(){
+    parent.Horn.Frame.openMenu('10222','${imageServer}/stmaster/stmaster_info.htm','详情','')
 }
 function cancel(rowData){
     Horn.Msg.confirm("确认","这是一条确认信息",function(){

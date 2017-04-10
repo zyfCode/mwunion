@@ -3,6 +3,8 @@ package com.sungan.ad.service.st.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EventQueen;
 import com.sungan.ad.dao.UserDAO;
 import com.sungan.ad.dao.model.User;
 import com.sungan.ad.dao.model.adenum.EnumUserStatus;
@@ -69,6 +71,7 @@ public class StmasterServiceImpl implements StmasterService{
 			record.setCreateTime(new Date());
 			record.setUpdateTime(new Date());
 			stmasterDAO.insert(record);
+			EventQueen.addEvent(EnumEventType.ADD_STMARSTER,record);
 		} catch (Exception e) {
 			logger.error("添加站长异常",e);
 			throw new AdRuntimeException("添加站长异常");
