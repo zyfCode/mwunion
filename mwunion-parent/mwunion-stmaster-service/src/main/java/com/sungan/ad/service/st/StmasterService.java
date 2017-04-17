@@ -5,6 +5,8 @@ import java.util.List;
 import com.sungan.ad.common.dao.AdPager;
 import com.sungan.ad.commons.MuService;
 import com.sungan.ad.dao.model.Stmaster;
+import com.sungan.ad.dao.model.StmasterSite;
+import com.sungan.ad.vo.st.StmasterPlatAccountVo;
 import com.sungan.ad.vo.st.StmasterVo;
 
 /**
@@ -13,12 +15,26 @@ import com.sungan.ad.vo.st.StmasterVo;
 public interface StmasterService extends  MuService{
 	StmasterVo find(String id);
 
+
+	/**
+	 *查询几遍信息
+	 * @param stmasterId
+	 * @return
+	 */
+	StmasterPlatAccountVo queryPlateAccount(String stmasterId);
+
 	/**
 	 * 管理台添加站长
 	 * @param record
 	 * @return
 	 */
 	String insert(Stmaster record);
+	/**
+	 * 管理台添加站长
+	 * @param record
+	 * @return
+	 */
+	void insert(Stmaster record, StmasterSite site);
 
 	/**
 	 * 管理台删除站长

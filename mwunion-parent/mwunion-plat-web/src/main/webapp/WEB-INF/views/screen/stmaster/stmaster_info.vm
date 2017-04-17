@@ -1,40 +1,41 @@
 #@screen({"title":"客户端查询"})
-    #@panel({"name":"mainPanel","title":"基本信息"})
+    #@panel({})
     <div class="g-row">
         <div class="g-grid-4">
-            #@panel({"cols":1,"title":"账户信息"})
-                    #label({"label":"未结算","name":"key5","value":"$10000.00元","defValue":""})
-                    #label({"label":"已经结算","name":"key5","value":"$5000.00元","defValue":""})
-                    #label({"label":"今日流量","name":"key5","value":"$100.52元","defValue":""})
+            #@form({"name":"stmasterAccountInfo","url":""})
+                #@panel({"cols":1,"title":"账户信息"})
+                    #label({"label":"未结算","name":"accountAmount","value":"0.00元","defValue":""})
+                    #label({"label":"已经结算","name":"clearAmount","value":"0.00元","defValue":""})
+                    #label({"label":"今日流量","name":"currentDayAmount","value":"0.52元","defValue":""})
                 #end
+            #end
+
         </div>
         <div class="g-grid-8">
+        #@form({"name":"stmasterInfo","url":""})
             #@panel({"cols":2,"title":"站长信息"})
-                    #label({"label":"站长","name":"key5","value":"站长","defValue":""})
-                    #label({"label":"接待员","name":"key5","value":"接待员","defValue":""})
-                    #label({"label":"手机号","name":"key5","value":"1523333333","defValue":""})
-                    #label({"label":"QQ","name":"key5","value":"11111","defValue":""})
-                    #label({"label":"邮箱","name":"key5","value":"11111@qq.com","defValue":""})
-                    #label({"label":"状态","name":"key5","value":"信用","defValue":""})
+                    #label({"label":"站长","name":"stmasterName","value":"站长","defValue":""})
+                    #label({"label":"接待员","name":"recName","value":"接待员","defValue":""})
+                    #label({"label":"手机号","name":"mobile","value":"1523333333","defValue":""})
+                    #label({"label":"QQ","name":"stmasterQQ","value":"11111","defValue":""})
+                    #label({"label":"邮箱","name":"stmasterEmail","value":"11111@qq.com","defValue":""})
+                    #label({"label":"状态","name":"userStatusCn","value":"停用","defValue":""})
                 #end
+            #end
         </div>
     #end
     #@tab_panel({})
         #@tab_panel_content({"name":"info1","title":"资源"})
             <div class="g-row">
                 <div class="g-grid-6">
-                    #@panel({"name":"codePanel","title":"代码库"})
-                        hello
-                    #end
+                    #parse("/screen/stmaster/stmastersitecode.vm")
                 </div>
                 <div class="g-grid-6">
-                    #@panel({"name":"mainPanel","title":"站点"})
-                        hello
-                    #end
+                      #parse("/screen/stmaster/stmastersite.vm")
                 </div>
             </div>
         #end
-        #@tab_panel_content({"name":"content1","title":"账单","lazy":"${appServer}/stmaster/home_acount_info.htm"})
+        #@tab_panel_content({"name":"content1","title":"账单","lazy":"${appServer}/stmaster/stmastersitebill.htm"})
         #end
         #@tab_panel_content({"name":"info2","title":"今日流量"})
             #@panel({"cols":4})
@@ -47,4 +48,21 @@
             #end
         #end
     #end
+#end
+#jscode()
+    $(function(){
+        $.post("${imageServer}/stmaster/plataccountinfo",{"stmasterId":"$!request.parameterMap.stmasterId[0]"},function(backData){
+            if(backData){
+                backData.accountAmount = "￥"+backData.accountAmount+"元"
+                backData.clearAmount = "￥"+backData.clearAmount+"元"
+                backData.currentDayAmount = "￥"+backData.currentDayAmount+"元"
+                 Horn.getComp("stmasterAccountInfo").setValues(backData);
+            }
+        },"json")
+        $.post("${imageServer}/stmaster/stmasterinfo",{"stmasterId":"$!request.parameterMap.stmasterId[0]"},function(backData){
+            if(backData){
+                 Horn.getComp("stmasterInfo").setValues(backData);
+            }
+        },"json")
+    })
 #end

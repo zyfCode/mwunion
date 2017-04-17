@@ -93,7 +93,7 @@ ${vcKey}jscode()
       
     function del(rowData){  
 	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
-		 	 rowDatarowData = rowData || Horn.getComp('${contollerMapping}Table').getSelecteds().length && (Horn.getComp('${contollerMapping}Table').getSelecteds())[0];  
+		 	   rowData = rowData || Horn.getComp('${contollerMapping}Table').getSelecteds().length && (Horn.getComp('${contollerMapping}Table').getSelecteds())[0];
                var id =  rowData.rowdata.id;  
         	   	$.post("${imageServer}/${contollerMapping}/delete${suffix}",{"id":id},function(backData){
             		if(backData){

@@ -56,6 +56,12 @@
 			<artifactId>mwunion-commons-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sungan.ad</groupId>
+			<artifactId>mwunion-commons-test</artifactId>
+			<version>${project.version}</version>
+			<scope>teest</scope>
+		</dependency>
 
 	</dependencies>
 </project>

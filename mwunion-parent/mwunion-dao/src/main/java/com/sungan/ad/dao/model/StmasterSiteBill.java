@@ -34,7 +34,9 @@ public class StmasterSiteBill implements AdObject {
 	// 结算流水号
 	@Column(length=64)
 	private String stBillNo;
+	//月
 	private Integer mothOfYear;
+	//周次
 	private Integer weekOfMonth;
 	// 应结算金额
 	private BigDecimal settlementAmount;
@@ -47,7 +49,7 @@ public class StmasterSiteBill implements AdObject {
 	private Date settlementTime;
 	// 状态 0是未清算 1已清算
 	@StatusCn(dictId = EnumStmasterSiteBillStatus.DICT_KEY)
-	private String hourStatus;
+	private String billStatus;
 	@DateToStr
 	private Date createTime;
 	@DateToStr
@@ -133,12 +135,12 @@ public class StmasterSiteBill implements AdObject {
 		this.settlementTime = settlementTime;
 	}
 
-	public String getHourStatus() {
-		return hourStatus;
+	public String getBillStatus() {
+		return billStatus;
 	}
 
-	public void setHourStatus(String hourStatus) {
-		this.hourStatus = hourStatus;
+	public void setBillStatus(String billStatus) {
+		this.billStatus = billStatus;
 	}
 
 	public Date getCreateTime() {

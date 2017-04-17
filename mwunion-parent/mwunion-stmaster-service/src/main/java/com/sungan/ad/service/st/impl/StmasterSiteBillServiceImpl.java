@@ -1,8 +1,12 @@
 package com.sungan.ad.service.st.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.dao.StmasterSiteBillAnnexesDAO;
+import com.sungan.ad.dao.model.StmasterSiteBillAnnexes;
+import com.sungan.ad.dao.model.adenum.EnumStmasterSiteBillStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,9 @@ public class StmasterSiteBillServiceImpl implements StmasterSiteBillService{
 	
 	@Autowired
 	private StmasterSiteBillDAO stmasterSiteBillDAO;
+
+	@Autowired
+	private StmasterSiteBillAnnexesDAO annexesDAO;
 	
 
 	public StmasterSiteBillDAO getStmasterSiteBillDAO() {
@@ -81,7 +88,46 @@ public class StmasterSiteBillServiceImpl implements StmasterSiteBillService{
 		resultVo.setRows(parseToVoList);
 		return resultVo;
 	}
-	
+
+	@Override
+	public void settleBill(String stBillId, BigDecimal settleAmount, List<String> andIds) {
+		StmasterSiteBill siteBill = stmasterSiteBillDAO.find(stBillId);
+		if(siteBill==null){
+			throw  new AdRuntimeException("无此账单信息");
+		}
+		//如果账单已经结清
+		String billStatus = siteBill.getBillStatus();
+		EnumStmasterSiteBillStatus match = EnumStmasterSiteBillStatus.match(billStatus);
+		if(match==EnumStmasterSiteBillStatus.CLEAR){
+			throw new AdRuntimeException("账单已经结清");
+		}
+		/*
+		 	账单总额不变
+		 	应结金额减少
+		 	已结金额培加
+		 */
+		BigDecimal settlementAmount = siteBill.getSettlementAmount();
+		if(settlementAmount.compareTo(settleAmount)<0){  //如果结算金额大于账单总额
+			throw new AdRuntimeException("结算金额不正确");
+		}
+		BigDecimal settlementAmountBalance = siteBill.getSettlementAmountBalance();
+		if(settlementAmountBalance.compareTo(settleAmount)<0){
+			throw new AdRuntimeException("结算金额不正确");
+		}
+		BigDecimal balance = settlementAmountBalance.subtract(settleAmount);
+		siteBill.setSettlementAmountBalance(balance);
+		BigDecimal clearAmount = siteBill.getClearAmount();
+		clearAmount = clearAmount.add(settleAmount);
+		siteBill.setClearAmount(clearAmount);
+		stmasterSiteBillDAO.update(siteBill);
+		if(andIds!=null&&andIds.size()>0){
+			StmasterSiteBillAnnexes anax = new StmasterSiteBillAnnexes();
+			anax.setAnnexesName();
+			annexesDAO.insert(anax);
+		}
+
+	}
+
 	@Override
 	public void update(StmasterSiteBill record) {
 		if(record.getStBillId()==null){

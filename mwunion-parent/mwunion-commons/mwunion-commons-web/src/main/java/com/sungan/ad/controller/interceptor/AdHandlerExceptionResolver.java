@@ -47,8 +47,21 @@ public class AdHandlerExceptionResolver implements HandlerExceptionResolver{
 			}
 			return null;
 		}else{
-			throw new RuntimeException("",ex);
+			try {
+				if(log.isErrorEnabled()){
+					log.error("",ex);
+				}
+				AdResponse mesg = new AdResponse();
+				mesg.setSuccess(false);
+				mesg.setErrorMesg("系统错误");
+				mesg.setErrorCode("111");
+				response.getWriter().write(JSONObject.fromObject(mesg).toString());
+				response.getWriter().flush();
+			} catch (IOException e) {
+				log.error("", e);
+			}
 		}
+		return null;
 	}
 
 }

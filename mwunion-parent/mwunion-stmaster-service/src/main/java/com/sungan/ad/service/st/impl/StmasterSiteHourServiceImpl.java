@@ -1,8 +1,10 @@
 package com.sungan.ad.service.st.impl;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.commons.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +43,9 @@ public class StmasterSiteHourServiceImpl implements StmasterSiteHourService{
 		String nextId = IdGeneratorFactory.nextId();
 		//record.setId(nextId);
 		record.setStSerialId(nextId);
-		record.setCreateTime(new Date());
-		record.setUpdateTime(new Date());
+		Date date = new Date();
+		record.setCreateTime(date);
+		record.setUpdateTime(date);
 		stmasterSiteHourDAO.insert(record);
 		return nextId;
 	}
@@ -54,7 +57,18 @@ public class StmasterSiteHourServiceImpl implements StmasterSiteHourService{
 		return parseToVoList;
 	}
 
-		@Override
+	@Override
+	public List<StmasterSiteHourVo> queryListToday(String stSerialId) {
+		StmasterSiteHour contidtion = new StmasterSiteHour();
+		contidtion.setStSerialId(stSerialId);
+		Integer recordHour = DateUtil.getHour();
+		contidtion.setRecordHour(recordHour);
+		List<StmasterSiteHour> query = (List<StmasterSiteHour>) this.stmasterSiteHourDAO.query(contidtion);
+		List<StmasterSiteHourVo> stmasterSiteHourVos = AnnotationParser.parseToVoList(StmasterSiteHourVo.class, query);
+		return stmasterSiteHourVos;
+	}
+
+	@Override
 	public void delete(String id) {
 		StmasterSiteHour find = this.stmasterSiteHourDAO.find(id);
 		if (find != null) {

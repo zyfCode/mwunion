@@ -2,6 +2,7 @@ package com.sungan.ad.controller.stmaster;
 
 import javax.validation.Valid;
 
+import com.sungan.ad.controller.validBean.view.StSettleBillVlid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,8 @@ import com.sungan.ad.dao.model.StmasterSiteBill;
 import com.sungan.ad.service.st.StmasterSiteBillService;
 import com.sungan.ad.vo.st.StmasterSiteBillVo;
 
+import java.math.BigDecimal;
+
 /**
  * 说明:
  */
@@ -23,7 +26,16 @@ import com.sungan.ad.vo.st.StmasterSiteBillVo;
 public class StmasterSiteBillController {
 	@Autowired
 	private StmasterSiteBillService service;
-	
+
+
+	@RequestMapping("/settleBill")
+	@ResponseBody
+	public Object settleBill(@Valid StSettleBillVlid dataBean){
+		String settlAmount = dataBean.getSettlAmount();
+		BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(settlAmount));
+		service.settleBill(dataBean.getStBillId(),bigDecimal,dataBean.getAndIds());
+		return new AdResponse();
+	}
 	
 	@RequestMapping("/deletestmastersitebill")
 	@ResponseBody

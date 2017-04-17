@@ -34,6 +34,8 @@ public class AddStmasterListener extends EventListener implements MuService {
         StmasterPlatAccount acouunt = new StmasterPlatAccount();
         acouunt.setAccountId(IdGeneratorFactory.nextId());
         Date date = new Date();
+        acouunt.setStmasterId(stmaster.getStmasterId());
+        acouunt.setUserId(stmaster.getUserId());
         acouunt.setAccountAmount(BigDecimal.ZERO);
         acouunt.setCurrentDayAmount(BigDecimal.ZERO);
         acouunt.setClearAmount(BigDecimal.ZERO);

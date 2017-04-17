@@ -1,28 +1,33 @@
 package com.sungan.ad.service.st.impl;
 
-import java.util.Date;
-import java.util.List;
-
+import com.sungan.ad.common.dao.AdPager;
+import com.sungan.ad.commons.AdCommonsUtil;
+import com.sungan.ad.commons.IdGeneratorFactory;
 import com.sungan.ad.commons.service.event.EnumEventType;
 import com.sungan.ad.commons.service.event.EventQueen;
+import com.sungan.ad.dao.StmasterDAO;
+import com.sungan.ad.dao.StmasterPlatAccountDAO;
 import com.sungan.ad.dao.UserDAO;
+import com.sungan.ad.dao.model.Stmaster;
+import com.sungan.ad.dao.model.StmasterPlatAccount;
+import com.sungan.ad.dao.model.StmasterSite;
 import com.sungan.ad.dao.model.User;
 import com.sungan.ad.dao.model.adenum.EnumUserStatus;
 import com.sungan.ad.dao.model.adenum.EnumUserType;
+import com.sungan.ad.exception.AdRuntimeException;
+import com.sungan.ad.expand.common.annotation.parser.AnnotationParser;
+import com.sungan.ad.service.st.StmasterService;
+import com.sungan.ad.service.st.StmasterSiteService;
+import com.sungan.ad.vo.st.StmasterPlatAccountVo;
+import com.sungan.ad.vo.st.StmasterVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sungan.ad.common.dao.AdPager;
-import com.sungan.ad.commons.AdCommonsUtil;
-import com.sungan.ad.commons.IdGeneratorFactory;
-import com.sungan.ad.dao.StmasterDAO;
-import com.sungan.ad.dao.model.Stmaster;
-import com.sungan.ad.exception.AdRuntimeException;
-import com.sungan.ad.expand.common.annotation.parser.AnnotationParser;
-import com.sungan.ad.service.st.StmasterService;
-import com.sungan.ad.vo.st.StmasterVo;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 说明:
@@ -34,6 +39,13 @@ public class StmasterServiceImpl implements StmasterService{
 	private static final Logger logger = LoggerFactory.getLogger(StmasterServiceImpl.class);
 	@Autowired
 	private StmasterDAO stmasterDAO;
+
+	@Autowired
+	private StmasterSiteService stmasterSiteService;
+
+	@Autowired
+	private StmasterPlatAccountDAO stmasterPlatAccountDAO;
+
 
 	@Autowired
 	private UserDAO userDAO;
@@ -67,6 +79,7 @@ public class StmasterServiceImpl implements StmasterService{
 			nextId = IdGeneratorFactory.nextId();
 			//record.setId(nextId);
 			record.setUserId(userId);
+			record.setUserStatus(EnumUserStatus.NORMAL.getKey());
 			record.setStmasterId(nextId);
 			record.setCreateTime(new Date());
 			record.setUpdateTime(new Date());
@@ -77,6 +90,13 @@ public class StmasterServiceImpl implements StmasterService{
 			throw new AdRuntimeException("添加站长异常");
 		}
 		return nextId;
+	}
+
+	@Override
+	public void insert(Stmaster record, StmasterSite site) {
+		String stmasterId = this.insert(record);
+		site.setStId(stmasterId);
+		stmasterSiteService.insert(site);
 	}
 
 	@Override
@@ -138,7 +158,21 @@ public class StmasterServiceImpl implements StmasterService{
 		return parseToVo;
 	}
 
-		@Override
+	@Override
+	public StmasterPlatAccountVo queryPlateAccount(String stmasterId) {
+		StmasterPlatAccount condition = new StmasterPlatAccount();
+		condition.setStmasterId(stmasterId);
+		List<StmasterPlatAccount> query = (List<StmasterPlatAccount>) stmasterPlatAccountDAO.query(condition);
+		if(query==null||query.size()<1){
+			StmasterPlatAccountVo vo = new StmasterPlatAccountVo();
+			return vo;
+		}
+		StmasterPlatAccount stmasterPlatAccount = query.get(0);
+		StmasterPlatAccountVo stmasterPlatAccountVo = AnnotationParser.parseToVo(StmasterPlatAccountVo.class, stmasterPlatAccount);
+		return stmasterPlatAccountVo;
+	}
+
+	@Override
 	public AdPager<StmasterVo> queryPager(Stmaster condition, int pageIndex, int rows) {
 		AdPager<Stmaster> queryPage = stmasterDAO.queryPage(condition, pageIndex, rows);
 		List<Stmaster> result = queryPage.getRows();

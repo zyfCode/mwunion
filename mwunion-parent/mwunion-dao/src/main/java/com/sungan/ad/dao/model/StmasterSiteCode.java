@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.dao.model.adenum.EnumStmasterSiteCodeStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
+import com.sungan.ad.expand.common.annotation.StatusCn;
 
 /**
  * 说明:
@@ -35,10 +37,22 @@ public class StmasterSiteCode implements AdObject {
 	private String siteCodeContent;
 	@Column(length=64)
 	private String siteCodeName;
+
+	@StatusCn(dictId = EnumStmasterSiteCodeStatus.DICT_KEY)
+	private String codeStatus;
 	@DateToStr
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
+
+	public String getCodeStatus() {
+		return codeStatus;
+	}
+
+	public void setCodeStatus(String codeStatus) {
+		this.codeStatus = codeStatus;
+	}
+
 	public String getSiteId() {
 		return siteId;
 	}

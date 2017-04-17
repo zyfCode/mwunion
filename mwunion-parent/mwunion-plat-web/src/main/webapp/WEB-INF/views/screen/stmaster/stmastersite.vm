@@ -1,0 +1,181 @@
+#@screen({"title":"客户端查询"})  
+    #datagrid({
+        "id":"stmastersiteTable",  
+        "name":"stmastersiteTable",  
+        "bindFormName":"stmastersitesearchForm",  
+        "title":"站点列表",
+        "autoLoad":true,  
+        "url":"/stmastersite/liststmastersite.json",
+        "baseParams":{"stId":"$!request.parameterMap.stmasterId[0]"},
+		   "buttons":[{"label":"新增","cls":"add","event":"addSite()"} ],
+        "items":[ 
+            {"name":"siteId",
+            "text":"siteId",  
+            "hAlign":"center",  
+            "tAlign":"center" ,
+            "hidden":true
+            },
+
+            {"name":"stId",  
+            "text":"stId",  
+            "hAlign":"center",  
+            "tAlign":"center",
+            "hidden":true
+            },
+
+            {"name":"siteName",  
+            "text":"站点名称",
+                "width":"100",
+                "hAlign":"center",
+            "tAlign":"center"  
+            },
+
+            {"name":"siteUrl",  
+            "text":"siteUrl",  
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"countWeight",  
+            "text":"计费权重",
+                "width":"50",
+                "hAlign":"center",
+            "tAlign":"center"  
+            },
+
+            {"name":"siteStatus",  
+            "text":"siteStatus",  
+            "hAlign":"center",  
+            "tAlign":"center",
+            "hidden":true
+            },
+            {"name":"siteStatusCn",
+            "text":"状态",
+                "width":"50",
+                "hAlign":"center",
+            "tAlign":"center"
+            },
+			{
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"100",
+                "buttons":[{"label":"修改","event":"editSite"},{"label":"删除","event":"delSite"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true",  
+        "events":[{"event":"rowClick","function":"queryTableClick"},  
+                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
+       })  
+            
+    #@window({"title":"编辑窗口", "name":"stmastersiteEdit", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"saveSiteData()","className":"u-btn-primary"}
+            ]})
+        #@form({"name":"stmastersiteEditForm","url":""})  
+            #@panel({"cols":1})
+                      #textfield({"label":"siteId", "name":"siteId","value":"","defValue":"","check":"required","hidden":true})
+                      #textfield({"label":"站点", "name":"siteName","value":"","defValue":"","check":"required"})
+                      #textfield({"label":"链接", "name":"siteUrl","value":"","defValue":"","check":"required;url"})
+                      #textfield({"label":"计费权重", "name":"countWeight","value":"","defValue":"","check":"required;intege1"})
+                     #combox({"name":"siteStatus","label":"站点状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "STMASTER_SITE_STATUS"})
+            #end
+        #end  
+    #end  
+	
+	
+	    #@window({"title":"添加", "name":"stmastersiteAdd", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"addSiteSubmit()","className":"u-btn-primary"}
+            ]})
+        #@form({"name":"stmastersiteAddForm","url":""})  
+            #@panel({"cols":1})
+                      #textfield({"label":"stId", "name":"stId","value":"","defValue":"","check":"required","hidden":true})
+                      #textfield({"label":"站点", "name":"siteName","value":"","defValue":"","check":"required"})
+                      #textfield({"label":"站点URL", "name":"siteUrl","value":"","defValue":"","check":"required;url"})
+                      #textfield({"label":"计费权重", "name":"countWeight","value":"","defValue":"","check":"required;intege1"})
+            #end
+        #end  
+    #end  
+#end  
+  
+  
+#jscode()  
+
+      
+    function addSite(rowData){
+        Horn.getComp("stmastersiteAddForm").reset();
+        Horn.getComp("stmastersiteAdd").show();
+}
+      
+    function editSite(rowData){
+        rowDatarowData = rowData || Horn.getComp('stmastersiteTable').getSelecteds().length && (Horn.getComp('stmastersiteTable').getSelecteds())[0];  
+        Horn.getComp("stmastersiteEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("stmastersiteEdit").show();  
+    }  
+      
+    function delSite(rowData){
+	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
+		 	   rowData = rowData || Horn.getComp('stmastersiteTable').getSelecteds().length && (Horn.getComp('stmastersiteTable').getSelecteds())[0];
+               var id =  rowData.rowdata.siteId;
+        	   	$.post("${imageServer}/stmastersite/deletestmastersite",{"siteId":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("stmastersiteTable").load();  
+            				   Horn.Tip.info("删除成功");  
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg); 
+            			 }
+            		 }
+            	},"json")
+        },function(){  
+            log("确认框的取消执行了")  
+        });
+    }  
+	
+	function addSiteSubmit(){
+		var form = $("form[name='stmastersiteAddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("stmastersiteAdd").hide();  
+		var data = $("form[name='stmastersiteAddForm']").serializeJSON();
+        data.stId="$!request.parameterMap.stmasterId[0]";
+    	$.post("${imageServer}/stmastersite/addstmastersite",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("stmastersiteTable").load();  
+    				 Horn.Tip.success("添加成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+	}
+	
+    function saveSiteData() {
+		var form = $("form[name='stmastersiteEditForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("stmastersiteEdit").hide();  
+    	var data = $("form[name='stmastersiteEditForm']").serializeJSON();
+    	$.post("${imageServer}/stmastersite/updatestmastersite",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("stmastersiteTable").load();  
+    				 Horn.Tip.success("更新成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+    }  
+#end

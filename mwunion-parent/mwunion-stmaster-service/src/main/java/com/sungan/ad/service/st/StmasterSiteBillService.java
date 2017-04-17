@@ -1,5 +1,6 @@
 package com.sungan.ad.service.st;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.sungan.ad.common.dao.AdPager;
@@ -17,4 +18,12 @@ public interface StmasterSiteBillService extends  MuService{
 	void update(StmasterSiteBill task);
 	List<StmasterSiteBillVo> queryList(StmasterSiteBill condition);
 	AdPager<StmasterSiteBillVo> queryPager(StmasterSiteBill condition,int pageIndex,int rows);
+
+	/**
+	 * 管理员结算
+	 * @param stBillId
+	 * @param bigDecimal
+	 * @param andIds
+	 */
+    void settleBill(String stBillId, BigDecimal bigDecimal, List<String> andIds);
 }

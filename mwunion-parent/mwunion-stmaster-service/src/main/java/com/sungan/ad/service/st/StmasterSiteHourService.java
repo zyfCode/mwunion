@@ -16,5 +16,12 @@ public interface StmasterSiteHourService extends  MuService{
 	void delete(String id);
 	void update(StmasterSiteHour task);
 	List<StmasterSiteHourVo> queryList(StmasterSiteHour condition);
+
+	/**
+	 * 查询当日流量
+	 * @param stSerialId  站长
+	 * @return
+	 */
+	List<StmasterSiteHourVo> queryListToday(String stSerialId);
 	AdPager<StmasterSiteHourVo> queryPager(StmasterSiteHour condition,int pageIndex,int rows);
 }

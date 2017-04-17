@@ -32,12 +32,21 @@ public class StmasterSiteBillAnnexes implements AdObject {
 	@Column(length=64)
 	private String annxId;   //附件ID
 	@Column(length=64)
-	private String annexesName; //附件名称 
+	private String annexesName; //附件名称
+	private String annexesUrl; //附件名称
 	@DateToStr
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
-	
+
+	public String getAnnexesUrl() {
+		return annexesUrl;
+	}
+
+	public void setAnnexesUrl(String annexesUrl) {
+		this.annexesUrl = annexesUrl;
+	}
+
 	public String getId() {
 		return id;
 	}

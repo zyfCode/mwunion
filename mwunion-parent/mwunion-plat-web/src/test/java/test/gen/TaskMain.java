@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.sungan.ad.commons.service.resources.ResourcesUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -58,6 +59,8 @@ public class TaskMain {
 	}
 
 	public static void main(String[] args) {
+		Map<String, String> jsCode = ResourcesUtil.getJsCode();
+		System.out.print(jsCode);
 	}
 
 	@Test

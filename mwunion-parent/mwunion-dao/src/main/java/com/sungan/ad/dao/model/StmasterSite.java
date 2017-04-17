@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.dao.model.adenum.EnumStmasterSiteStatus;
 import com.sungan.ad.dao.model.adenum.EnumStmasterStatus;
 import com.sungan.ad.expand.common.annotation.DateToStr;
 import com.sungan.ad.expand.common.annotation.StatusCn;
@@ -37,7 +38,7 @@ public class StmasterSite implements AdObject {
 	//计费权重
 	private Integer countWeight;
 	//站点状态
-	@StatusCn(dictId=EnumStmasterStatus.DICT_KEY)
+	@StatusCn(dictId= EnumStmasterSiteStatus.DICT_KEY)
 	private String siteStatus;
 	
 	@DateToStr

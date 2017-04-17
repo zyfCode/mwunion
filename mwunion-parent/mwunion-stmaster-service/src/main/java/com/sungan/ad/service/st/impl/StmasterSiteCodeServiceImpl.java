@@ -3,6 +3,9 @@ package com.sungan.ad.service.st.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.common.dao.OrderType;
+import com.sungan.ad.dao.StmasterSiteDAO;
+import com.sungan.ad.dao.model.StmasterSite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,9 @@ public class StmasterSiteCodeServiceImpl implements StmasterSiteCodeService{
 	
 	@Autowired
 	private StmasterSiteCodeDAO stmasterSiteCodeDAO;
+
+	@Autowired
+	private StmasterSiteDAO stmasterSiteDAO;
 	
 
 	public StmasterSiteCodeDAO getStmasterSiteCodeDAO() {
@@ -74,11 +80,19 @@ public class StmasterSiteCodeServiceImpl implements StmasterSiteCodeService{
 
 		@Override
 	public AdPager<StmasterSiteCodeVo> queryPager(StmasterSiteCode condition, int pageIndex, int rows) {
-		AdPager<StmasterSiteCode> queryPage = stmasterSiteCodeDAO.queryPage(condition, pageIndex, rows);
+		AdPager<StmasterSiteCode> queryPage = stmasterSiteCodeDAO.queryPageInOrder(condition, pageIndex, rows, OrderType.ASC,"siteId");
 		List<StmasterSiteCode> result = queryPage.getRows();
 		List<StmasterSiteCodeVo> parseToVoList = AnnotationParser.parseToVoList(StmasterSiteCodeVo.class, result);
 		AdPager<StmasterSiteCodeVo> resultVo = new AdPager<StmasterSiteCodeVo>(pageIndex, rows, queryPage.getTotal());
-		resultVo.setRows(parseToVoList);
+			if(parseToVoList!=null){
+				for(StmasterSiteCodeVo vo : parseToVoList){
+					StmasterSite stmasterSite = stmasterSiteDAO.find(vo.getSiteId());
+					if(stmasterSite!=null){
+						vo.setSiteName(stmasterSite.getSiteName());
+					}
+				}
+			}
+			resultVo.setRows(parseToVoList);
 		return resultVo;
 	}
 	

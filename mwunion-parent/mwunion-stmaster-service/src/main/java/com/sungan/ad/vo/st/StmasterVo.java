@@ -6,7 +6,6 @@ import com.sungan.ad.dao.model.Stmaster;
  * 说明:
  */
 public class StmasterVo  extends Stmaster{
-
     private String userStatusCn;
     private String createTimeStr;
     private String updateTimeStr;

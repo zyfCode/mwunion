@@ -15,10 +15,10 @@ import com.sungan.ad.exception.AdRuntimeException;
  * @date 2017年3月26日
  */
 public enum EnumStmasterSiteBillStatus{
-	UN_CLEAR("0","未清算 "),
-	CLEAR("1","已清算 "),
-	PARTIAL_CLEAR("2","部分结算 "),
-	WRITE_OFF("3","部分结算 ")
+	UN_CLEAR("0","未清算"),
+	CLEAR("1","已清算"),
+	PARTIAL_CLEAR("2","部分结算"),
+	WRITE_OFF("3","核销")
 	;
 	public static final String DICT_KEY="STMASTER_SITEBILL_STATUS";
 	public static final String DICT_NAME="日账单结算状态";

@@ -1,6 +1,9 @@
 package com.sungan.ad.controller.user;
 import javax.validation.Valid;
 
+import com.sungan.ad.controller.validBean.StmasterSiteValid;
+import com.sungan.ad.dao.model.StmasterSite;
+import com.sungan.ad.vo.st.StmasterPlatAccountVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +25,21 @@ import com.sungan.ad.vo.st.StmasterVo;
 public class StmasterController {
 	@Autowired
 	private StmasterService service;
-	
+
+
+	@RequestMapping("/stmasterinfo")
+	@ResponseBody
+	public Object stmasterInfo(String stmasterId){
+		StmasterVo stmasterVo = service.find(stmasterId);
+		return stmasterVo;
+	}
+
+	@RequestMapping("/plataccountinfo")
+	@ResponseBody
+	public Object queryPlatAccountInfo(String stmasterId){
+		StmasterPlatAccountVo stmasterPlatAccountVo = service.queryPlateAccount(stmasterId);
+		return stmasterPlatAccountVo;
+	}
 	
 	@RequestMapping("/disablestmaster")
 	@ResponseBody
@@ -44,10 +61,12 @@ public class StmasterController {
 	}
 	@RequestMapping("/addstmaster")
 	@ResponseBody
-	public Object addstmaster (@Valid StmasterValid record){
+	public Object addstmaster (@Valid StmasterValid record, @Valid StmasterSiteValid site){
 		Stmaster w = new Stmaster();
 		AdCommonsUtil.copyProperties(w, record);
-		service.insert(w);
+		StmasterSite siteRecord = new StmasterSite();
+		AdCommonsUtil.copyProperties(siteRecord, site);
+		service.insert(w,siteRecord);
 		return new AdResponse();
 	}
 	

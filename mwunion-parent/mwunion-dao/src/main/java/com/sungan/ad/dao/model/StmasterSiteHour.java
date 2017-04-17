@@ -57,6 +57,7 @@ public class StmasterSiteHour implements AdObject {
 	private Date settlementTime;
 	//流量日期，精确到天
 	private Integer recordDay;
+	private Integer recordHour;
 	//状态 0是未清算 1已清算
 	@StatusCn(dictId=EnumStmasterSiteHourStatus.DICT_KEY)
 	private String hourStatus;
@@ -64,6 +65,15 @@ public class StmasterSiteHour implements AdObject {
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
+
+	public Integer getRecordHour() {
+		return recordHour;
+	}
+
+	public void setRecordHour(Integer recordHour) {
+		this.recordHour = recordHour;
+	}
+
 	public String getSiteId() {
 		return siteId;
 	}
@@ -136,7 +146,7 @@ public class StmasterSiteHour implements AdObject {
 	public void setSettlementTime(Date settlementTime) {
 		this.settlementTime = settlementTime;
 	}
- 
+
 	public Integer getRecordDay() {
 		return recordDay;
 	}

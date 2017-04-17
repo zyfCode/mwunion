@@ -1,0 +1,120 @@
+#@screen({"title":"代码管理"})
+    #datagrid({
+        "id":"stmastersitecodeTable",
+        "name":"stmastersitecodeTable",
+        "bindFormName":"stmastersitecodesearchForm",
+        "title":"查询列表",
+        "baseParams":{"stId":"$!request.parameterMap.stmasterId[0]"},
+        "autoLoad":true,
+        "url":"/stmastersitecode/liststmastersitecode.json",
+        "items":[
+    {"name":"siteCodeId",
+        "text":"siteCodeId",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":true
+    },
+
+    {"name":"siteId",
+        "text":"siteId",
+        "hAlign":"center",
+        "tAlign":"center" ,
+        "hidden":true
+    },
+
+    {"name":"stId",
+        "text":"stId",
+        "hAlign":"center",
+        "tAlign":"center" ,
+        "hidden":true
+    },
+
+    {"name":"siteCodeName",
+        "text":"代码名称",
+        "hAlign":"center",
+        "width":"100",
+        "tAlign":"center"
+    },
+    {"name":"siteName",
+        "text":"站点名称",
+        "hAlign":"center",
+        "width":"100",
+        "tAlign":"center"
+    },
+    {"name":"siteCodeUrl",
+        "text":"代码链接",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+
+    {"name":"codeStatus",
+        "text":"状态",
+        "hAlign":"center",
+        "tAlign":"center" ,
+        "hidden":true
+    },
+    {"name":"codeStatusCn",
+        "text":"状态",
+        "width":"100",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+    {
+        "name":"operation",
+        "text":"操作",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":false,
+        "width":"100",
+        "buttons":[{"label":"禁用","event":"invalidCode"},{"label":"启用","event":"inusedCode"}]
+    }
+    ],
+        "numbercolumn":"true",
+        "pageConfig":{"pageSize":10,"pageNo":1},
+        "rowSelect":"false",
+        "hasPage":"true"
+    })
+#end
+
+#jscode()
+
+        function invalidCode(rowData){
+            Horn.Msg.confirm("确认","您确定要禁用此代码吗？",function(){
+                rowData = rowData || Horn.getComp('stmastersitecodeTable').getSelecteds().length && (Horn.getComp('stmastersitecodeTable').getSelecteds())[0];
+                var id =  rowData.rowdata.siteCodeId;
+                $.post("${imageServer}/stmastersitecode/invalidcode",{"siteCodeId":id},function(backData){
+                    if(backData){
+                        if(backData.success){
+                            Horn.getComp("stmastersitecodeTable").load();
+                            Horn.Tip.info("代码已禁用");
+                            queryCodeData();
+                        }else{
+                          Horn.Tip.warn(backData.errorMesg);
+                        }
+                    }
+                    },"json")
+            },function(){
+                 log("确认框的取消执行了")
+            });
+        }
+    function inusedCode(rowData){
+        Horn.Msg.confirm("确认","您确定要启用此代码吗？",function(){
+            rowData = rowData || Horn.getComp('stmastersitecodeTable').getSelecteds().length && (Horn.getComp('stmastersitecodeTable').getSelecteds())[0];
+            var id =  rowData.rowdata.siteCodeId;
+            $.post("${imageServer}/stmastersitecode/inused",{"siteCodeId":id},function(backData){
+                    if(backData){
+                        if(backData.success){
+                        Horn.getComp("stmastersitecodeTable").load();
+                        Horn.Tip.info("代码已启用");
+                        queryCodeData();
+                    }else{
+                         Horn.Tip.warn(backData.errorMesg);
+                    }
+                }
+            },"json")
+        },function(){
+             log("确认框的取消执行了")
+        });
+    }
+#end
+

@@ -1,24 +1,11 @@
 #@screen({"title":"客户端查询"})  
     #@form({"name":"stmastersitebillsearchForm"})  
         #@panel({"title":"查询条件"})  
-			           #textfield({"label":"serialVersionUID ", "name":"serialVersionUID ","value":"","defValue":""})  
-		   	           #textfield({"label":"stBillId ", "name":"stBillId ","value":"","defValue":""})  
-		   	           #textfield({"label":"siteId ", "name":"siteId ","value":"","defValue":""})  
-		   	           #textfield({"label":"stId ", "name":"stId ","value":"","defValue":""})  
-		   	           #textfield({"label":"stBillNo ", "name":"stBillNo ","value":"","defValue":""})  
-		   	           #textfield({"label":"mothOfYear ", "name":"mothOfYear ","value":"","defValue":""})  
-		   	           #textfield({"label":"weekOfMonth ", "name":"weekOfMonth ","value":"","defValue":""})  
-		   	           #textfield({"label":"settlementAmount ", "name":"settlementAmount ","value":"","defValue":""})  
-		   	           #textfield({"label":"settlementAmountBalance ", "name":"settlementAmountBalance ","value":"","defValue":""})  
-		   	           #textfield({"label":"clearAmount ", "name":"clearAmount ","value":"","defValue":""})  
-		   	           #textfield({"label":"settlementTime ", "name":"settlementTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"hourStatus ", "name":"hourStatus ","value":"","defValue":""})  
-		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
-		   	            #button_group({"buttons":[  
-                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
-				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
-            ]})  
+		   	           #textfield({"label":"账单号 ", "name":"stBillNo ","value":"","defValue":""})
+                         #combox({"name":"billStatus","label":"账单状态","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "STMASTER_SITEBILL_STATUS"})
+		   	            #button_group({"buttons":[
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"}
+            ]})
         #end  
     #end  
     #datagrid({  
@@ -26,72 +13,69 @@
         "name":"stmastersitebillTable",  
         "bindFormName":"stmastersitebillsearchForm",  
         "title":"查询列表",    
-        "autoLoad":true,  
+        "autoLoad":true,
+        "baseParams":{"stId":"$!request.parameterMap.stmasterId[0]"},
         "url":"/stmastersitebill/liststmastersitebill.json",  
-		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
-        "items":[ 
-            {"name":"serialVersionUID",  
-            "text":"serialVersionUID",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"stBillId",  
+        "items":[
+            {"name":"stBillId",
             "text":"stBillId",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center",
+                "hidden":true
             },
 
             {"name":"siteId",  
             "text":"siteId",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center" ,
+                "hidden":true
             },
 
             {"name":"stId",  
             "text":"stId",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center" ,
+                "hidden":true
             },
 
             {"name":"stBillNo",  
-            "text":"stBillNo",  
+            "text":"账单号",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"mothOfYear",  
-            "text":"mothOfYear",  
+            "text":"账单月",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"weekOfMonth",  
-            "text":"weekOfMonth",  
+            "text":"账单周次",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"settlementAmount",  
-            "text":"settlementAmount",  
+            "text":"应结金额",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"settlementAmountBalance",  
-            "text":"settlementAmountBalance",  
+            "text":"未结金额",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"clearAmount",  
-            "text":"clearAmount",  
+            "text":"已结算金额",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"settlementTime",  
-            "text":"settlementTime",  
+            "text":"结算时间",
             "hAlign":"center",  
             "tAlign":"center"  
             },
@@ -99,21 +83,15 @@
             {"name":"hourStatus",  
             "text":"hourStatus",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center",
+                "hidden":true
             },
 
             {"name":"createTime",  
-            "text":"createTime",  
+            "text":"创建时间",
             "hAlign":"center",  
             "tAlign":"center"  
             },
-
-            {"name":"updateTime",  
-            "text":"updateTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
 
 			{  
                 "name":"operation",  
@@ -122,7 +100,7 @@
                 "tAlign":"center",  
                 "hidden":false,  
                 "width":"200",  
-                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+                "buttons":[{"label":"结算","event":"edit"}]
 			}
         ],  
         "numbercolumn":"true",  
@@ -135,111 +113,68 @@
             
     #@window({"title":"编辑窗口", "name":"stmastersitebillEdit", "width":"750", "height":"250",  
             "buttons":[  
-                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
-                {"label":"重置","event":"resetDataForm()"}  
-            ]})  
+                {"label":"结算","event":"saveData()","className":"u-btn-primary"}
+            ]})
         #@form({"name":"stmastersitebillEditForm","url":""})  
-            #@panel({})  
-			                #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stBillId", "name":"stBillId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"siteId", "name":"siteId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stId", "name":"stId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stBillNo", "name":"stBillNo","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"mothOfYear", "name":"mothOfYear","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"weekOfMonth", "name":"weekOfMonth","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"settlementAmount", "name":"settlementAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"settlementAmountBalance", "name":"settlementAmountBalance","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"clearAmount", "name":"clearAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"settlementTime", "name":"settlementTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"hourStatus", "name":"hourStatus","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			  			  #end  
+            #@panel({"cols":2})
+			                  #textfield({"label":"stBillId", "name":"stBillId","value":"","defValue":"","check":"required","hidden":true})
+			                  #textfield({"label":"应结金额", "name":"settlementAmountBalance","value":"","defValue":"","check":"required","disable":true})
+                              #textfield({"label":"结算金额", "name":"settlAmount","value":"","defValue":"0","check":"required;decmal1"})
+                                <div class="g-grid-8">
+                                    <div id="" paramcacheid="11111" name="1111" class="hc_textfield _text">
+                                          <input class="u-textfield m-verify-success" style="width: 400px;" id ="anxFile" type="file">
+                                    </div>
+                                </div>
+                            #button_panel_ex({
+                                "buttons" : [
+                                    {"label":"附件导入","event":"uploadAnxFile()","refmenu":"test11","className":"import"}
+                                    ]
+                            })
+
+                #grid({
+                    "id" : "anxFileTable1",
+                    "name":"anxFileTable1",
+                    "title":"附件列表",
+                    "numbercolumn":false,
+                    "textOverHidden":false,
+                    "rowSelect":"true",
+                    "isDragColumn":false,
+                    "items":[
+                {"name":"fileNo", "text":"附件编号"},
+                {"name":"fileName","text":"附件名称"},
+                {"name":"branchNo", "text":"操作","showwhenover":"true","buttons":[{"label":"删除","event":"deleteFile","className":"import"}]}
+                ]
+                ,"data":[{"fileNo":"11","fileName":"11.doc"},{"fileNo":"111","fileName":"11.doc"}]
+                })
+        #end
         #end  
     #end  
 	
-	
-	    #@window({"title":"添加", "name":"stmastersitebillAdd", "width":"750", "height":"250",  
-            "buttons":[  
-                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
-                {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"stmastersitebillAddForm","url":""})  
-            #@panel({})  
-                               #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stBillId", "name":"stBillId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"siteId", "name":"siteId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stId", "name":"stId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stBillNo", "name":"stBillNo","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"mothOfYear", "name":"mothOfYear","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"weekOfMonth", "name":"weekOfMonth","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"settlementAmount", "name":"settlementAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"settlementAmountBalance", "name":"settlementAmountBalance","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"clearAmount", "name":"clearAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"settlementTime", "name":"settlementTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"hourStatus", "name":"hourStatus","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			              #end  
-        #end  
-    #end  
-#end  
+#end
   
   
 #jscode()  
-    var action = "";  
-  
-      
-    function add(rowData){  
-        Horn.getComp("stmastersitebillAddForm").reset();  
-        Horn.getComp("stmastersitebillAdd").show();  
-    }  
-      
+    var action = "";
+function deleteFile(){
+}
+function uploadAnxFile(data){
+        var fileNo = new Date().getTime();
+        var dataArr = Horn.getComp("anxFileTable1").data;
+        var length = dataArr.length;
+        dataArr[length]={"fileNo":fileNo+"","fileName":"11.doc"};
+        console.log(dataArr);
+    Horn.getComp("anxFileTable1").init();
+}
+
+
     function edit(rowData){  
         rowDatarowData = rowData || Horn.getComp('stmastersitebillTable').getSelecteds().length && (Horn.getComp('stmastersitebillTable').getSelecteds())[0];  
         Horn.getComp("stmastersitebillEditForm").setValues(rowData.rowdata);  
-        Horn.getComp("stmastersitebillEdit").show();  
+        Horn.getComp("stmastersitebillEdit").show();
     }  
       
-    function del(rowData){  
-	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
-		 	 rowDatarowData = rowData || Horn.getComp('stmastersitebillTable').getSelecteds().length && (Horn.getComp('stmastersitebillTable').getSelecteds())[0];  
-               var id =  rowData.rowdata.id;  
-        	   	$.post("${imageServer}/stmastersitebill/deletestmastersitebill",{"id":id},function(backData){
-            		if(backData){
-            			if(backData.success){
-            				 Horn.getComp("stmastersitebillTable").load();  
-            				   Horn.Tip.info("删除成功");  
-            			 }else{
-            				Horn.Tip.warn(backData.errorMesg); 
-            			 }
-            		 }
-            	},"json")
-        },function(){  
-            log("确认框的取消执行了")  
-        });
-    }  
-	
-	function addSubmit(){
-		var form = $("form[name='stmastersitebillAddForm']")
-		var result = Horn.Validate.isFormValidate(form);
-		if(!result){
-			return;
-		}
-		Horn.getComp("stmastersitebillAdd").hide();  
-		var data = $("form[name='stmastersitebillAddForm']").serializeJSON();
-    	$.post("${imageServer}/stmastersitebill/addstmastersitebill",data,function(backData){
-    		if(backData){
-    			if(backData.success){
-    				 Horn.getComp("stmastersitebillTable").load();  
-    				 Horn.Tip.success("添加成功"); 
-    			 }else{
-    				Horn.Tip.warn(backData.errorMesg); 
-    			 }
-    		 }
-    	},"json")
-	}
-	
+
+
     function saveData() {  
 		var form = $("form[name='stmastersitebillEditForm']")
 		var result = Horn.Validate.isFormValidate(form);

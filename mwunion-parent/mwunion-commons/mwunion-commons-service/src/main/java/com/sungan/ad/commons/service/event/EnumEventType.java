@@ -11,7 +11,12 @@ public enum  EnumEventType {
     /**
      * 添加广告主
      */
-    ADD_ADHOST("1001","添加广告主");
+    ADD_ADHOST("1001","添加广告主"),
+    /**
+     * 添加站点
+     */
+    ADD_STMARSTER_SITE("1002", "添加站点"),
+    ;
     private String code;
     private String remark;
 

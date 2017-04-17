@@ -3,6 +3,9 @@ package com.sungan.ad.service.st.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EventQueen;
+import com.sungan.ad.dao.model.adenum.EnumStmasterSiteStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +43,12 @@ public class StmasterSiteServiceImpl implements StmasterSiteService{
 	public String insert(StmasterSite record) {
 		String nextId = IdGeneratorFactory.nextId();
 		record.setSiteId(nextId);
+		record.setSiteStatus(EnumStmasterSiteStatus.NORMAL.getKey());
 		//record.setId(nextId);
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
 		stmasterSiteDAO.insert(record);
+		EventQueen.addEvent(EnumEventType.ADD_STMARSTER_SITE,record);
 		return nextId;
 	}
 

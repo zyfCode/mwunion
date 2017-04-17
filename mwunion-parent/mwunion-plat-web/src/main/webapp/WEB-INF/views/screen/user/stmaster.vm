@@ -174,32 +174,35 @@ Horn.getComp("stmasterAdd").show();
 }
 
 function edit(rowData){
-    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    rowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    console.log(rowData.rowdata)
     Horn.getComp("stmasterEditForm").setValues(rowData.rowdata);
     Horn.getComp("stmasterEdit").show();
 }
 
 function del(rowData){
-Horn.Msg.confirm("确认","这是一条确认信息",function(){
-    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
-    var id =  rowData.rowdata.stmasterId;
-    $.post("${imageServer}/stmaster/deletestmaster",{"stmasterId":id},function(backData){
-    if(backData){
-        if(backData.success){
-            Horn.getComp("stmasterTable").load();
-            Horn.Tip.info("删除成功");
-        }else{
-              Horn.Tip.warn(backData.errorMesg);
-        }
-        }
-        },"json")
-    },function(){
-         log("确认框的取消执行了")
-    });
+        Horn.Msg.confirm("确认","这是一条确认信息",function(){
+        rowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+        var id =  rowData.rowdata.stmasterId;
+        $.post("${imageServer}/stmaster/deletestmaster",{"stmasterId":id},function(backData){
+        if(backData){
+            if(backData.success){
+                Horn.getComp("stmasterTable").load();
+                Horn.Tip.info("删除成功");
+            }else{
+                  Horn.Tip.warn(backData.errorMesg);
+            }
+            }
+            },"json")
+        },function(){
+             log("确认框的取消执行了")
+        });
 }
 
-function stInfo(){
-    parent.Horn.Frame.openMenu('10222','${imageServer}/stmaster/stmaster_info.htm','详情','')
+function stInfo(rowData){
+    rowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    var id =  rowData.rowdata.stmasterId;
+    parent.Horn.Frame.openMenu('10222','${imageServer}/stmaster/stmaster_info.htm?stmasterId='+id,'详情','')
 }
 function cancel(rowData){
     Horn.Msg.confirm("确认","这是一条确认信息",function(){
@@ -239,23 +242,23 @@ function cancel(rowData){
 }
 
 function addSubmit(){
-var form = $("form[name='stmasterAddForm']")
-var result = Horn.Validate.isFormValidate(form);
-if(!result){
-return;
-}
-Horn.getComp("stmasterAdd").hide();
-var data = $("form[name='stmasterAddForm']").serializeJSON();
-$.post("${imageServer}/stmaster/addstmaster",data,function(backData){
-if(backData){
-if(backData.success){
-Horn.getComp("stmasterTable").load();
-Horn.Tip.success("添加成功");
-}else{
-Horn.Tip.warn(backData.errorMesg);
-}
-}
-},"json")
+    var form = $("form[name='stmasterAddForm']")
+    var result = Horn.Validate.isFormValidate(form);
+    if(!result){
+         return;
+    }
+    Horn.getComp("stmasterAdd").hide();
+    var data = $("form[name='stmasterAddForm']").serializeJSON();
+    $.post("${imageServer}/stmaster/addstmaster",data,function(backData){
+        if(backData){
+            if(backData.success){
+                Horn.getComp("stmasterTable").load();
+                Horn.Tip.success("添加成功");
+            }else{
+                 Horn.Tip.warn(backData.errorMesg);
+            }
+        }
+    },"json")
 }
 
 function saveData() {
