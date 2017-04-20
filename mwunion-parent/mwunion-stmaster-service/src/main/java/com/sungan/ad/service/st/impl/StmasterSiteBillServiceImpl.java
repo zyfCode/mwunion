@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.commons.annexes.AnnexesUtil;
 import com.sungan.ad.dao.StmasterSiteBillAnnexesDAO;
 import com.sungan.ad.dao.model.StmasterSiteBillAnnexes;
 import com.sungan.ad.dao.model.adenum.EnumStmasterSiteBillStatus;
@@ -121,9 +122,18 @@ public class StmasterSiteBillServiceImpl implements StmasterSiteBillService{
 		siteBill.setClearAmount(clearAmount);
 		stmasterSiteBillDAO.update(siteBill);
 		if(andIds!=null&&andIds.size()>0){
-			StmasterSiteBillAnnexes anax = new StmasterSiteBillAnnexes();
-			anax.setAnnexesName();
-			annexesDAO.insert(anax);
+			for (String anName:andIds) {
+				StmasterSiteBillAnnexes anax = new StmasterSiteBillAnnexes();
+				anax.setAnnexesName(anName);
+				String url = AnnexesUtil.getUrl(anName);
+				anax.setAnnexesUrl(url);
+				anax.setCreateTime(new Date());
+				anax.setAnnxId(anName);
+				anax.setId(IdGeneratorFactory.nextId());
+				anax.setUpdateTime(new Date());
+				anax.setSiteBillId(siteBill.getStBillId());
+				annexesDAO.insert(anax);
+			}
 		}
 
 	}

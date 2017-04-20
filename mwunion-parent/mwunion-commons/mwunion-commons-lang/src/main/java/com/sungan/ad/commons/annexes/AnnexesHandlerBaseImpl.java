@@ -1,8 +1,11 @@
 package com.sungan.ad.commons.annexes;
 
+import org.apache.commons.codec.binary.Base32;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.UUID;
@@ -10,6 +13,7 @@ import java.util.UUID;
 /**
  * Created by zhangyf18255 on 2017/4/16.
  */
+@Component
 public class AnnexesHandlerBaseImpl extends AnnexesAbastractHandler {
 
     @Value("${ad.annexe.urlprefix}")
@@ -62,10 +66,10 @@ public class AnnexesHandlerBaseImpl extends AnnexesAbastractHandler {
             upload.setAnexNo(uuids);
             upload.setName(fileName);
             upload.setUrl(urlPreFix+""+fileName);
+            return upload;
         } catch (Exception e) {
             throw new RuntimeException("",e);
         }
-        return null;
     }
 
     @Override
@@ -76,6 +80,11 @@ public class AnnexesHandlerBaseImpl extends AnnexesAbastractHandler {
 
     @Override
     public String getUrl(String name) {
+        if(urlPreFix!=null&&!urlPreFix.endsWith("/")){
+            urlPreFix = urlPreFix+"/";
+        }
+//        Base32 base32 = new Base32();
+//        base32.encode()
         return urlPreFix+""+name;
     }
 

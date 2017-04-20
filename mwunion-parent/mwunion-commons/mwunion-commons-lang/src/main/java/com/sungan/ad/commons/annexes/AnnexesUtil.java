@@ -19,7 +19,7 @@ public class AnnexesUtil {
         AnexesInfo upload = handler.upload(prefixName,oldName, in);
         return upload;
     }
-    public static AnexesInfo upload(,String oldName,InputStream in){
+    public static AnexesInfo upload(String oldName,InputStream in){
         AnexesInfo upload = handler.upload(oldName,in);
         return upload;
     }

@@ -3,6 +3,8 @@ package com.sungan.ad.controller.stmaster;
 import javax.validation.Valid;
 
 import com.sungan.ad.controller.validBean.view.StSettleBillVlid;
+import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import com.sungan.ad.service.st.StmasterSiteBillService;
 import com.sungan.ad.vo.st.StmasterSiteBillVo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 说明:
@@ -33,7 +37,15 @@ public class StmasterSiteBillController {
 	public Object settleBill(@Valid StSettleBillVlid dataBean){
 		String settlAmount = dataBean.getSettlAmount();
 		BigDecimal bigDecimal = BigDecimal.valueOf(Double.valueOf(settlAmount));
-		service.settleBill(dataBean.getStBillId(),bigDecimal,dataBean.getAndIds());
+		List<String> files = new ArrayList<String>();
+		if(StringUtils.isNotBlank(dataBean.getAnaxNames())) {
+			JSONArray jsonArray = JSONArray.fromObject(dataBean.getAnaxNames());
+			Object[] objects = jsonArray.toArray();
+			for (Object obj:objects){
+				files.add(obj.toString());
+			}
+		}
+		service.settleBill(dataBean.getStBillId(),bigDecimal,files);
 		return new AdResponse();
 	}
 	

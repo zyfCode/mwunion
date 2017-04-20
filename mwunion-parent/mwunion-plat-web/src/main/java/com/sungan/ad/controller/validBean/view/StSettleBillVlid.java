@@ -13,7 +13,7 @@ public class StSettleBillVlid {
     private String stBillId;
     @NotEmpty
     private String settlAmount;  // 结算金额
-    private List<String>andIds;
+    private String anaxNames;
 
     public String getStBillId() {
         return stBillId;
@@ -31,11 +31,11 @@ public class StSettleBillVlid {
         this.settlAmount = settlAmount;
     }
 
-    public List<String> getAndIds() {
-        return andIds;
+    public String getAnaxNames() {
+        return anaxNames;
     }
 
-    public void setAndIds(List<String> andIds) {
-        this.andIds = andIds;
+    public void setAnaxNames(String anaxNames) {
+        this.anaxNames = anaxNames;
     }
 }

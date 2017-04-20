@@ -148,16 +148,14 @@
 		<servlet-name>jresServlet</servlet-name>
 		<url-pattern>*.json</url-pattern>
 	</servlet-mapping>
-<!-- 	<servlet> -->
-<!--         <description>FileServlet</description> -->
-<!--         <display-name>FileServlet</display-name> -->
-<!--         <servlet-name>FileServlet</servlet-name> -->
-<!--         <servlet-class>com.hundsun.jresplus.ui.demo.servlet.FileServlet</servlet-class> -->
-<!--     </servlet> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>FileServlet</servlet-name> -->
-<!--         <url-pattern>/fileserver/upload</url-pattern> -->
-<!--     </servlet-mapping> -->
+	<servlet>
+		<servlet-name>uplodServlet</servlet-name>
+		<servlet-class>com.hundsun.jresplus.ui.upload.web.UploadFilesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uplodServlet</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>
 
 
 	<!-- ===================================================================================== -->

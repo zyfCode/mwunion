@@ -111,7 +111,7 @@
                  {"event":"rowDblclick","function":"queryTableDbClick"}]  
        })  
             
-    #@window({"title":"编辑窗口", "name":"stmastersitebillEdit", "width":"750", "height":"250",  
+    #@window({"title":"编辑窗口", "name":"stmastersitebillEdit", "scroll":true,"width":"750", "height":"450",
             "buttons":[  
                 {"label":"结算","event":"saveData()","className":"u-btn-primary"}
             ]})
@@ -120,18 +120,11 @@
 			                  #textfield({"label":"stBillId", "name":"stBillId","value":"","defValue":"","check":"required","hidden":true})
 			                  #textfield({"label":"应结金额", "name":"settlementAmountBalance","value":"","defValue":"","check":"required","disable":true})
                               #textfield({"label":"结算金额", "name":"settlAmount","value":"","defValue":"0","check":"required;decmal1"})
-                                <div class="g-grid-8">
-                                    <div id="" paramcacheid="11111" name="1111" class="hc_textfield _text">
-                                          <input class="u-textfield m-verify-success" style="width: 400px;" id ="anxFile" type="file">
-                                    </div>
-                                </div>
-                            #button_panel_ex({
-                                "buttons" : [
-                                    {"label":"附件导入","event":"uploadAnxFile()","refmenu":"test11","className":"import"}
-                                    ]
-                            })
-
-                #grid({
+                #@panel({"cols":1})
+                                #upload_group({"name":"annxFile","id":"annxFile", "label":"附件上传", "check": "required;","cols":"3","url":"$appServer/common/upload","savePath":"E:/upload","fileSizeLimit":20,"progressData":"speed","fileTypeExts":"*.jpg;*.gif;*.jpeg;*.png;*.bmp;*.zip;*.rar;*.7z","multi":false,"auto":false,"onUploadSuccess":"onUploadSuccess"})
+               #end
+                #@panel({"cols":1})
+                #datagrid({
                     "id" : "anxFileTable1",
                     "name":"anxFileTable1",
                     "title":"附件列表",
@@ -144,8 +137,9 @@
                 {"name":"fileName","text":"附件名称"},
                 {"name":"branchNo", "text":"操作","showwhenover":"true","buttons":[{"label":"删除","event":"deleteFile","className":"import"}]}
                 ]
-                ,"data":[{"fileNo":"11","fileName":"11.doc"},{"fileNo":"111","fileName":"11.doc"}]
+                ,"data":[]
                 })
+                #end
         #end
         #end  
     #end  
@@ -156,20 +150,50 @@
 #jscode()  
     var action = "";
 function deleteFile(){
+    var selectedData = (Horn.getComp('anxFileTable1').getSelecteds())[0]
+    var fileNo = selectedData.fileNo;
+    if(!fileNo){
+        return;
+    }
+    var dataArr = Horn.getComp("anxFileTable1").data;
+    var newData = [];
+    $.each(dataArr,function(index,obj){
+        if(obj.fileNo==fileNo){
+            dataArr[index]=null;
+        }else{
+            newData.push(obj);
+        }
+        Horn.getComp("anxFileTable1").loadData(newData);
+    })
 }
-function uploadAnxFile(data){
+
+//附件上传成功
+function onUploadSuccess(file, data, response){
+    var rs = $.parseJSON(data);
+    var returnCode = rs.return_code;
+    var returnMsg = rs.return_msg;
+    if(returnCode=="10000"){
+        var filename = rs.success.fileName;
+        uploadAnxFile(filename);
+        Horn.getComp("annxFile").reset();
+    }else{
+      Horn.Tip.warn("附件上传失败");
+    }
+}
+
+function uploadAnxFile(fileName){
         var fileNo = new Date().getTime();
         var dataArr = Horn.getComp("anxFileTable1").data;
         var length = dataArr.length;
-        dataArr[length]={"fileNo":fileNo+"","fileName":"11.doc"};
-        console.log(dataArr);
-    Horn.getComp("anxFileTable1").init();
+        dataArr[length]={"fileNo":fileNo+"","fileName":fileName};
+        Horn.getComp("anxFileTable1").loadData(dataArr);
 }
 
 
     function edit(rowData){  
         rowDatarowData = rowData || Horn.getComp('stmastersitebillTable').getSelecteds().length && (Horn.getComp('stmastersitebillTable').getSelecteds())[0];  
-        Horn.getComp("stmastersitebillEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("stmastersitebillEditForm").setValues(rowData.rowdata);
+        Horn.getComp("anxFileTable1").loadData([])
         Horn.getComp("stmastersitebillEdit").show();
     }  
       
@@ -184,11 +208,18 @@ function uploadAnxFile(data){
 		Horn.getComp("stmastersitebillEdit").hide();  
     		//JSON.stringify($("form[name='stmastersitebillEditForm']").serializeJSON());
     	var data = $("form[name='stmastersitebillEditForm']").serializeJSON();
-    	$.post("${imageServer}/stmastersitebill/updatestmastersitebill",data,function(backData){
+            var dataArr = Horn.getComp("anxFileTable1").data;
+            var anax = [];
+            $.each(dataArr,function(index,obj){
+                var fileName = obj.fileName;
+                anax[index]=fileName;
+            });
+        data.anaxNames = JSON.stringify(anax);
+    	$.post("${imageServer}/stmastersitebill/settleBill",data,function(backData){
     		if(backData){
     			if(backData.success){
     				 Horn.getComp("stmastersitebillTable").load();  
-    				 Horn.Tip.success("更新成功"); 
+    				 Horn.Tip.success("结算成功");
     			 }else{
     				Horn.Tip.warn(backData.errorMesg); 
     			 }

@@ -21,7 +21,6 @@
 				</list>
 			</property>
 	</bean>
-	<!-- 解决@ResponseBody响应乱码问题 -->
 	<bean
 		class="com.sungan.ad.web.AdRequestMappingHandlerAdapter">
 <!-- 		<property name="customArgumentResolvers"> -->
@@ -101,9 +100,7 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="1000001024" />
 	</bean>
 	<bean id="adHandlerExceptionResolver"
