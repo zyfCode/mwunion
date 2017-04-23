@@ -12,7 +12,7 @@
 	]}
 	,"screen":{
 		"limit":10,
-		"homePage":{"title":"欢迎使用","icon":"home fa fa-home","url":"${appServer}/static/home.html"}
+		"homePage":{"title":"欢迎使用","icon":"home fa fa-home","url":"${appServer}/plat/plathome.htm"}
 		,"tools":[{"title":"宽松版","url":"${appServer}/home.htm?theme=horn"},{"title":"经典灰","url":"${appServer}/home.htm?theme=classic"},{"title":"紧凑版","url":"${appServer}/home.htm?theme=mini"}]
 	}
 	,"navigation":{"items":[

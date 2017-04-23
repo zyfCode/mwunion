@@ -111,7 +111,7 @@
                  {"event":"rowDblclick","function":"queryTableDbClick"}]  
        })  
             
-    #@window({"title":"编辑窗口", "name":"stmastersitebillEdit", "scroll":true,"width":"750", "height":"450",
+    #@window({"title":"编辑窗口", "name":"stmastersitebillEdit", "scroll":true,"width":"750", "height":"350",
             "buttons":[  
                 {"label":"结算","event":"saveData()","className":"u-btn-primary"}
             ]})

@@ -14,6 +14,7 @@ $horn.addGlobal("headStyleLinks","/css/frame/frame.css")
 ##$horn.addGlobal("headStyleLinks","/css/frame/${theme}_frame.css")
 $horn.addGlobal("headStyleLinks","/css/${theme}/h_theme.css")
 $horn.addGlobal("headStyleLinks", "/plugins/datetimepicker/datetimepicker.css")
+
 #parse("/screen/contain/frame/head.vm")
 #parse("/screen/contain/frame/top.vm")
 #parse("/screen/contain/frame/main.vm")
