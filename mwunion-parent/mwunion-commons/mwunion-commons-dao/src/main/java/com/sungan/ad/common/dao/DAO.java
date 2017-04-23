@@ -16,13 +16,33 @@ public interface DAO<T>{
 	 * @return
 	 */
 	AdPager<T> queryPageInOrder(T t,int pageIndex,int rows,OrderType orderType,String orderColumn);
+
+	/**
+	 * 分页查询，并根据字段进行排序
+	 * @param t
+	 * @param pageIndex
+	 * @param rows
+	 * @param orderType
+	 * @param orderColumn
+	 * @return
+	 */
+	AdPager<T> queryPageInOrder(T t,QueryHandler handler,int pageIndex,int rows,OrderType orderType,String orderColumn);
+
+
 	/**
 	 * 查询某个字段为空
-	 * @param t
+	 * @param
 	 * @param proNames
 	 * @return
 	 */
 	Collection<T> queryIsEmpty(String... proNames);
+	/**
+	 * 查询某个字段为空
+	 * @param
+	 * @param proNames
+	 * @return
+	 */
+	Collection<T> queryIsEmpty(QueryHandler handler,String... proNames);
 	/**
 	 * 分布查询
 	 * @param t
@@ -31,7 +51,15 @@ public interface DAO<T>{
 	 * @return
 	 */
 	AdPager<T> queryPage(T t,int pageIndex,int rows);
-	
+	/**
+	 * 分布查询
+	 * @param t
+	 * @param pageIndex
+	 * @param rows
+	 * @return
+	 */
+	AdPager<T> queryPage(T t,QueryHandler handler,int pageIndex,int rows);
+
 	/**
 	 * 查询分页结果，没有模糊查询
 	 * @param t
@@ -39,13 +67,14 @@ public interface DAO<T>{
 	 * @param rows
 	 * @return
 	 */
-	AdPager<T> queryPageEq(T t,int pageIndex,int rows);
+	AdPager<T> queryPageEq(T t,QueryHandler handler,int pageIndex,int rows);
 	/**
 	 * 根据条件查询记录数 
 	 * @param t
 	 * @return
 	 */
 	Long count(T t);
+	Long count(T t,QueryHandler handler);
 	void commit();
 	/**
 	 *  根据条件查询
@@ -58,6 +87,7 @@ public interface DAO<T>{
 	 * @return
 	 */
 	long count();
+
 	/**
 	 * 插入一条记录
 	 * @param t
@@ -88,6 +118,7 @@ public interface DAO<T>{
 	 * @return
 	 */
 	Collection<T> query(int beginIndex,int num,String orderclum,OrderType orderType);
+
 	/**
 	 * 查询所有记录
 	 * @return

@@ -103,8 +103,15 @@
         "hAlign":"center",
         "tAlign":"center",
         "hidden":false,
-        "width":"200",
-        "buttons":[{"label":"修改","event":"edit"},{"label":"暂停","event":"disable"},{"label":"注销","event":"cancel"},{"label":"详情","event":"stInfo"}]
+        "width":"250",
+        "buttons":[
+         {"label":"详情","event":"stInfo"},
+        {"label":"停用","event":"disable"},
+        {"label":"启用","event":"enable"},
+        {"label":"黑名单","event":"blackList"},
+        {"label":"注销","event":"cancel"},
+          {"label":"修改","event":"edit"}
+        ]
     }
     ],
         "numbercolumn":"true",
@@ -205,7 +212,7 @@ function stInfo(rowData){
     parent.Horn.Frame.openMenu('10222','${imageServer}/stmaster/stmaster_info.htm?stmasterId='+id,'详情','')
 }
 function cancel(rowData){
-    Horn.Msg.confirm("确认","这是一条确认信息",function(){
+    Horn.Msg.confirm("确认","确认注销用户吗？",function(){
     rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
     var id =  rowData.rowdata.stmasterId;
     $.post("${imageServer}/stmaster/cancelstmaster",{"stmasterId":id},function(backData){
@@ -222,11 +229,47 @@ function cancel(rowData){
      log("确认框的取消执行了")
     });
 }
-function cancel(rowData){
-    Horn.Msg.confirm("确认","这是一条确认信息",function(){
+function disable(rowData){
+    Horn.Msg.confirm("确认","确认停用当前客户吗?",function(){
     rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
     var id =  rowData.rowdata.stmasterId;
     $.post("${imageServer}/stmaster/disablestmaster",{"stmasterId":id},function(backData){
+        if(backData){
+            if(backData.success){
+                Horn.getComp("stmasterTable").load();
+                Horn.Tip.info("停用成功");
+            }else{
+                 Horn.Tip.warn(backData.errorMesg);
+            }
+        }
+    },"json")
+    },function(){
+     log("确认框的取消执行了")
+    });
+}
+function blackList(rowData){
+    Horn.Msg.confirm("确认","确认为把用户设为黑名单吗?",function(){
+    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    var id =  rowData.rowdata.stmasterId;
+    $.post("${imageServer}/stmaster/blackList",{"stmasterId":id},function(backData){
+        if(backData){
+            if(backData.success){
+                Horn.getComp("stmasterTable").load();
+                Horn.Tip.info("设置黑名单成功");
+            }else{
+                 Horn.Tip.warn(backData.errorMesg);
+            }
+        }
+    },"json")
+    },function(){
+     log("确认框的取消执行了")
+    });
+}
+function enable(rowData){
+    Horn.Msg.confirm("确认","确认启用当前客户吗?",function(){
+    rowDatarowData = rowData || Horn.getComp('stmasterTable').getSelecteds().length && (Horn.getComp('stmasterTable').getSelecteds())[0];
+    var id =  rowData.rowdata.stmasterId;
+    $.post("${imageServer}/stmaster/enablestmaster",{"stmasterId":id},function(backData){
         if(backData){
             if(backData.success){
                 Horn.getComp("stmasterTable").load();

@@ -41,6 +41,8 @@ public class Stmaster implements AdObject {
 	@Column(length=64,nullable=false)
 	private String userId;
 
+
+	public static final String USERSTATUS_COLUMN = "userStatus";
 	@StatusCn(dictId  = EnumUserStatus.DICT_KEY)
 	private String userStatus;
 	/**

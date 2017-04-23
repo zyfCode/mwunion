@@ -1,9 +1,11 @@
 package com.sungan.ad.service.st.impl;
 
 import com.sungan.ad.common.dao.AdPager;
+import com.sungan.ad.common.dao.QueryHandler;
 import com.sungan.ad.commons.AdCommonsUtil;
 import com.sungan.ad.commons.IdGeneratorFactory;
 import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EvenContext;
 import com.sungan.ad.commons.service.event.EventQueen;
 import com.sungan.ad.dao.StmasterDAO;
 import com.sungan.ad.dao.StmasterPlatAccountDAO;
@@ -20,6 +22,9 @@ import com.sungan.ad.service.st.StmasterService;
 import com.sungan.ad.service.st.StmasterSiteService;
 import com.sungan.ad.vo.st.StmasterPlatAccountVo;
 import com.sungan.ad.vo.st.StmasterVo;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +36,7 @@ import java.util.List;
 
 /**
  * 说明:
- * 
+ *
  * @version V1.1
  */
 @Service
@@ -84,7 +89,9 @@ public class StmasterServiceImpl implements StmasterService{
 			record.setCreateTime(new Date());
 			record.setUpdateTime(new Date());
 			stmasterDAO.insert(record);
-			EventQueen.addEvent(EnumEventType.ADD_STMARSTER,record);
+			EvenContext context = new EvenContext();
+			context.setTarget(record);
+			EventQueen.addEvent(EnumEventType.ADD_STMARSTER,context);
 		} catch (Exception e) {
 			logger.error("添加站长异常",e);
 			throw new AdRuntimeException("添加站长异常");
@@ -131,6 +138,8 @@ public class StmasterServiceImpl implements StmasterService{
 			}
 			find.setUserStatus(EnumUserStatus.CANCEL.getKey());
 			stmasterDAO.update(find);
+		}else{
+			throw new AdRuntimeException("无效的数据");
 		}
 	}
 	@Override
@@ -145,10 +154,29 @@ public class StmasterServiceImpl implements StmasterService{
 			}
 			find.setUserStatus(EnumUserStatus.DISABLE.getKey());
 			stmasterDAO.update(find);
+		}else{
+			throw new AdRuntimeException("无效的数据");
 		}
 	}
 
-	@Override
+    @Override
+    public void blackList(String id) {
+        Stmaster find = this.stmasterDAO.find(id);
+        if (find != null) {
+            String userId = find.getUserId();
+            User user = userDAO.find(userId);
+            if(user!=null) {
+                user.setUserStatus(EnumUserStatus.BLACKLIST.getKey());
+                userDAO.update(user);
+            }
+            find.setUserStatus(EnumUserStatus.BLACKLIST.getKey());
+            stmasterDAO.update(find);
+        }else{
+            throw new AdRuntimeException("无效的数据");
+        }
+    }
+
+    @Override
 	public StmasterVo find(String id) {
 		Stmaster find = stmasterDAO.find(id);
 		if(find==null){
@@ -174,15 +202,57 @@ public class StmasterServiceImpl implements StmasterService{
 
 	@Override
 	public AdPager<StmasterVo> queryPager(Stmaster condition, int pageIndex, int rows) {
-		AdPager<Stmaster> queryPage = stmasterDAO.queryPage(condition, pageIndex, rows);
+
+		/**
+		 *不显示
+		 * 	1、注销的用户
+		 * 	2、黑名单
+		 */
+		QueryHandler handler = new QueryHandler() {
+			@Override
+			public Criteria addCondition(Criteria createCriteria) {
+				createCriteria.add(Restrictions.ne(Stmaster.USERSTATUS_COLUMN,EnumUserStatus.CANCEL.getKey()))
+                        .add(Restrictions.ne(Stmaster.USERSTATUS_COLUMN,EnumUserStatus.BLACKLIST.getKey()));
+				return createCriteria;
+			}
+		};
+		AdPager<Stmaster> queryPage = stmasterDAO.queryPage(condition, handler, pageIndex, rows);
 		List<Stmaster> result = queryPage.getRows();
 		List<StmasterVo> parseToVoList = AnnotationParser.parseToVoList(StmasterVo.class, result);
 		AdPager<StmasterVo> resultVo = new AdPager<StmasterVo>(pageIndex, rows, queryPage.getTotal());
 		resultVo.setRows(parseToVoList);
 		return resultVo;
 	}
-	
+
 	@Override
+	public void enable(String id) {
+		Stmaster find = this.stmasterDAO.find(id);
+		if (find != null) {
+			String userId = find.getUserId();
+			User user = userDAO.find(userId);
+			if(user!=null) {
+				user.setUserStatus(EnumUserStatus.NORMAL.getKey());
+				userDAO.update(user);
+			}
+			find.setUserStatus(EnumUserStatus.NORMAL.getKey());
+			stmasterDAO.update(find);
+		}else{
+			throw new AdRuntimeException("无效的数据");
+		}
+	}
+
+    @Override
+    public AdPager<StmasterVo> queryBlackListPager(Stmaster condition, Integer pageNo, Integer pageSize) {
+        condition.setUserStatus(EnumUserStatus.BLACKLIST.getKey());
+        AdPager<Stmaster> queryPage = stmasterDAO.queryPage(condition, pageNo, pageSize);
+        List<Stmaster> result = queryPage.getRows();
+        List<StmasterVo> parseToVoList = AnnotationParser.parseToVoList(StmasterVo.class, result);
+        AdPager<StmasterVo> resultVo = new AdPager<StmasterVo>(pageNo, pageSize, queryPage.getTotal());
+        resultVo.setRows(parseToVoList);
+        return resultVo;
+    }
+
+    @Override
 	public void update(Stmaster record) {
 		if(record.getStmasterId()==null){
 			throw new AdRuntimeException("记录ID为空");
@@ -205,7 +275,7 @@ public class StmasterServiceImpl implements StmasterService{
 
 		find.setUpdateTime(new Date());
  		stmasterDAO.update(find);
-		
+
 	}
 }
 

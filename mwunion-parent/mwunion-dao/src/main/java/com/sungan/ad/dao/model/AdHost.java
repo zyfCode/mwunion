@@ -40,6 +40,12 @@ public class AdHost implements AdObject {
 	 */
 	@Column(length=64,nullable=false)
 	private String userId;
+
+	/**
+	 * 用户名
+	 */
+	@Column(length=64,nullable=false)
+	private String userName;
 	/**
 	 * 接待员id
 	 */
@@ -76,6 +82,14 @@ public class AdHost implements AdObject {
 	private Date updateTime;
 
 	private String remark;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public String getAdhostName() {
 		return adhostName;

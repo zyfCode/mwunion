@@ -3,6 +3,7 @@ package com.sungan.ad.service.st.listener;
 import com.sungan.ad.commons.IdGeneratorFactory;
 import com.sungan.ad.commons.MuService;
 import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EvenContext;
 import com.sungan.ad.commons.service.event.EventListener;
 import com.sungan.ad.dao.StmasterAccountDAO;
 import com.sungan.ad.dao.model.Stmaster;
@@ -29,8 +30,8 @@ public class AddStmasterListener extends EventListener implements MuService {
     }
 
     @Override
-    public void handler(Object context) {
-        Stmaster stmaster = (Stmaster) context;
+    public void handler(EvenContext context) {
+        Stmaster stmaster = (Stmaster) context.getTarget();
         StmasterPlatAccount acouunt = new StmasterPlatAccount();
         acouunt.setAccountId(IdGeneratorFactory.nextId());
         Date date = new Date();

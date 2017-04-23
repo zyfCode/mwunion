@@ -47,10 +47,22 @@ public class StmasterController {
 		service.disable(stmasterId);
 		return new AdResponse();
 	}
+	@RequestMapping("/enablestmaster")
+	@ResponseBody
+	public Object enablestmaster  (String stmasterId){
+		service.enable(stmasterId);
+		return new AdResponse();
+	}
 	@RequestMapping("/cancelstmaster")
 	@ResponseBody
 	public Object cancelstmaster  (String stmasterId){
 		service.cancel(stmasterId);
+		return new AdResponse();
+	}
+	@RequestMapping("/blackList")
+	@ResponseBody
+	public Object blackList  (String stmasterId){
+		service.blackList(stmasterId);
 		return new AdResponse();
 	}
 	@RequestMapping("/deletestmaster")
@@ -85,6 +97,15 @@ public class StmasterController {
 			AdCommonsUtil.proStrEmpytToNull(record);
 		}
 		AdPager<StmasterVo> queryPager = service.queryPager(record, pageNo, pageSize);
+		return queryPager;
+	}
+	@RequestMapping("/showblacklist.json")
+	@ResponseBody
+	public Object showblacklist(Stmaster record,Integer pageNo,Integer pageSize){
+		if(record!=null){
+			AdCommonsUtil.proStrEmpytToNull(record);
+		}
+		AdPager<StmasterVo> queryPager = service.queryBlackListPager(record, pageNo, pageSize);
 		return queryPager;
 	}
 }

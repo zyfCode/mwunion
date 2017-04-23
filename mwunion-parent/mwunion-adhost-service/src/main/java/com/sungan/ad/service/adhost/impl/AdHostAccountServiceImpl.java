@@ -1,8 +1,13 @@
 package com.sungan.ad.service.adhost.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.dao.AdHostAccountSerialDAO;
+import com.sungan.ad.dao.AdHostDAO;
+import com.sungan.ad.dao.model.AdHost;
+import com.sungan.ad.service.adhost.bizbean.AdHostBizBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +31,11 @@ public class AdHostAccountServiceImpl implements AdHostAccountService{
 	
 	@Autowired
 	private AdHostAccountDAO adHostAccountDAO;
+	@Autowired
+	private AdHostDAO adHostDAO;
+
+	@Autowired
+	AdHostAccountSerialDAO adHostAccountSerialDAO;
 	
 
 	public AdHostAccountDAO getAdHostAccountDAO() {
@@ -36,11 +46,39 @@ public class AdHostAccountServiceImpl implements AdHostAccountService{
 		this.adHostAccountDAO = adHostAccountDAO;
 	}
 
+
+	/**
+	 * 充值
+	 * @return
+	 */
+	public void addMoney(String adHostId,BigDecimal money){
+		if(money==null||money.compareTo(BigDecimal.ZERO)<0){
+			throw new AdRuntimeException("金额错误");
+		}
+		if(adHostId==null){
+			throw new AdRuntimeException("无记录");
+		}
+		/*
+		 1、查询广告主信息
+		 2、如果广告主信息不存在报错，、
+		 3、如果广告主非正常状态不允许允值
+		 */
+		AdHost adHost = adHostDAO.find(adHostId);
+		if(adHost==null){
+			throw new AdRuntimeException("无此记录");
+		}
+		AdHostBizBean adHostBizBean = new AdHostBizBean(adHost);
+		adHostBizBean.setAdHostAccountDAO(adHostAccountDAO);
+		adHostBizBean.setAdHostAccountSerialDAO(adHostAccountSerialDAO);
+		adHostBizBean.addMoney(money);
+	}
+
+
 	@Override
 	public String insert(AdHostAccount record) {
 		String nextId = IdGeneratorFactory.nextId();
-		record.setAccountId(nextId);
 		record.setCreateTime(new Date());
+		record.setAccountId(nextId);
 		record.setUpdateTime(new Date());
 		adHostAccountDAO.insert(record);
 		return nextId;

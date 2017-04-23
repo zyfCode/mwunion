@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EvenContext;
 import com.sungan.ad.commons.service.event.EventQueen;
 import com.sungan.ad.dao.model.adenum.EnumStmasterSiteStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,9 @@ public class StmasterSiteServiceImpl implements StmasterSiteService{
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
 		stmasterSiteDAO.insert(record);
-		EventQueen.addEvent(EnumEventType.ADD_STMARSTER_SITE,record);
+		EvenContext context = new EvenContext();
+		context.setTarget(record);
+		EventQueen.addEvent(EnumEventType.ADD_STMARSTER,context);
 		return nextId;
 	}
 

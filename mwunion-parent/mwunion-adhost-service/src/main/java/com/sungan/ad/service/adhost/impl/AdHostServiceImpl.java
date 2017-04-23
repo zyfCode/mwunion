@@ -3,6 +3,9 @@ package com.sungan.ad.service.adhost.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EvenContext;
+import com.sungan.ad.commons.service.event.EventQueen;
 import com.sungan.ad.dao.UserDAO;
 import com.sungan.ad.dao.model.User;
 import com.sungan.ad.dao.model.adenum.EnumUserStatus;
@@ -62,6 +65,9 @@ public class AdHostServiceImpl implements AdHostService{
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
 		adHostDAO.insert(record);
+		EvenContext context = new EvenContext();
+		context.setTarget(record);
+		EventQueen.addEvent(EnumEventType.ADD_STMARSTER,context);
 		return nextId;
 	}
 

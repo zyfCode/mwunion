@@ -9,7 +9,7 @@ public abstract class EventListener  implements InitializingBean{
 
     public abstract EnumEventType getListenType();
 
-    public abstract void handler(Object context);
+    public abstract void handler(EvenContext context);
 
     @Override
     public void afterPropertiesSet() throws Exception {

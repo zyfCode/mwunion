@@ -47,6 +47,11 @@ public interface StmasterService extends  MuService{
 	 * @param id
 	 */
 	void disable(String id);
+	/**
+	 * 黑名单
+	 * @param id
+	 */
+	void blackList(String id);
 
 	/**
 	 * 注销账号
@@ -57,4 +62,19 @@ public interface StmasterService extends  MuService{
 	void update(Stmaster task);
 	List<StmasterVo> queryList(Stmaster condition);
 	AdPager<StmasterVo> queryPager(Stmaster condition,int pageIndex,int rows);
+
+	/**
+	 * 停用站长
+	 * @param stmasterId
+	 */
+    void enable(String stmasterId);
+
+	/**
+	 * 黑名单列表
+	 * @param record
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	AdPager<StmasterVo> queryBlackListPager(Stmaster record, Integer pageNo, Integer pageSize);
 }

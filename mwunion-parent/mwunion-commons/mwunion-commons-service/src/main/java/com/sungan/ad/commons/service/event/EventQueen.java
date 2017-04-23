@@ -23,7 +23,7 @@ public class EventQueen {
      * @param type
      * @param context
      */
-    public static void addEvent(EnumEventType type,Object context){
+    public static void addEvent(EnumEventType type,EvenContext context){
         List<EventListener> eventListeners = pool.get(type);
         if(eventListeners!=null){
             for (EventListener listener:eventListeners){

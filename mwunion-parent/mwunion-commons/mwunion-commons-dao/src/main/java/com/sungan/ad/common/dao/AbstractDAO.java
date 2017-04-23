@@ -32,10 +32,6 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 	
 	public AbstractDAO(){}
 
-	protected AbstractDAO(HibernateTemplate template) {
-		this.template = template;
-	}
-
 	{
 		Type type = this.getClass().getSuperclass().getGenericSuperclass();
 		if (type != null && type instanceof ParameterizedType) {
@@ -50,6 +46,136 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 				}
 			}
 		}
+	}
+
+	@Override
+	public AdPager<T> queryPageInOrder(T t, QueryHandler handler, int pageIndex, int rows, OrderType orderType, String orderColumn) {
+		Session currentSession = this.template.getSessionFactory().getCurrentSession();
+		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
+		this.setCondition(t,createCriteria);
+		if(handler!=null){
+			createCriteria = handler.addCondition(createCriteria);
+		}
+		int firstResult = (pageIndex-1)*rows;
+		createCriteria.setFirstResult(firstResult).setMaxResults(rows);
+		List<T> list = null;
+		if(orderColumn!=null&&orderType!=null){
+			if(orderType==OrderType.DESC){
+				list=createCriteria.addOrder(Order.desc(orderColumn)).list();
+			}else{
+				list=createCriteria.addOrder(Order.asc(orderColumn)).list();
+			}
+		}else{
+			list=createCriteria.list();
+		}
+		int count = Integer.valueOf(this.count(t).toString());
+		AdPager<T> pager = new AdPager<T>(pageIndex, rows, count);
+		pager.setRows(list);
+		return pager;
+	}
+
+	@Override
+	public Collection<T> queryIsEmpty(QueryHandler handler, String... proNames) {
+		if(proNames==null||proNames.length<1){
+			throw new RuntimeException("属性字段不能为空");
+		}
+		Session currentSession = this.template.getSessionFactory().getCurrentSession();
+		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
+		try {
+			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
+			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+			for(PropertyDescriptor pt:propertyDescriptors){
+				String name = pt.getName();
+				if(name.equals("class")){
+					continue;
+				}
+				for(String proName:proNames){
+					Class<?> propertyType = pt.getPropertyType();
+					if(proName.equals(name)){
+						if(propertyType==String.class){
+							createCriteria = createCriteria.add(Restrictions.or(Restrictions.isNull(name),Restrictions.eq(name, "")));
+						}else{
+							createCriteria = createCriteria.add(Restrictions.isNull(name));
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("",e);
+		}
+		if(handler!=null){
+			createCriteria = handler.addCondition(createCriteria);
+		}
+		List<T> list = createCriteria.list();
+		return list;
+	}
+
+	@Override
+	public AdPager<T> queryPage(T t, QueryHandler handler, int pageIndex, int rows) {
+		Session currentSession = this.template.getSessionFactory().getCurrentSession();
+		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
+		try {
+			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
+			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
+			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+			for(PropertyDescriptor pt:propertyDescriptors){
+				String name = pt.getName();
+				if(name.equals("class")){
+					continue;
+				}
+				Object object = beanFile.get(name);
+				if(object!=null&&(object instanceof String)){
+					createCriteria = createCriteria.add(Restrictions.like(name, object+"%"));
+				}else if(object!=null){
+					createCriteria = createCriteria.add(Restrictions.eq(name, object));
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("",e);
+		}
+		if(handler!=null){
+			createCriteria = handler.addCondition(createCriteria);
+		}
+		int firstResult = (pageIndex-1)*rows;
+		createCriteria.setFirstResult(firstResult).setMaxResults(rows);
+		List<T> list = createCriteria.list();
+		int count = Integer.valueOf(this.count(t).toString());
+		AdPager<T> pager = new AdPager<T>(pageIndex, rows, count);
+		pager.setRows(list);
+		return pager;
+	}
+
+	@Override
+	public AdPager<T> queryPageEq(T t, QueryHandler handler, int pageIndex, int rows) {
+		Session currentSession = this.template.getSessionFactory().getCurrentSession();
+		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
+		setCondition(t,createCriteria);
+		if(handler!=null){
+			createCriteria = handler.addCondition(createCriteria);
+		}
+		int firstResult = (pageIndex-1)*rows;
+		createCriteria.setFirstResult(firstResult).setMaxResults(rows);
+		List<T> list = createCriteria.list();
+		int count = Integer.valueOf(this.count(t).toString());
+		AdPager<T> pager = new AdPager<T>(pageIndex, rows, count);
+		pager.setRows(list);
+		return pager;
+	}
+
+	protected AbstractDAO(HibernateTemplate template) {
+		this.template = template;
+	}
+
+	@Override
+	public Long count(T t, QueryHandler handler) {
+		Session currentSession = this.template.getSessionFactory().getCurrentSession();
+		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
+		this.setCondition(t,createCriteria);
+		if(handler!=null){
+			createCriteria  = handler.addCondition(createCriteria);
+		}
+		Long uniqueResult = (Long) createCriteria.setProjection(Projections.rowCount()).uniqueResult();
+		return uniqueResult;
 	}
 
 	public void commit() {
@@ -95,8 +221,21 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 	
 	@SuppressWarnings("unchecked")
 	public AdPager<T> queryPageEq(T t,int pageIndex,int rows) {
-		Session currentSession = this.template.getSessionFactory().getCurrentSession();
-		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
+		return this.queryPageEq(t,null,pageIndex,rows);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public AdPager<T> queryPage(T t,int pageIndex,int rows) {
+		AdPager<T> tAdPager = this.queryPage(t, null, pageIndex, rows);
+		return tAdPager;
+	}
+	@SuppressWarnings("unchecked")
+	public AdPager<T> queryPageInOrder(T t,int pageIndex,int rows,OrderType orderType,String orderColumn) {
+		AdPager<T> tAdPager = this.queryPageInOrder(t, null, pageIndex, rows, orderType, orderColumn);
+		return tAdPager;
+	}
+
+	private void setCondition(T t,Criteria createCriteria){
 		try {
 			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
 			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
@@ -114,193 +253,32 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 		} catch (Exception e) {
 			throw new RuntimeException("",e);
 		}
-		
-		int firstResult = (pageIndex-1)*rows;
-		createCriteria.setFirstResult(firstResult).setMaxResults(rows);
-		List<T> list = createCriteria.list();
-		int count = Integer.valueOf(this.count(t).toString());
-		AdPager<T> pager = new AdPager<T>(pageIndex, rows, count);
-		pager.setRows(list);
-		return pager;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public AdPager<T> queryPage(T t,int pageIndex,int rows) {
-		Session currentSession = this.template.getSessionFactory().getCurrentSession();
-		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
-		try {
-			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
-			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor pt:propertyDescriptors){
-				String name = pt.getName();
-				if(name.equals("class")){
-					continue;
-				}
-				Object object = beanFile.get(name);
-				if(object!=null&&(object instanceof String)){
-					createCriteria = createCriteria.add(Restrictions.like(name, object+"%"));
-				}else if(object!=null){
-					createCriteria = createCriteria.add(Restrictions.eq(name, object));
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("",e);
-		}
-		
-		int firstResult = (pageIndex-1)*rows;
-		createCriteria.setFirstResult(firstResult).setMaxResults(rows);
-		List<T> list = createCriteria.list();
-		int count = Integer.valueOf(this.count(t).toString());
-		AdPager<T> pager = new AdPager<T>(pageIndex, rows, count);
-		pager.setRows(list);
-		return pager;
-	}
-	@SuppressWarnings("unchecked")
-	public AdPager<T> queryPageInOrder(T t,int pageIndex,int rows,OrderType orderType,String orderColumn) {
-		Session currentSession = this.template.getSessionFactory().getCurrentSession();
-		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
-		try {
-			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
-			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor pt:propertyDescriptors){
-				String name = pt.getName();
-				if(name.equals("class")){
-					continue;
-				}
-				Object object = beanFile.get(name);
-				if(object!=null&&(object instanceof String||object instanceof java.util.Date)){
-					createCriteria = createCriteria.add(Restrictions.like(name, object+"%"));
-				}else if(object!=null){
-					createCriteria = createCriteria.add(Restrictions.eq(name, object));
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("",e);
-		}
-		
-		int firstResult = (pageIndex-1)*rows;
-		createCriteria.setFirstResult(firstResult).setMaxResults(rows);
-		List<T> list = null;
-		if(orderColumn!=null&&orderType!=null){
-			if(orderType==OrderType.DESC){
-				list=createCriteria.addOrder(Order.desc(orderColumn)).list();
-			}else{
-				list=createCriteria.addOrder(Order.asc(orderColumn)).list();
-			}
-		}else{
-			list=createCriteria.list();
-		}
-		int count = Integer.valueOf(this.count(t).toString());
-		AdPager<T> pager = new AdPager<T>(pageIndex, rows, count);
-		pager.setRows(list);
-		return pager;
 	}
 	@SuppressWarnings("unchecked")
 	public Collection<T> query(T t,QueryHandler handler) {
 		Session currentSession = this.template.getSessionFactory().getCurrentSession();
 		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
-		try {
-			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
-			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor pt:propertyDescriptors){
-				String name = pt.getName();
-				if(name.equals("class")){
-					continue;
-				}
-				Object object = beanFile.get(name);
-				if(object!=null){
-					createCriteria = createCriteria.add(Restrictions.eq(name, object));
-				}
-			}
-			createCriteria = handler.addCondition(createCriteria);
-		} catch (Exception e) {
-			throw new RuntimeException("",e);
-		}
+		setCondition(t,createCriteria);
 		List<T> list = createCriteria.list();
 		return list;
 	}
 	@SuppressWarnings("unchecked")
 	public Collection<T> queryIsEmpty(String... proNames) {
-		if(proNames==null||proNames.length<1){
-			throw new RuntimeException("属性字段不能为空");
-		}
-		Session currentSession = this.template.getSessionFactory().getCurrentSession();
-		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
-		try {
-			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor pt:propertyDescriptors){
-				String name = pt.getName();
-				if(name.equals("class")){
-					continue;
-				}
-				for(String proName:proNames){
-					Class<?> propertyType = pt.getPropertyType();
-					if(proName.equals(name)){
-						if(propertyType==String.class){
-							createCriteria = createCriteria.add(Restrictions.or(Restrictions.isNull(name),Restrictions.eq(name, "")));
-						}else{
-							createCriteria = createCriteria.add(Restrictions.isNull(name));
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("",e);
-		}
-		List<T> list = createCriteria.list();
-		return list;
+		Collection<T> ts = this.queryIsEmpty(null, proNames);
+		return ts;
 	}
 	@SuppressWarnings("unchecked")
 	public Collection<T> query(T t) {
 		Session currentSession = this.template.getSessionFactory().getCurrentSession();
 		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
-		try {
-			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
-			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor pt:propertyDescriptors){
-				String name = pt.getName();
-				if(name.equals("class")){
-					continue;
-				}
-				Object object = beanFile.get(name);
-				if(object!=null){
-					createCriteria = createCriteria.add(Restrictions.eq(name, object));
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("",e);
-		}
+		this.setCondition(t,createCriteria);
 		List<T> list = createCriteria.list();
 		return list;
 	}
 	@SuppressWarnings("unchecked")
 	public Long count(T t) {
-		Session currentSession = this.template.getSessionFactory().getCurrentSession();
-		Criteria createCriteria = currentSession.createCriteria(currentClass);//.add(Restrictions.eq("appid", appid)).list();
-		try {
-			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
-			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);
-			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-			for(PropertyDescriptor pt:propertyDescriptors){
-				String name = pt.getName();
-				if(name.equals("class")){
-					continue;
-				}
-				Object object = beanFile.get(name);
-				if(object!=null){
-					createCriteria = createCriteria.add(Restrictions.eq(name, object));
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException("",e);
-		}
-		  Long uniqueResult = (Long) createCriteria.setProjection(Projections.rowCount()).uniqueResult();
-		return uniqueResult; 
+		Long count = this.count(t, null);
+		return count;
 	}
 
 	@SuppressWarnings("unchecked")

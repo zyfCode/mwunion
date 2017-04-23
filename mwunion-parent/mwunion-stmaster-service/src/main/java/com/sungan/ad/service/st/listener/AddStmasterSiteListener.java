@@ -3,6 +3,7 @@ package com.sungan.ad.service.st.listener;
 import com.sungan.ad.commons.IdGeneratorFactory;
 import com.sungan.ad.commons.MuService;
 import com.sungan.ad.commons.service.event.EnumEventType;
+import com.sungan.ad.commons.service.event.EvenContext;
 import com.sungan.ad.commons.service.event.EventListener;
 import com.sungan.ad.commons.service.resources.ResourcesUtil;
 import com.sungan.ad.dao.model.Stmaster;
@@ -37,8 +38,8 @@ public class AddStmasterSiteListener extends EventListener implements MuService 
     }
 
     @Override
-    public void handler(Object context) {
-        StmasterSite site = (StmasterSite) context;
+    public void handler(EvenContext context) {
+        StmasterSite site = (StmasterSite) context.getTarget();
         Stmaster st = stmasterService.find(site.getStId());
         Map<String, String> jsCode = ResourcesUtil.getJsCode();
         Set<Map.Entry<String, String>> entries = jsCode.entrySet();
