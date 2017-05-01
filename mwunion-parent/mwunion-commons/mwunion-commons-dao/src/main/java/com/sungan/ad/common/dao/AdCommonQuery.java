@@ -20,7 +20,21 @@ public abstract class AdCommonQuery<T> {
 	private Log log = LogFactory.getLog(AdCommonQuery.class);
 	@Autowired
 	protected HibernateTemplate template;
-	
+
+	/**
+	 * 获取别名
+	 * @param clazz
+	 * @return
+	 */
+	protected String getAlia(Class<?> clazz){
+		String className = clazz.getName();
+		if(className.contains(".")){
+			String[] split = className.split("\\.");
+			className = split[split.length-1].toLowerCase();
+		}
+		return className;
+	}
+
 	
 	/**
 	 * 按条件查询
@@ -29,11 +43,14 @@ public abstract class AdCommonQuery<T> {
 	 * @param hqlSuffix
 	 * @return
 	 */
-	public AdPager<T> queryPager(Class<T> clazz,T contidion,int pageIndex,int rows,String hqlSuffix){
+	public AdPager<T> queryPager(Class<T> clazz,T contidion,int pageIndex,int rows,String hqlSuffix,HQLHandler hqlHandler){
 		Session currentSession = template.getSessionFactory().getCurrentSession();
 		AdResultTransformer<T> former = new AdResultTransformer<T>(clazz,hqlSuffix,contidion);
 		HQLCondition eqCondition = former.toEqOrLikeCondition();
 		String hql = eqCondition.getHql();
+		if(hqlHandler!=null){
+			hql = hqlHandler.handleHql(hql);
+		}
 		if(log.isDebugEnabled()){
 			log.debug("HQL QUERY:"+hql);
 		}
@@ -66,11 +83,14 @@ public abstract class AdCommonQuery<T> {
 	 * @param hqlSuffix
 	 * @return
 	 */
-	public List<T> queryList(Class<T> clazz,T contidion,String hqlSuffix){
+	public List<T> queryList(Class<T> clazz,T contidion,String hqlSuffix,HQLHandler hqlHandler){
 		Session currentSession = template.getSessionFactory().getCurrentSession();
 		AdResultTransformer<T> former = new AdResultTransformer<T>(clazz,hqlSuffix,contidion);
 		HQLCondition eqCondition = former.toEqCondition();
 		String hql = eqCondition.getHql();
+		if(hqlHandler!=null){
+			hql = hqlHandler.handleHql(hql);
+		}
 		if(log.isDebugEnabled()){
 			log.debug("HQL:"+hql);
 		}
@@ -82,5 +102,15 @@ public abstract class AdCommonQuery<T> {
 		 }
 		 List<T> list = createQuery.setResultTransformer(former).list();
 		 return list;
+	}
+
+
+	protected  interface HQLHandler{
+		/**
+		 * 重置HQL
+		 * @param orgHql
+		 * @return
+		 */
+		String handleHql(String orgHql);
 	}
 }

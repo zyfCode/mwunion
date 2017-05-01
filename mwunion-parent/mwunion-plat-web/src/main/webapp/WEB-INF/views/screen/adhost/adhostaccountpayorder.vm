@@ -1,167 +1,394 @@
 #@screen({"title":"客户端查询"})  
     #@form({"name":"adhostaccountpayordersearchForm"})  
         #@panel({"title":"查询条件"})  
-			           #textfield({"label":"serialVersionUID ", "name":"serialVersionUID ","value":"","defValue":""})  
-		   	           #textfield({"label":"payOrderId ", "name":"payOrderId ","value":"","defValue":""})  
-		   	           #textfield({"label":"accountId ", "name":"accountId ","value":"","defValue":""})  
-		   	           #textfield({"label":"adHostId ", "name":"adHostId ","value":"","defValue":""})  
-		   	           #textfield({"label":"accountAmount ", "name":"accountAmount ","value":"","defValue":""})  
-		   	           #textfield({"label":"payOrderStatus ", "name":"payOrderStatus ","value":"","defValue":""})  
-		   	           #textfield({"label":"version ", "name":"version ","value":"","defValue":""})  
-		   	           #textfield({"label":"sureTime ", "name":"sureTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
-		   	            #button_group({"buttons":[  
-                {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
-				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
-            ]})  
+		   	           #textfield({"label":"广告主 ", "name":"adhostName","value":"","defValue":""})
+		   	            #button_group({"buttons":[
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"}
+            ]})
         #end  
-    #end  
-    #datagrid({  
-        "id":"adhostaccountpayorderTable",  
-        "name":"adhostaccountpayorderTable",  
-        "bindFormName":"adhostaccountpayordersearchForm",  
-        "title":"查询列表",    
-        "autoLoad":true,  
-        "url":"/adhostaccountpayorder/listadhostaccountpayorder.json",  
-		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
-        "items":[ 
-            {"name":"serialVersionUID",  
-            "text":"serialVersionUID",  
-            "hAlign":"center",  
-            "tAlign":"center"  
+    #end
+    #datagrid({
+        "id":"adhostaccountpayorderTable",
+        "name":"adhostaccountpayorderTable",
+        "bindFormName":"adhostaccountpayordersearchForm",
+        "title":"查询列表",
+        "autoLoad":true,
+        "url":"/adhostaccountpayorder/listpayorderbean.json",
+        "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[
+    {"name":"payOrderId",
+        "text":"payOrderId",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":true
+    },
+
+
+    {"name":"adHostId",
+        "text":"adHostId",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":true
+    },
+    {"name":"adhostName",
+        "text":"广告主",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+    {"name":"accountAmount",
+        "text":"充值金额",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+
+    {"name":"payOrderStatusCn",
+        "text":"状态",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+
+    {"name":"sureTimeStr",
+        "text":"确认时间",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+
+    {"name":"createTimeStr",
+        "text":"创建时间",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
+
+    {
+        "name":"operation",
+        "text":"操作",
+        "hAlign":"center",
+        "tAlign":"center",
+        "hidden":false,
+        "width":"200",
+        "buttons":[{"label":"附件","event":"annxinfo"}]
+    }
+    ],
+        "numbercolumn":"true",
+        "pageConfig":{"pageSize":10,"pageNo":1},
+        "rowSelect":"false",
+        "hasPage":"true"
+    })
+
+    #@window({"title":"附件", "name":"adhostaccountpayorderannax", "width":"750", "height":"250"})
+        #@form({"name":"adhostaccountpayorderannaxForm","url":""})
+            #datagrid({
+                "id":"adhostaccountpayorderannexesTable",
+                "name":"adhostaccountpayorderannexesTable",
+                "bindFormName":"adhostaccountpayorderannexessearchForm",
+                "autoLoad":true,
+                "baseParams":{"payOrderId":"$!request.parameterMap.adhostId[0]"},
+                "url":"/adhostaccountpayorderannexes/listadhostaccountpayorderannexes.json",
+                "items":[
+            {"name":"annxId",
+                "text":"annxId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":true
             },
 
-            {"name":"payOrderId",  
-            "text":"payOrderId",  
-            "hAlign":"center",  
-            "tAlign":"center"  
+            {"name":"adHostId",
+                "text":"adHostId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":true
             },
 
-            {"name":"accountId",  
-            "text":"accountId",  
-            "hAlign":"center",  
-            "tAlign":"center"  
+            {"name":"payOrderId",
+                "text":"payOrderId",
+                "hAlign":"center",
+                "tAlign":"center" ,
+                "hidden":true
             },
 
-            {"name":"adHostId",  
-            "text":"adHostId",  
-            "hAlign":"center",  
-            "tAlign":"center"  
+            {"name":"annexesName",
+                "text":"附件",
+                "hAlign":"center",
+                "tAlign":"center"
             },
 
-            {"name":"accountAmount",  
-            "text":"accountAmount",  
-            "hAlign":"center",  
-            "tAlign":"center"  
+            {"name":"createTime",
+                "text":"上传时间",
+                "hAlign":"center",
+                "tAlign":"center"
             },
+            {
+                "name":"operation",
+                "text":"操作",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":false,
+                "width":"200",
+                "buttons":[{"label":"下载","event":"download"}]
+            }
+            ],
+                "numbercolumn":"true",
+                "pageConfig":{"pageSize":10,"pageNo":1},
+                "rowSelect":"false",
+                "hasPage":"true"
+            })
+        #end
+    #end
 
-            {"name":"payOrderStatus",  
-            "text":"payOrderStatus",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"version",  
-            "text":"version",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"sureTime",  
-            "text":"sureTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"createTime",  
-            "text":"createTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"updateTime",  
-            "text":"updateTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-
-			{  
-                "name":"operation",  
-                "text":"操作",  
-                "hAlign":"center",  
-                "tAlign":"center",  
-                "hidden":false,  
-                "width":"200",  
-                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
-			}
-        ],  
-        "numbercolumn":"true",  
-        "pageConfig":{"pageSize":10,"pageNo":1},  
-        "rowSelect":"false",  
-        "hasPage":"true",  
-        "events":[{"event":"rowClick","function":"queryTableClick"},  
-                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
-       })  
-            
-    #@window({"title":"编辑窗口", "name":"adhostaccountpayorderEdit", "width":"750", "height":"250",  
-            "buttons":[  
-                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
-                {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"adhostaccountpayorderEditForm","url":""})  
-            #@panel({})  
-			                #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"payOrderId", "name":"payOrderId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"accountAmount", "name":"accountAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"payOrderStatus", "name":"payOrderStatus","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"version", "name":"version","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"sureTime", "name":"sureTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			  			  #end  
-        #end  
-    #end  
 	
-	
-	    #@window({"title":"添加", "name":"adhostaccountpayorderAdd", "width":"750", "height":"250",  
-            "buttons":[  
-                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
-                {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"adhostaccountpayorderAddForm","url":""})  
-            #@panel({})  
-                               #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"payOrderId", "name":"payOrderId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"accountAmount", "name":"accountAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"payOrderStatus", "name":"payOrderStatus","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"version", "name":"version","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"sureTime", "name":"sureTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			              #end  
+	    #@window({"title":"选择广告主", "name":"adhostsearchWindow", "width":"750", "height":"350","scroll":true
+             })
+            #@form({"name":"adhostsearchForm"})
+                #@panel({})
+                    #textfield({"label":"广告主", "name":"adhostName ","value":"","defValue":""})
+                    #button_group({"buttons":[
+                        {"label":"查询","event":"queryData()","className":"u-btn-primary"}
+                    ]})
+                #end
+            #end
+            #datagrid({
+                "id":"adhostTable",
+                "name":"adhostTable",
+                "bindFormName":"adhostsearchForm",
+                "title":"查询列表",
+                "autoLoad":true,
+                "url":"",
+                "items":[
+            {"name":"adhostId",
+                "text":"adhostId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":true
+            },
+
+            {"name":"userAccount",
+                "text":"账号",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+            {"name":"adhostName",
+                "text":"名称",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"userId",
+                "text":"userId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden": true
+            },
+
+            {"name":"recId",
+                "text":"recId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":true
+            },
+
+            {"name":"recName",
+                "text":"接待员",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"adhostQQ",
+                "text":"QQ",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"adhostEmail",
+                "text":"email",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"mobile",
+                "text":"手机号",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"weChat",
+                "text":"微信",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"createTime",
+                "text":"接入时间",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"remark",
+                "text":"描述",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+            {
+                "name":"operation",
+                "text":"操作",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":false,
+                "width":"200",
+                "buttons":[{"label":"选择","event":"chooseAdhost"}]
+            }
+            ],
+
+                "numbercolumn":"true",
+                "pageConfig":{"pageSize":10,"pageNo":1},
+                "rowSelect":"false",
+                "hasPage":"true"
+            })
+        #end
+	    #@window({"title":"添加", "name":"adhostaccountpayorderAdd", "width":"750", "height":"350","scroll":true,
+            "buttons":[
+                {"label":"提交","event":"addMoney()","className":"u-btn-primary"},
+                {"label":"重置","event":"resetDataForm()"}
+            ]})
+        #@form({"name":"addMoneyForm","url":""})
+            #@panel({})
+                #textfield({"label":"adhostId", "name":"adhostId","value":"","defValue":"","check":"required",
+                    "hidden":true})
+                #textfield({"label":"广告主", "name":"adhostName","check":"required"})
+                #button_group({
+                    "buttons" : [
+                {"label":"选择","event":"queryAdHost()","className":"u-btn-primary"}
+                ]
+                })
+                #textfield({"label":"金额", "name":"moneyAmount","check":"required;decmal1"})
+                #textarea({ "label":"备注","name":"remark","cols":3,"value":""})
+                #@panel({"cols":1})
+                    #upload_group({"name":"annxFile","id":"annxFile", "label":"附件上传", "check": "required;","cols":"3","url":"$appServer/common/upload","savePath":"E:/upload","fileSizeLimit":20,"progressData":"speed","fileTypeExts":"*.jpg;*.gif;*.jpeg;*.png;*.bmp;*.zip;*.rar;*.7z","multi":false,"auto":false,"onUploadSuccess":"onUploadSuccess"})
+                #end
+                #@panel({"cols":1})
+                    #datagrid({
+                        "id" : "anxFileTable1",
+                        "name":"anxFileTable1",
+                        "title":"附件列表",
+                        "numbercolumn":false,
+                        "textOverHidden":false,
+                        "rowSelect":"true",
+                        "isDragColumn":false,
+                        "items":[
+                    {"name":"fileNo", "text":"附件编号"},
+                    {"name":"fileName","text":"附件名称"},
+                    {"name":"branchNo", "text":"操作","showwhenover":"true","buttons":[{"label":"删除","event":"deleteFile","className":"import"}]}
+                    ]
+                    ,"data":[]
+                    })
+                #end
+            #end
         #end  
     #end  
-#end  
-  
-  
-#jscode()  
-    var action = "";  
-  
+#end
+
+#jscode()
+    function deleteFile(){
+          var selectedData = (Horn.getComp('anxFileTable1').getSelecteds())[0]
+          var fileNo = selectedData.fileNo;
+          if(!fileNo){
+              return;
+          }
+          var dataArr = Horn.getComp("anxFileTable1").data;
+          var newData = [];
+          $.each(dataArr,function(index,obj){
+              if(obj.fileNo==fileNo){
+                  dataArr[index]=null;
+              }else{
+                  newData.push(obj);
+              }
+              Horn.getComp("anxFileTable1").loadData(newData);
+          })
+      }
+
+      //附件上传成功
+      function onUploadSuccess(file, data, response){
+          var rs = $.parseJSON(data);
+          var returnCode = rs.return_code;
+          var returnMsg = rs.return_msg;
+          if(returnCode=="10000"){
+              var filename = rs.success.fileName;
+              uploadAnxFile(filename);
+              Horn.getComp("annxFile").reset();
+          }else{
+              Horn.Tip.warn("附件上传失败");
+          }
+      }
+
+      function uploadAnxFile(fileName){
+          var fileNo = new Date().getTime();
+          var dataArr = Horn.getComp("anxFileTable1").data;
+          var length = dataArr.length;
+          dataArr[length]={"fileNo":fileNo+"","fileName":fileName};
+          Horn.getComp("anxFileTable1").loadData(dataArr);
+      }
+
+
+      function addMoney(){
+          var form = $("form[name='addMoneyForm']")
+          var result = Horn.Validate.isFormValidate(form);
+          if(!result){
+              return;
+          }
+          var data = $("form[name='addMoneyForm']").serializeJSON();
+          var dataArr = Horn.getComp("anxFileTable1").data;
+          var anax = [];
+          $.each(dataArr,function(index,obj){
+              var fileName = obj.fileName;
+              anax[index]=fileName;
+          });
+          data.anaxNames = JSON.stringify(anax);
+            Horn.getComp("adhostaccountpayorderAdd").hide();
+            $.post("${imageServer}/adhost/addmoney",data,function(resultData){
+              if(resultData.success){
+                    Horn.Tip.info("充值成功");
+                     Horn.getComp("adhostaccountpayorderTable").load();
+                }else{
+                  Horn.Tip.warn(resultData.errorMesg);
+              }
+          },"json");
+      }
+
+      function addMoneyShow(){
+          Horn.getComp("addMoneyForm").reset();
+          Horn.getComp("addMoneyEdit").show();
+      }
+
+    var action = "";
+
+
+
+    function download(rowData){
+        var annexesName = rowData.rowdata.annexesName;
+        window.location.href="${imageServer}/common/download?annexesName="+annexesName;
+    }
+    function annxinfo(rowData){
+        Horn.getComp("adhostaccountpayorderannexesTable").baseParams={"payOrderId":rowData.rowdata.payOrderId};
+        Horn.getComp("adhostaccountpayorderannax").show();
+        Horn.getComp("adhostaccountpayorderannexesTable").load();
+    }
       
     function add(rowData){  
-        Horn.getComp("adhostaccountpayorderAddForm").reset();  
+        Horn.getComp("addMoneyForm").reset();
         Horn.getComp("adhostaccountpayorderAdd").show();  
     }  
-      
+    function queryAdHost(){
+        Horn.getComp("adhostTable").url="/adhost/listadhost.json";
+        Horn.getComp("adhostTable").load();
+        Horn.getComp("adhostsearchWindow").show();
+    }
+
+    function chooseAdhost(rowData){
+        Horn.getComp("addMoneyForm").setValues(rowData.rowdata);
+        Horn.getComp("adhostsearchWindow").hide();
+    }
+
     function edit(rowData){  
-        rowDatarowData = rowData || Horn.getComp('adhostaccountpayorderTable').getSelecteds().length && (Horn.getComp('adhostaccountpayorderTable').getSelecteds())[0];  
-        Horn.getComp("adhostaccountpayorderEditForm").setValues(rowData.rowdata);  
+        Horn.getComp("adhostaccountpayorderEditForm").setValues(rowData.rowdata);
         Horn.getComp("adhostaccountpayorderEdit").show();  
     }  
       

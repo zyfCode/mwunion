@@ -3,6 +3,7 @@ package com.sungan.ad.controller.common;
 import com.hundsun.jresplus.ui.upload.util.JsonUtil;
 import com.sungan.ad.commons.annexes.AnexesInfo;
 import com.sungan.ad.commons.annexes.AnnexesUtil;
+import com.sungan.ad.exception.AdRuntimeException;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +33,35 @@ import java.util.Set;
 @RequestMapping("/common")
 public class CommonController {
     private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
+
+    @RequestMapping("/download")
+    @ResponseBody
+    public void downLoad(String annexesName, HttpServletRequest request, HttpServletResponse response){
+        if(annexesName==null){
+            throw new AdRuntimeException("无附信息");
+        }
+        InputStream download = AnnexesUtil.download(annexesName);
+        if(download==null){
+            throw new AdRuntimeException("无附信息");
+        }
+        response.setHeader("Content-Disposition", "attachment;filename="+annexesName);
+        byte[] dataArr = new byte[50*1024];
+        int length = -1;
+        try {
+            try {
+                ServletOutputStream outputStream = response.getOutputStream();
+                while((length=download.read(dataArr))!=-1){
+                    outputStream.write(dataArr,0,length);
+                }
+                outputStream.flush();
+            } finally {
+                download.close();
+            }
+        } catch (Exception e) {
+            logger.warn("",e);
+        }
+    }
+
 
     @RequestMapping("/upload")
     @ResponseBody

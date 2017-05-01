@@ -1,0 +1,161 @@
+#@screen({"title":"客户端查询"})
+    #@panel({})
+    <div class="g-row">
+        <div class="g-grid-5">
+            #@form({"name":"stmasterAccountInfo","url":""})
+                #@panel({"cols":2,"title":"账户信息"})
+                    #label({"label":"余额","name":"accountAmount","value":"0.00元","defValue":""})
+                    #label({"label":"消费金额","name":"useAmount","value":"0.00元","defValue":""})
+                    #label({"label":"冻结金额","name":"frozenAmount","value":"0.00元","defValue":""})
+                #button_group({
+                    "buttons" : [
+                      {"label":"充值","event":"addMoneyShow()","className":"u-btn-primary"}
+                    ]
+                })
+            #end
+            #end
+
+         #@window({"title":"充值", "name":"addMoneyEdit", "width":"750", "height":"350","scroll":true,
+            "buttons":[
+        {"label":"充值","event":"addMoney()","className":"u-btn-primary"}
+        ]})
+            #@form({"name":"addMoneyForm","url":""})
+                #@panel({})
+                    #textfield({"label":"adhostId", "name":"adhostId","value":"$!request.parameterMap.adhostId[0]","defValue":"","check":"required",
+                        "hidden":true})
+                    #textfield({"label":"金额", "name":"moneyAmount","check":"required;decmal1"})
+                    #textarea({ "label":"备注","name":"remark","cols":3,"value":""})
+                    #@panel({"cols":1})
+                        #upload_group({"name":"annxFile","id":"annxFile", "label":"附件上传", "check": "required;","cols":"3","url":"$appServer/common/upload","savePath":"E:/upload","fileSizeLimit":20,"progressData":"speed","fileTypeExts":"*.jpg;*.gif;*.jpeg;*.png;*.bmp;*.zip;*.rar;*.7z","multi":false,"auto":false,"onUploadSuccess":"onUploadSuccess"})
+                    #end
+                    #@panel({"cols":1})
+                        #datagrid({
+                            "id" : "anxFileTable1",
+                            "name":"anxFileTable1",
+                            "title":"附件列表",
+                            "numbercolumn":false,
+                            "textOverHidden":false,
+                            "rowSelect":"true",
+                            "isDragColumn":false,
+                            "items":[
+                        {"name":"fileNo", "text":"附件编号"},
+                        {"name":"fileName","text":"附件名称"},
+                        {"name":"branchNo", "text":"操作","showwhenover":"true","buttons":[{"label":"删除","event":"deleteFile","className":"import"}]}
+                        ]
+                        ,"data":[]
+                        })
+                    #end
+                #end
+            #end
+        #end
+        </div>
+        <div class="g-grid-7">
+        #@form({"name":"stmasterInfo","url":""})
+            #@panel({"cols":2,"title":"广告主信息"})
+                    #label({"label":"名称","name":"adhostName","value":"","defValue":""})
+                    #label({"label":"接待员","name":"recName","value":"","defValue":""})
+                    #label({"label":"手机号","name":"mobile","value":"","defValue":""})
+                    #label({"label":"QQ","name":"adhostQQ","value":"","defValue":""})
+                    #label({"label":"邮箱","name":"adhostEmail","value":"","defValue":""})
+                #end
+            #end
+        </div>
+    #end
+    #@tab_panel({})
+        #@tab_panel_content({"name":"info1","title":"广告订单","lazy":"${appServer}/adhost/adhostadorderinfo.htm?adhostId=$!request.parameterMap.adhostId[0]"})
+        #end
+        #@tab_panel_content({"name":"content1","title":"充值账单","lazy":"${appServer}/adhost/adhostpayorderinfo.htm?adhostId=$!request.parameterMap.adhostId[0]"})
+        #end
+        #@tab_panel_content({"name":"info3","title":"周流量"})
+            #@panel({"cols":4})
+                hello
+            #end
+        #end
+    #end
+#end
+#jscode()
+    function deleteFile(){
+        var selectedData = (Horn.getComp('anxFileTable1').getSelecteds())[0]
+        var fileNo = selectedData.fileNo;
+        if(!fileNo){
+         return;
+        }
+        var dataArr = Horn.getComp("anxFileTable1").data;
+        var newData = [];
+        $.each(dataArr,function(index,obj){
+            if(obj.fileNo==fileNo){
+                 dataArr[index]=null;
+            }else{
+                 newData.push(obj);
+             }
+             Horn.getComp("anxFileTable1").loadData(newData);
+        })
+    }
+
+        //附件上传成功
+        function onUploadSuccess(file, data, response){
+            var rs = $.parseJSON(data);
+            var returnCode = rs.return_code;
+            var returnMsg = rs.return_msg;
+            if(returnCode=="10000"){
+            var filename = rs.success.fileName;
+                 uploadAnxFile(filename);
+                 Horn.getComp("annxFile").reset();
+            }else{
+                  Horn.Tip.warn("附件上传失败");
+            }
+        }
+
+        function uploadAnxFile(fileName){
+            var fileNo = new Date().getTime();
+            var dataArr = Horn.getComp("anxFileTable1").data;
+            var length = dataArr.length;
+            dataArr[length]={"fileNo":fileNo+"","fileName":fileName};
+            Horn.getComp("anxFileTable1").loadData(dataArr);
+        }
+
+
+    function addMoney(){
+        var form = $("form[name='addMoneyForm']")
+        var result = Horn.Validate.isFormValidate(form);
+        if(!result){
+          return;
+        }
+        Horn.getComp("addMoneyEdit").hide();
+        var data = $("form[name='addMoneyForm']").serializeJSON();
+        var dataArr = Horn.getComp("anxFileTable1").data;
+        var anax = [];
+        $.each(dataArr,function(index,obj){
+            var fileName = obj.fileName;
+            anax[index]=fileName;
+        });
+        data.anaxNames = JSON.stringify(anax);
+        $.post("${imageServer}/adhost/addmoney",data,function(resultData){
+                if(resultData.success){
+                    Horn.Tip.info("充值成功");
+                }else{
+                    Horn.Tip.warn(resultData.errorMesg);
+                }
+        },"json");
+    }
+
+    function addMoneyShow(){
+        Horn.getComp("addMoneyForm").reset();
+        Horn.getComp("addMoneyEdit").show();
+    }
+    $(function(){
+        $.post("${imageServer}/adhost/adhostaccountinfo",{"adhostId":"$!request.parameterMap.adhostId[0]"},function(backData){
+            if(backData){
+                backData.accountAmount = "￥"+backData.accountAmount+"元"
+                backData.useAmount = "￥"+backData.useAmount+"元"
+                backData.frozenAmount = "￥"+backData.frozenAmount+"元"
+                 Horn.getComp("stmasterAccountInfo").setValues(backData);
+            }
+        },"json")
+        $.post("${imageServer}/adhost/adhostinfo",{"adhostId":"$!request.parameterMap.adhostId[0]"},function(backData){
+            if(backData){
+                 Horn.getComp("stmasterInfo").setValues(backData);
+            }
+        },"json")
+    })
+#end

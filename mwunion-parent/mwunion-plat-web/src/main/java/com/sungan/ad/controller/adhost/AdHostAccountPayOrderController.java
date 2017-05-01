@@ -2,6 +2,8 @@ package com.sungan.ad.controller.adhost;
 
 import javax.validation.Valid;
 
+import com.sungan.ad.dao.bean.AdHostAccountPayOrderQueryBean;
+import com.sungan.ad.service.adhost.vo.AdHostAccountPayOrderQueryBeanVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +57,15 @@ public class AdHostAccountPayOrderController {
 			AdCommonsUtil.proStrEmpytToNull(record);
 		}
 		AdPager<AdHostAccountPayOrderVo> queryPager = service.queryPager(record, pageNo, pageSize);
+		return queryPager;
+	}
+	@RequestMapping("/listpayorderbean.json")
+	@ResponseBody
+	public Object listpayorderbean(AdHostAccountPayOrderQueryBean record, Integer pageNo, Integer pageSize){
+		if(record!=null){
+			AdCommonsUtil.proStrEmpytToNull(record);
+		}
+		AdPager<AdHostAccountPayOrderQueryBeanVo> queryPager = service.queryPager(record, pageNo, pageSize);
 		return queryPager;
 	}
 }

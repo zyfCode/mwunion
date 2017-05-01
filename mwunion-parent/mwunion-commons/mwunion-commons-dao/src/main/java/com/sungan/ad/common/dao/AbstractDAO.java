@@ -235,7 +235,7 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 		return tAdPager;
 	}
 
-	private void setCondition(T t,Criteria createCriteria){
+	protected void setCondition(T t,Criteria createCriteria){
 		try {
 			Map<String, Object> beanFile = AdCommonsUtil.getBeanFile(t);
 			BeanInfo beanInfo = Introspector.getBeanInfo(currentClass);

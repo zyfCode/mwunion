@@ -33,7 +33,7 @@ public interface AnnexesHandler {
      * 下载
      * @param name
      */
-    OutputStream download(String name);
+    InputStream download(String name);
 
     /**
      * 删除文件

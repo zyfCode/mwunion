@@ -31,7 +31,7 @@
         "hAlign":"center",
         "tAlign":"center"
     },
-    {"name":"adhostName ",
+    {"name":"adhostName",
         "text":"名称",
         "hAlign":"center",
         "tAlign":"center"
@@ -99,7 +99,7 @@
         "tAlign":"center",
         "hidden":false,
         "width":"200",
-        "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+        "buttons":[{"label":"详细","event":"stInfo"},{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
     }
     ],
         "numbercolumn":"true",
@@ -154,84 +154,89 @@
 
 #jscode()
 var action = "";
-
-
-function add(rowData){
-Horn.getComp("adhostAddForm").reset();
-Horn.getComp("adhostAdd").show();
-}
-
-function edit(rowData){
-rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
-Horn.getComp("adhostEditForm").setValues(rowData.rowdata);
-Horn.getComp("adhostEdit").show();
-}
-
-function del(rowData){
-Horn.Msg.confirm("确认","这是一条确认信息",function(){
-rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
-var id =  rowData.rowdata.id;
-$.post("${imageServer}/adhost/deleteadhost",{"id":id},function(backData){
-if(backData){
-if(backData.success){
-Horn.getComp("adhostTable").load();
-Horn.Tip.info("删除成功");
-}else{
-Horn.Tip.warn(backData.errorMesg);
-}
-}
-},"json")
-},function(){
-log("确认框的取消执行了")
-});
-}
-
-function addSubmit(){
-    var form = $("form[name='adhostAddForm']")
-    var result = Horn.Validate.isFormValidate(form);
-    if(!result){
-        return;
+    function stInfo(rowData){
+        rowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
+        var id =  rowData.rowdata.adhostId;
+        parent.Horn.Frame.openMenu('20222','${imageServer}/adhost/adhost_info.htm?adhostId='+id,'广告主详情','')
     }
-    Horn.getComp("adhostAdd").hide();
-    var data = $("form[name='adhostAddForm']").serializeJSON();
-    $.post("${imageServer}/adhost/addadhost",data,function(backData){
-        if(backData){
-            if(backData.success){
-                Horn.getComp("adhostTable").load();
-                Horn.Tip.success("添加成功");
-            }else{
+
+
+    function add(rowData){
+        Horn.getComp("adhostAddForm").reset();
+        Horn.getComp("adhostAdd").show();
+    }
+
+    function edit(rowData){
+        rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
+        Horn.getComp("adhostEditForm").setValues(rowData.rowdata);
+        Horn.getComp("adhostEdit").show();
+    }
+
+    function del(rowData){
+        Horn.Msg.confirm("确认","这是一条确认信息",function(){
+        rowDatarowData = rowData || Horn.getComp('adhostTable').getSelecteds().length && (Horn.getComp('adhostTable').getSelecteds())[0];
+        var id =  rowData.rowdata.id;
+        $.post("${imageServer}/adhost/deleteadhost",{"id":id},function(backData){
+            if(backData){
+              if(backData.success){
+                  Horn.getComp("adhostTable").load();
+                  Horn.Tip.info("删除成功");
+                 }else{
                 Horn.Tip.warn(backData.errorMesg);
             }
         }
-    },"json")
-}
+        },"json")
+        },function(){
+         log("确认框的取消执行了")
+        });
+    }
 
-function saveData() {
-var form = $("form[name='adhostEditForm']")
-var result = Horn.Validate.isFormValidate(form);
-if(!result){
-return;
-}
-Horn.getComp("adhostEdit").hide();
-//JSON.stringify($("form[name='adhostEditForm']").serializeJSON());
-var data = $("form[name='adhostEditForm']").serializeJSON();
-$.post("${imageServer}/adhost/updateadhost",data,function(backData){
-if(backData){
-if(backData.success){
-Horn.getComp("adhostTable").load();
-Horn.Tip.success("更新成功");
-}else{
-Horn.Tip.warn(backData.errorMesg);
-}
-}
-},"json")
-}
-function resetSearch(){
-Horn.getComp("adhostTable").baseParams={};
-Horn.getComp("adhostTable").load();
-}
+    function addSubmit(){
+        var form = $("form[name='adhostAddForm']")
+        var result = Horn.Validate.isFormValidate(form);
+        if(!result){
+            return;
+        }
+        Horn.getComp("adhostAdd").hide();
+        var data = $("form[name='adhostAddForm']").serializeJSON();
+        $.post("${imageServer}/adhost/addadhost",data,function(backData){
+            if(backData){
+                if(backData.success){
+                    Horn.getComp("adhostTable").load();
+                    Horn.Tip.success("添加成功");
+                }else{
+                    Horn.Tip.warn(backData.errorMesg);
+                }
+            }
+        },"json")
+    }
 
-function queryData() {
-Horn.getComp("adhostTable").load();
-}
+    function saveData() {
+        var form = $("form[name='adhostEditForm']")
+        var result = Horn.Validate.isFormValidate(form);
+        if(!result){
+             return;
+          }
+        Horn.getComp("adhostEdit").hide();
+            //JSON.stringify($("form[name='adhostEditForm']").serializeJSON());
+            var data = $("form[name='adhostEditForm']").serializeJSON();
+            $.post("${imageServer}/adhost/updateadhost",data,function(backData){
+                if(backData){
+                     if(backData.success){
+                         Horn.getComp("adhostTable").load();
+                         Horn.Tip.success("更新成功");
+                     }else{
+                         Horn.Tip.warn(backData.errorMesg);
+                        }
+                }
+            },"json")
+    }
+    function resetSearch(){
+        Horn.getComp("adhostTable").baseParams={};
+        Horn.getComp("adhostTable").load();
+    }
+
+    function queryData() {
+         Horn.getComp("adhostTable").load();
+    }
 #end  

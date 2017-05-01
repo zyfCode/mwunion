@@ -27,14 +27,15 @@ public class AdHost implements AdObject {
 	private String adhostId;
 
 	/**
-	 * 广告主名称
-	 */
-	private String adhostName;
-	/**
 	 * 用户名称
 	 */
 	@Column(length=64)
 	private String userAccount;
+	/**
+	 * 广告主名称
+	 */
+	@Column(length=64)
+	private String adhostName;
 	/**
 	 * 用户id
 	 */

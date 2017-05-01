@@ -23,6 +23,9 @@ import com.sungan.ad.expand.common.annotation.StatusCn;
 @Table(name="t_adhost_payorder")
 public class AdHostAccountPayOrder implements AdObject {
 	private static final long serialVersionUID = 1L;
+	public String getPayOrderId() {
+		return payOrderId;
+	}
 	@Id
 	private String payOrderId;
 	@Column(length=64,nullable=false)
@@ -39,9 +42,6 @@ public class AdHostAccountPayOrder implements AdObject {
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
-	public String getPayOrderId() {
-		return payOrderId;
-	}
 	public void setPayOrderId(String payOrderId) {
 		this.payOrderId = payOrderId;
 	}

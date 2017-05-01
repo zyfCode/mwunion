@@ -1,8 +1,12 @@
 package com.sungan.ad.service.adhost.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.dao.AdHostAccountPayOrderQueryDAO;
+import com.sungan.ad.dao.bean.AdHostAccountPayOrderQueryBean;
+import com.sungan.ad.service.adhost.vo.AdHostAccountPayOrderQueryBeanVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +30,26 @@ public class AdHostAccountPayOrderServiceImpl implements AdHostAccountPayOrderSe
 	
 	@Autowired
 	private AdHostAccountPayOrderDAO adHostAccountPayOrderDAO;
-	
+
+	@Autowired
+	private AdHostAccountPayOrderQueryDAO queryDAO;
+
+
 
 	public AdHostAccountPayOrderDAO getAdHostAccountPayOrderDAO() {
 		return adHostAccountPayOrderDAO;
+	}
+
+
+	public AdPager<AdHostAccountPayOrderQueryBeanVo> queryPager(AdHostAccountPayOrderQueryBean condition, int pageIndex, int rows){
+		AdPager<AdHostAccountPayOrderQueryBean> result = queryDAO.queryPage(condition, pageIndex, rows);
+		List<AdHostAccountPayOrderQueryBeanVo> parseToVoList = new ArrayList<AdHostAccountPayOrderQueryBeanVo>();
+		if(result.getRows()!=null) {
+			parseToVoList = AnnotationParser.parseToVoList(AdHostAccountPayOrderQueryBeanVo.class, result.getRows());
+		}
+		AdPager<AdHostAccountPayOrderQueryBeanVo> resultVo = new AdPager<AdHostAccountPayOrderQueryBeanVo>(pageIndex, rows, result.getTotal());
+		resultVo.setRows(parseToVoList);
+		return resultVo;
 	}
 
 	public void setAdHostAccountPayOrderDAO(AdHostAccountPayOrderDAO adHostAccountPayOrderDAO) {

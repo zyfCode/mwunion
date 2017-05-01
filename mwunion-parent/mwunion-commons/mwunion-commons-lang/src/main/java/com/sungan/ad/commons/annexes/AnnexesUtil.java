@@ -27,8 +27,8 @@ public class AnnexesUtil {
         String url = handler.getUrl(name);
         return url;
     }
-    public static OutputStream download(String name){
-        OutputStream download = handler.download(name);
+    public static InputStream download(String name){
+        InputStream download = handler.download(name);
         return download;
     }
 

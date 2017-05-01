@@ -27,7 +27,11 @@
 			{"id":"001","title":"面版信息","url":""}
 		]}
 		,{"id":"10","title":"用户管理","items":[
-			{"id":"101","title":"广告主列表","url":"${appServer}/user/adhost.htm"}
+			{"id":"101","title":"广告主","items":[
+			{"id":"10101","title":"广告主列表","url":"${appServer}/user/adhost.htm"},
+			{"id":"10102","title":"广告订单","url":"${appServer}/adhost/adhostaccountadorder.htm"},
+			{"id":"10103","title":"充值订单","url":"${appServer}/adhost/adhostaccountpayorder.htm"}
+			]}
 			,{"id":"102","title":"站长","items":[
 				{"id":"10201","title":"站长列表","url":"${appServer}/user/stmaster.htm"},
 				{"id":"10202","title":"黑名单","url":"${appServer}/stmaster/stmaster_blacklist.htm"}

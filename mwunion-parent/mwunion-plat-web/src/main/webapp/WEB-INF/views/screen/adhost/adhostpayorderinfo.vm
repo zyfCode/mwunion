@@ -1,0 +1,147 @@
+#@screen({"title":"客户端查询"})  
+    #datagrid({
+        "id":"adhostaccountpayorderTable",  
+        "name":"adhostaccountpayorderTable",  
+        "bindFormName":"adhostaccountpayordersearchForm",  
+        "title":"查询列表",    
+        "autoLoad":true,
+        "baseParams":{"adhostId":"$!request.parameterMap.adhostId[0]"},
+        "url":"/adhostaccountpayorder/listadhostaccountpayorder.json",  
+        "items":[
+            {"name":"payOrderId",
+            "text":"payOrderId",  
+            "hAlign":"center",  
+            "tAlign":"center",
+                "hidden":true
+            },
+
+
+            {"name":"adHostId",  
+            "text":"adHostId",  
+            "hAlign":"center",  
+            "tAlign":"center",
+                "hidden":true
+            },
+
+            {"name":"accountAmount",
+            "text":"充值金额",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"payOrderStatusCn",
+            "text":"状态",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"sureTimeStr",
+            "text":"确认时间",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"createTimeStr",
+            "text":"创建时间",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+			{  
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"200",  
+                "buttons":[{"label":"附件","event":"annxinfo"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true"
+       })
+            
+    #@window({"title":"附件", "name":"adhostaccountpayorderEdit", "width":"750", "height":"250"})
+        #@form({"name":"adhostaccountpayorderEditForm","url":""})
+            #datagrid({
+                "id":"adhostaccountpayorderannexesTable",
+                "name":"adhostaccountpayorderannexesTable",
+                "bindFormName":"adhostaccountpayorderannexessearchForm",
+                "autoLoad":true,
+                "baseParams":{"payOrderId":"$!request.parameterMap.adhostId[0]"},
+                "url":"/adhostaccountpayorderannexes/listadhostaccountpayorderannexes.json",
+                "items":[
+            {"name":"annxId",
+                "text":"annxId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":true
+            },
+
+            {"name":"adHostId",
+                "text":"adHostId",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":true
+            },
+
+            {"name":"payOrderId",
+                "text":"payOrderId",
+                "hAlign":"center",
+                "tAlign":"center" ,
+                "hidden":true
+            },
+
+            {"name":"annexesName",
+                "text":"附件",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+
+            {"name":"createTime",
+                "text":"上传时间",
+                "hAlign":"center",
+                "tAlign":"center"
+            },
+            {
+                "name":"operation",
+                "text":"操作",
+                "hAlign":"center",
+                "tAlign":"center",
+                "hidden":false,
+                "width":"200",
+                "buttons":[{"label":"下载","event":"download"}]
+            }
+            ],
+                "numbercolumn":"true",
+                "pageConfig":{"pageSize":10,"pageNo":1},
+                "rowSelect":"false",
+                "hasPage":"true"
+            })
+        #end  
+    #end  
+	
+	
+#end
+  
+  
+#jscode()  
+    var action = "";
+    function download(rowData){
+        var annexesName = rowData.rowdata.annexesName;
+        window.location.href="${imageServer}/common/download?annexesName="+annexesName;
+    }
+
+function add(rowData){
+        Horn.getComp("adhostaccountpayorderAddForm").reset();  
+        Horn.getComp("adhostaccountpayorderAdd").show();  
+    }  
+      
+    function annxinfo(rowData){
+        Horn.getComp("adhostaccountpayorderannexesTable").baseParams={"payOrderId":rowData.rowdata.payOrderId};
+        Horn.getComp("adhostaccountpayorderEdit").show();
+        Horn.getComp("adhostaccountpayorderannexesTable").load();
+    }
+#end

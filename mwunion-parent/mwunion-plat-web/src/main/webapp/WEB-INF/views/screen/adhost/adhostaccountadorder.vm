@@ -1,26 +1,14 @@
 #@screen({"title":"客户端查询"})  
     #@form({"name":"adhostaccountadordersearchForm"})  
         #@panel({"title":"查询条件"})  
-			           #textfield({"label":"serialVersionUID ", "name":"serialVersionUID ","value":"","defValue":""})  
-		   	           #textfield({"label":"adOrderId ", "name":"adOrderId ","value":"","defValue":""})  
-		   	           #textfield({"label":"accountId ", "name":"accountId ","value":"","defValue":""})  
-		   	           #textfield({"label":"adHostId ", "name":"adHostId ","value":"","defValue":""})  
-		   	           #textfield({"label":"adOrderType ", "name":"adOrderType ","value":"","defValue":""})  
-		   	           #textfield({"label":"hitCount ", "name":"hitCount ","value":"","defValue":""})  
-		   	           #textfield({"label":"showCount ", "name":"showCount ","value":"","defValue":""})  
-		   	           #textfield({"label":"adOrderStaus ", "name":"adOrderStaus ","value":"","defValue":""})  
-		   	           #textfield({"label":"adHostAmount ", "name":"adHostAmount ","value":"","defValue":""})  
-		   	           #textfield({"label":"stmasterAmount ", "name":"stmasterAmount ","value":"","defValue":""})  
-		   	           #textfield({"label":"platAmount ", "name":"platAmount ","value":"","defValue":""})  
-		   	           #textfield({"label":"version ", "name":"version ","value":"","defValue":""})  
-		   	           #textfield({"label":"createTime ", "name":"createTime ","value":"","defValue":""})  
-		   	           #textfield({"label":"updateTime ", "name":"updateTime ","value":"","defValue":""})  
+		   	           #textfield({"label":"开始时间 ", "name":"createTime ","value":"","defValue":""})
+		   	           #textfield({"label":"结束时间 ", "name":"updateTime ","value":"","defValue":""})
 		   	            #button_group({"buttons":[  
                 {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
 				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
-            ]})  
-        #end  
-    #end  
+            ]})
+        #end
+    #end
     #datagrid({  
         "id":"adhostaccountadorderTable",  
         "name":"adhostaccountadorderTable",  
@@ -30,92 +18,76 @@
         "url":"/adhostaccountadorder/listadhostaccountadorder.json",  
 		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
         "items":[ 
-            {"name":"serialVersionUID",  
-            "text":"serialVersionUID",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"adOrderId",  
+            {"name":"adOrderId",
             "text":"adOrderId",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center",
+                "hidden":true
             },
 
             {"name":"accountId",  
             "text":"accountId",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center" ,
+                "hidden":true
             },
 
             {"name":"adHostId",  
             "text":"adHostId",  
             "hAlign":"center",  
-            "tAlign":"center"  
+            "tAlign":"center",
+                "hidden":true
             },
 
             {"name":"adOrderType",  
-            "text":"adOrderType",  
+            "text":"订单类型",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"hitCount",  
-            "text":"hitCount",  
+            "text":"点击量",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"showCount",  
-            "text":"showCount",  
+            "text":"浏览量",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
-            {"name":"adOrderStaus",  
-            "text":"adOrderStaus",  
+            {"name":"adOrderStausCn",
+            "text":"订单状态",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"adHostAmount",  
-            "text":"adHostAmount",  
+            "text":"广告金额",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"stmasterAmount",  
-            "text":"stmasterAmount",  
+            "text":"站长金额",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"platAmount",  
-            "text":"platAmount",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"version",  
-            "text":"version",  
+            "text":"平台盈利",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
             {"name":"createTime",  
-            "text":"createTime",  
+            "text":"创建时间",
             "hAlign":"center",  
             "tAlign":"center"  
             },
 
-            {"name":"updateTime",  
-            "text":"updateTime",  
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-
-			{  
+			{
                 "name":"operation",  
                 "text":"操作",  
                 "hAlign":"center",  
@@ -128,10 +100,8 @@
         "numbercolumn":"true",  
         "pageConfig":{"pageSize":10,"pageNo":1},  
         "rowSelect":"false",  
-        "hasPage":"true",  
-        "events":[{"event":"rowClick","function":"queryTableClick"},  
-                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
-       })  
+        "hasPage":"true"
+       })
             
     #@window({"title":"编辑窗口", "name":"adhostaccountadorderEdit", "width":"750", "height":"250",  
             "buttons":[  

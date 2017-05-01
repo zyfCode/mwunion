@@ -1,12 +1,15 @@
 package com.sungan.ad.service.adhost.impl;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.sungan.ad.dao.AdHostAccountSerialDAO;
-import com.sungan.ad.dao.AdHostDAO;
+import com.sungan.ad.dao.*;
 import com.sungan.ad.dao.model.AdHost;
+import com.sungan.ad.dao.model.AdHostAccountPayOrder;
+import com.sungan.ad.dao.model.AdHostAccountPayOrderAnnexes;
+import com.sungan.ad.dao.model.adenum.EnumAdHostAccountPayOrderStatus;
 import com.sungan.ad.service.adhost.bizbean.AdHostBizBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.sungan.ad.common.dao.AdPager;
 import com.sungan.ad.commons.AdCommonsUtil;
 import com.sungan.ad.commons.IdGeneratorFactory;
-import com.sungan.ad.dao.AdHostAccountDAO;
 import com.sungan.ad.dao.model.AdHostAccount;
 import com.sungan.ad.exception.AdRuntimeException;
 import com.sungan.ad.expand.common.annotation.parser.AnnotationParser;
@@ -35,8 +37,13 @@ public class AdHostAccountServiceImpl implements AdHostAccountService{
 	private AdHostDAO adHostDAO;
 
 	@Autowired
-	AdHostAccountSerialDAO adHostAccountSerialDAO;
-	
+	private AdHostAccountSerialDAO adHostAccountSerialDAO;
+
+	@Autowired
+	private AdHostAccountPayOrderDAO adHostAccountPayOrderDAO;
+
+	@Autowired
+	private AdHostAccountPayOrderAnnexesDAO annexesDAO;
 
 	public AdHostAccountDAO getAdHostAccountDAO() {
 		return adHostAccountDAO;
@@ -118,7 +125,45 @@ public class AdHostAccountServiceImpl implements AdHostAccountService{
 		resultVo.setRows(parseToVoList);
 		return resultVo;
 	}
-	
+
+	@Override
+	public void addMoneyOrder(String adhostId, BigDecimal moneyAmount, String remark, List<String> files) {
+		AdHostAccount condition = new AdHostAccount();
+		condition.setAdHostId(adhostId);
+		List<AdHostAccount> query = (List<AdHostAccount>) adHostAccountDAO.query(condition);
+		if(query==null||query.size()<1){
+			throw new AdRuntimeException("账号信息不存在");
+		}
+		AdHostAccount adHostAccount = query.get(0);
+		BigDecimal accountAmount = adHostAccount.getAccountAmount();
+		adHostAccount.setAccountAmount(accountAmount.add(moneyAmount));
+		adHostAccountDAO.update(adHostAccount);
+
+		AdHostAccountPayOrder order = new AdHostAccountPayOrder();
+		order.setAccountId(adHostAccount.getAccountId());
+		order.setCreateTime(new Date());
+		order.setAdHostId(adhostId);
+		order.setPayOrderId(IdGeneratorFactory.nextId());
+		order.setAccountAmount(moneyAmount);
+		order.setPayOrderStatus(EnumAdHostAccountPayOrderStatus.SHOWED.getKey());
+		order.setSureTime(new Date());
+		order.setVersion(0);
+		adHostAccountPayOrderDAO.insert(order);
+		//添加附件信息
+		if(files!=null) {
+			for(String name:files) {
+				AdHostAccountPayOrderAnnexes annex = new AdHostAccountPayOrderAnnexes();
+				annex.setAdHostId(adhostId);
+				annex.setAnnexesName(name);
+				annex.setAnnxId(IdGeneratorFactory.nextId());
+				annex.setCreateTime(new Date());
+				annex.setPayOrderId(order.getPayOrderId());
+				annex.setUpdateTime(new Date());
+				annexesDAO.insert(annex);
+			}
+		}
+	}
+
 	@Override
 	public void update(AdHostAccount record) {
 		if(record.getAccountId()==null){

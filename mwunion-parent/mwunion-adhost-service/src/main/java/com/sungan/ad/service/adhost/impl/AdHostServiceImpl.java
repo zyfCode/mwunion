@@ -64,10 +64,11 @@ public class AdHostServiceImpl implements AdHostService{
 		record.setUserId(userId);
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
+		record.setUserName(record.getAdhostName());
 		adHostDAO.insert(record);
 		EvenContext context = new EvenContext();
 		context.setTarget(record);
-		EventQueen.addEvent(EnumEventType.ADD_STMARSTER,context);
+		EventQueen.addEvent(EnumEventType.ADD_ADHOST,context);
 		return nextId;
 	}
 

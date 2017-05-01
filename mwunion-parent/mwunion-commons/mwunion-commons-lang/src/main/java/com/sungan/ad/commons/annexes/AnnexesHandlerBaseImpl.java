@@ -89,11 +89,11 @@ public class AnnexesHandlerBaseImpl extends AnnexesAbastractHandler {
     }
 
     @Override
-    public OutputStream download(String name) {
+    public InputStream download(String name) {
         File file = new File(annaxPath,name);
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            return fileOutputStream;
+            InputStream fileInputStream = new FileInputStream(file);
+            return fileInputStream;
         } catch (FileNotFoundException e) {
             throw  new RuntimeException("",e);
         }
