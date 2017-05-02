@@ -18,8 +18,6 @@
 	,"navigation":{"items":[
 		{"id":"90","title":"主页","icon":"home"}
 		,{"id":"10","title":"用户管理","icon":"th-large"}
-		,{"id":"20","title":"广告主","icon":"th-large"}
-		,{"id":"30","title":"站长","icon":"th-large"}
 		,{"id":"40","title":"系统管理","icon":"th-large"}
 	]}
 	,"menu":{"items":[
@@ -38,25 +36,11 @@
 			]}
 			,{"id":"104","title":"接待员","url":"${appServer}/user/reception.htm"}
 		]}
-		,{"id":"20","title":"广告主","items":[
-				{"id":"201","title":"账户管理","url":"${appServer}/adhost/adhostaccount.htm"}
-				,{"id":"202","title":"允值订单","url":"${appServer}/adhost/adhostaccountpayorder.htm"}
-				,{"id":"203","title":"广告订单","url":"${appServer}/adhost/adhostaccountadorder.htm"}
-				,{"id":"204","title":"广告流水","url":"${appServer}/adhost/"}
-				,{"id":"205","title":"广告流量","url":"${appServer}/adhost/adhostaccountadordershowcunt.htm"}
-				,{"id":"206","title":"报表","url":""}
-		]}
-		,{"id":"30","title":"站长","items":[
-				{"id":"301","title":"账户管理","url":"${appServer}/stmaster/stmasteraccount.htm"}
-				,{"id":"302","title":"账单","url":"${appServer}/stmaster/stmastersitebill.htm"}
-				,{"id":"303","title":"日流水","url":"${appServer}/stmaster/"}
-				,{"id":"304","title":"周流水","url":"${appServer}/stmaster/"}
-				,{"id":"304","title":"代码管理","url":"${appServer}/stmaster/"}
-				,{"id":"304","title":"报表","url":""}
-		]}
+
 		,{"id":"40","title":"站长","items":[
-				{"id":"401","title":"系统参数","url":""}
-				,{"id":"402","title":"产品设置","url":""}
+				{"id":"401","title":"系统参数","url":"${appServer}/plat/plathome.htm"}
+				,{"id":"402","title":"产品列表","url":"${appServer}/plat/platproduct.htm"}
+				,{"id":"402","title":"系统公告","url":""}
 		]}
 	]}
 })

@@ -1,0 +1,266 @@
+#@screen({"title":"客户端查询"})  
+    #@form({"name":"platproductsearchForm"})  
+        #@panel({"title":"查询条件"})  
+		   	           #textfield({"label":"产品名称", "name":"productName","value":"","defValue":""})
+                      #combox({"label":"产品类型","name":"productType","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "PRODUCT_TYPE"})
+                      #combox({"label":"产品状态","name":"productStatus","value":"","headItem":{"label":"","value":"请选择 ..."},  "dictName": "PRODUCT_STATUS"})
+            #button_group({"buttons":[
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"}
+            ]})
+        #end  
+    #end  
+    #datagrid({  
+        "id":"platproductTable",  
+        "name":"platproductTable",  
+        "bindFormName":"platproductsearchForm",  
+        "title":"查询列表",    
+        "autoLoad":true,  
+        "url":"/platproduct/listplatproduct.json",  
+		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+        "items":[ 
+            {"name":"productId",  
+            "text":"productId",  
+            "hAlign":"center",  
+            "tAlign":"center",
+                "hidden":true
+            },
+
+            {"name":"productName",  
+            "text":"名称",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"productType",  
+            "text":"类型",
+            "hAlign":"center",  
+            "tAlign":"center",
+                "hidden":true
+            },
+            {"name":"productTypeCn",
+            "text":"类型",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+
+            {"name":"adhostPrice",  
+            "text":"广告主计价",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"srPrice",  
+            "text":"站长计价",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+
+            {"name":"productStatus",  
+            "text":"productStatus",  
+            "hAlign":"center",  
+            "tAlign":"center",
+                "hidden":true
+            },
+            {"name":"productStatusCn",
+            "text":"状态",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+            {"name":"publicSourceCn",
+            "text":"投放平台",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+            {"name":"publicSource",
+            "text":"投放平台",
+            "hAlign":"center",
+            "tAlign":"center",
+                "hidden":true
+            },
+            {"name":"createTime",
+            "text":"创建时间",
+            "hAlign":"center",  
+            "tAlign":"center"  
+            },
+			{
+                "name":"operation",  
+                "text":"操作",  
+                "hAlign":"center",  
+                "tAlign":"center",  
+                "hidden":false,  
+                "width":"200",  
+                "buttons":[{"label":"发布","event":"publicProduct"},{"label":"下架","event":"downshelfproduct"},{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+			}
+        ],  
+        "numbercolumn":"true",  
+        "pageConfig":{"pageSize":10,"pageNo":1},  
+        "rowSelect":"false",  
+        "hasPage":"true",  
+        "events":[{"event":"rowClick","function":"queryTableClick"},  
+                 {"event":"rowDblclick","function":"queryTableDbClick"}]  
+       })  
+            
+    #@window({"title":"编辑窗口", "name":"platproductEdit", "width":"750", "height":"250",  
+            "buttons":[  
+                {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"platproductEditForm","url":""})  
+            #@panel({"cols":2})
+			                #textfield({"label":"productId", "name":"productId","value":"","defValue":"","check":"required","hidden":true})
+			                  #textfield({"label":"产品名称", "name":"productName","value":"","defValue":"","check":"required"})
+                                #combox({"label":"产品类型","name":"productType","value":"","check":"required","headItem":{"label":"","value":"请选择 ..."},  "dictName": "PRODUCT_TYPE"})
+                                #textfield({"label":"广告主计价", "name":"adhostPrice","value":"","defValue":"","check":"required;decmal1"})
+			                  #textfield({"label":"站长计价", "name":"srPrice","value":"","defValue":"","check":"required;decmal1"})
+                        #checkbox_group({"id":"publicSource1","cols":1, "value": "0,1,2", "name":"publicSource_update","check":"required","label":"投放平台","defValue":"0,1,2","items":[
+                        {"text":"PC","code":"0"},
+                        {"text":"苹果","code":"1"},
+                        {"text":"安卓","code":"2"}
+                        ]})
+                        #textfield({"label":"", "name":"publicSourceCn","value":"","defValue":"","disable":true,"check":"required"})
+            #end
+            #end
+        #end  
+    #end  
+	
+	
+	    #@window({"title":"添加", "name":"platproductAdd", "width":"750", "height":"250", "scroll":true,
+            "buttons":[  
+                {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
+                {"label":"重置","event":"resetDataForm()"}  
+            ]})  
+        #@form({"name":"platproductAddForm","url":""})  
+            #@panel({"cols":2})
+                #textfield({"label":"产品名称", "name":"productName","value":"","defValue":"","check":"required"})
+                #combox({"label":"产品类型","name":"productType","value":"","check":"required","headItem":{"label":"","value":"请选择 ..."},  "dictName": "PRODUCT_TYPE"})
+                #textfield({"label":"广告主计价", "name":"adhostPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长计价", "name":"srPrice","value":"","defValue":"","check":"required;decmal1"})
+                    #checkbox_group({"id":"publicSource2","cols":1, "value": "0,1,2", "name":"publicSource_add","check":"required","label":"投放平台","defValue":"0,1,2","items":[
+                    {"text":"PC","code":"0"},
+                    {"text":"苹果","code":"1"},
+                    {"text":"安卓","code":"2"}
+                    ]})
+            #end
+        #end  
+    #end  
+
+#jscode()  
+    var action = "";  
+  
+      
+    function add(rowData){  
+        Horn.getComp("platproductAddForm").reset();  
+        Horn.getComp("platproductAdd").show();  
+    }
+
+function publicProduct(rowData){
+        Horn.Msg.confirm("确认","发布产品确认",function(){
+            var id =  rowData.rowdata.productId;
+            $.post("${imageServer}/platproduct/pubicproduct",{"productId":id},function(backData){
+                if(backData){
+                    if(backData.success){
+                        Horn.getComp("platproductTable").load();
+                        Horn.Tip.info("发布成功");
+                    }else{
+                         Horn.Tip.warn(backData.errorMesg);
+                    }
+                }
+            },"json")
+        },function(){
+              log("确认框的取消执行了")
+        });
+    }
+function downshelfproduct(rowData){
+        Horn.Msg.confirm("确认","下架产品确认",function(){
+            var id =  rowData.rowdata.productId;
+            $.post("${imageServer}/platproduct/downshelfproduct",{"productId":id},function(backData){
+                if(backData){
+                    if(backData.success){
+                        Horn.getComp("platproductTable").load();
+                        Horn.Tip.info("下架成功");
+                    }else{
+                         Horn.Tip.warn(backData.errorMesg);
+                    }
+                }
+            },"json")
+        },function(){
+              log("确认框的取消执行了")
+        });
+    }
+
+    function edit(rowData){  
+        rowDatarowData = rowData || Horn.getComp('platproductTable').getSelecteds().length && (Horn.getComp('platproductTable').getSelecteds())[0];  
+        Horn.getComp("platproductEditForm").setValues(rowData.rowdata);
+        var publicSource =  rowData.rowdata.publicSource;
+        Horn.getComp("platproductEdit").show();
+    }  
+      
+    function del(rowData){  
+	  Horn.Msg.confirm("确认","删除产品确认",function(){
+               var id =  rowData.rowdata.productId;
+        	   	$.post("${imageServer}/platproduct/deleteplatproduct",{"productId":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("platproductTable").load();  
+            				   Horn.Tip.info("删除成功");  
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg); 
+            			 }
+            		 }
+            	},"json")
+        },function(){  
+            log("确认框的取消执行了")  
+        });
+    }  
+	
+	function addSubmit(){
+		var form = $("form[name='platproductAddForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("platproductAdd").hide();  
+		var data = $("form[name='platproductAddForm']").serializeJSON();
+        data.publicSource=Horn.getComp("publicSource_add").getValue();
+    	$.post("${imageServer}/platproduct/addplatproduct",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("platproductTable").load();  
+    				 Horn.Tip.success("添加成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+	}
+	
+    function saveData() {  
+		var form = $("form[name='platproductEditForm']")
+		var result = Horn.Validate.isFormValidate(form);
+		if(!result){
+			return;
+		}
+		Horn.getComp("platproductEdit").hide();  
+    		//JSON.stringify($("form[name='platproductEditForm']").serializeJSON());
+    	var data = $("form[name='platproductEditForm']").serializeJSON();
+        data.publicSource=Horn.getComp("publicSource_update").getValue();
+    	$.post("${imageServer}/platproduct/updateplatproduct",data,function(backData){
+    		if(backData){
+    			if(backData.success){
+    				 Horn.getComp("platproductTable").load();  
+    				 Horn.Tip.success("更新成功"); 
+    			 }else{
+    				Horn.Tip.warn(backData.errorMesg); 
+    			 }
+    		 }
+    	},"json")
+    }  
+      	function resetSearch(){
+			Horn.getComp("platproductTable").baseParams={};
+			 Horn.getComp("platproductTable").load();  
+		}
+      
+    function queryData() {  
+   		 Horn.getComp("platproductTable").load();  
+    }  
+#end  

@@ -19,6 +19,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.sungan.ad.commons.AdCommonsUtil;
@@ -26,6 +27,7 @@ import com.sungan.ad.commons.AdCommonsUtil;
 public abstract class AbstractDAO<T> implements DAO<T> {
 	private static final Log log = LogFactory.getLog(AbstractDAO.class);
 	@Autowired
+	@Qualifier("hibernateTemprate")
 	protected HibernateTemplate template;
 	@SuppressWarnings("rawtypes")
 	protected Class currentClass;

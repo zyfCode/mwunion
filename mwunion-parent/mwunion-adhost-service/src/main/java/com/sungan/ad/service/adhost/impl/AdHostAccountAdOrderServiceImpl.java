@@ -3,6 +3,10 @@ package com.sungan.ad.service.adhost.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.sungan.ad.dao.AdHostDAO;
+import com.sungan.ad.dao.PlatProductDAO;
+import com.sungan.ad.dao.model.AdHostAccountAdOrderAttri;
+import com.sungan.ad.dao.model.PlatProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +30,12 @@ public class AdHostAccountAdOrderServiceImpl implements AdHostAccountAdOrderServ
 	
 	@Autowired
 	private AdHostAccountAdOrderDAO adHostAccountAdOrderDAO;
-	
+	@Autowired
+	private AdHostDAO adHostDAO;
+
+	@Autowired
+	private PlatProductDAO platProductDAO;
+
 
 	public AdHostAccountAdOrderDAO getAdHostAccountAdOrderDAO() {
 		return adHostAccountAdOrderDAO;
@@ -37,11 +46,18 @@ public class AdHostAccountAdOrderServiceImpl implements AdHostAccountAdOrderServ
 	}
 
 	@Override
-	public String insert(AdHostAccountAdOrder record) {
+	public String insert(AdHostAccountAdOrder record,AdHostAccountAdOrderAttri attri) {
 		String nextId = IdGeneratorFactory.nextId();
 		record.setAdOrderId(nextId);
 		record.setCreateTime(new Date());
 		record.setUpdateTime(new Date());
+		PlatProduct platProduct = platProductDAO.find(record.getProductId());
+		record.setProductName(platProduct.getProductName());
+		attri.setAccountId(record.getAccountId());
+		attri.setAdHostId(record.getAdHostId());
+		attri.setAdOrderAtrriId(IdGeneratorFactory.nextId());
+		attri.setCreateTime(new Date());
+		attri.setUpdateTime(new Date());
 		adHostAccountAdOrderDAO.insert(record);
 		return nextId;
 	}

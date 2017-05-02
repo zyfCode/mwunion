@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
 	http://www.springframework.org/schema/tx 
 	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
-		<bean id="hibernateTemprate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+	<bean id="hibernateTemprate" class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="sessionFactory" ref="hibernateSessionFactory"></property>
 	</bean>
 	<!-- ====================================================================================================== -->
@@ -33,5 +33,28 @@
 		<aop:pointcut id="servicePointCuts"
 			expression="execution(* com.sungan.ad.commons.MuService+.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointCuts" />
+	</aop:config>
+	<!-- ====================================================================================================== -->
+	<!-- =============================springLog事务=============================================================== -->
+	<!-- ====================================================================================================== -->
+	<bean id="hibernateTemprateLog" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="hibernateSessionFactoryLog"></property>
+	</bean>
+	<!-- 定义事务管理器   -->
+	<bean id="transactionManagerLog"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="hibernateSessionFactoryLog" />
+	</bean>
+	<!-- 定义事务 -->
+	<tx:advice id="txAdviceLog" transaction-manager="transactionManagerLog">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 定义切面 -->
+	<aop:config>
+		<aop:pointcut id="serviceLogPointCuts"
+			expression="execution(* com.sungan.ad.commons.LogService+.*(..))" />
+		<aop:advisor advice-ref="txAdviceLog" pointcut-ref="serviceLogPointCuts" />
 	</aop:config>
 </beans>

@@ -51,7 +51,7 @@ public class ${domain}ServiceImpl implements ${domain}Service{
 	}
 
 		@Override
-	public void delete(Long id) {
+	public void delete(String id) {
 		${domain} find = this.${varname}.find(id);
 		if (find != null) {
 			${varname}.delete(find);
@@ -59,7 +59,7 @@ public class ${domain}ServiceImpl implements ${domain}Service{
 	}
 	
 	@Override
-	public ${domain}Vo find(Long id) {
+	public ${domain}Vo find(String id) {
 		${domain} find = ${varname}.find(id);
 		if(find==null){
 			return null;

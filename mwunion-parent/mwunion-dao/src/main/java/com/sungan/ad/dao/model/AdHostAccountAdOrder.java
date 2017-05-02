@@ -30,6 +30,9 @@ public class AdHostAccountAdOrder implements AdObject {
 	private String accountId;   //账号ID
 	@Column(length=64,nullable=false)
 	private String adHostId;    //广告主ID
+	private String adHostName;
+	private String productId;
+	private String productName;
 	@StatusCn(dictId=EnumAdHostAccountAdOrderType.DICT_KEY)
 	@Column(length=2)
 	private String adOrderType;
@@ -45,8 +48,31 @@ public class AdHostAccountAdOrder implements AdObject {
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
-	
-	
+
+	public String getAdHostName() {
+		return adHostName;
+	}
+
+	public void setAdHostName(String adHostName) {
+		this.adHostName = adHostName;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	public String getAdOrderId() {
 		return adOrderId;
 	}

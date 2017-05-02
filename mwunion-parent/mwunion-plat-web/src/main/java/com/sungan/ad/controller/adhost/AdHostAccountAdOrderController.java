@@ -2,6 +2,8 @@ package com.sungan.ad.controller.adhost;
 
 import javax.validation.Valid;
 
+import com.sungan.ad.controller.validBean.AdHostAccountAdOrderAttriValid;
+import com.sungan.ad.dao.model.AdHostAccountAdOrderAttri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +35,12 @@ public class AdHostAccountAdOrderController {
 	}
 	@RequestMapping("/addadhostaccountadorder")
 	@ResponseBody
-	public Object addadhostaccountadorder (@Valid AdHostAccountAdOrderValid record){
+	public Object addadhostaccountadorder (@Valid AdHostAccountAdOrderValid record, @Valid AdHostAccountAdOrderAttriValid attri){
 		AdHostAccountAdOrder w = new AdHostAccountAdOrder();
 		AdCommonsUtil.copyProperties(w, record);
-		service.insert(w);
+		AdHostAccountAdOrderAttri orderAttri = new AdHostAccountAdOrderAttri();
+		AdCommonsUtil.copyProperties(orderAttri, attri);
+		service.insert(w,orderAttri);
 		return new AdResponse();
 	}
 	

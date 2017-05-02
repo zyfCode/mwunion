@@ -5,6 +5,7 @@ import java.util.List;
 import com.sungan.ad.common.dao.AdPager;
 import com.sungan.ad.commons.MuService;
 import com.sungan.ad.dao.model.AdHostAccountAdOrder;
+import com.sungan.ad.dao.model.AdHostAccountAdOrderAttri;
 import com.sungan.ad.service.adhost.vo.AdHostAccountAdOrderVo;
 
 /**
@@ -12,7 +13,7 @@ import com.sungan.ad.service.adhost.vo.AdHostAccountAdOrderVo;
  */
 public interface AdHostAccountAdOrderService extends  MuService{
 	AdHostAccountAdOrderVo find(String id);
-	String insert(AdHostAccountAdOrder record);
+	String insert(AdHostAccountAdOrder record,AdHostAccountAdOrderAttri attri);
 	void delete(String id);
 	void update(AdHostAccountAdOrder task);
 	List<AdHostAccountAdOrderVo> queryList(AdHostAccountAdOrder condition);

@@ -12,7 +12,7 @@ $horn.addGlobal("headScriptLinks", "/static/chart/vendors/modernizr-2.6.2-respon
                 <!-- block -->
                 <div class="block">
                     <div class="navbar navbar-inner block-header">
-                        <div class="muted pull-left">Morris.js stacked</div>
+                        <div class="muted pull-left">平台流量</div>
                         <div class="pull-right"><span class="badge badge-warning">View More</span>
 
                         </div>
@@ -351,16 +351,30 @@ $horn.addGlobal("headScriptLinks", "/static/chart/vendors/modernizr-2.6.2-respon
     Morris.Area({
         element: 'hero-area',
         data: [
-            {period: '2010 Q1', iphone: 2666, ipad: null, itouch: 2647},
-            {period: '2010 Q2', iphone: 2778, ipad: 2294, itouch: 2441},
-            {period: '2010 Q3', iphone: 4912, ipad: 1969, itouch: 2501},
-            {period: '2010 Q4', iphone: 3767, ipad: 3597, itouch: 5689},
-            {period: '2011 Q1', iphone: 6810, ipad: 1914, itouch: 2293},
-            {period: '2011 Q2', iphone: 5670, ipad: 4293, itouch: 1881},
-            {period: '2011 Q3', iphone: 4820, ipad: 3795, itouch: 1588},
-            {period: '2011 Q4', iphone: 15073, ipad: 5967, itouch: 5175},
-            {period: '2012 Q1', iphone: 10687, ipad: 4460, itouch: 2028},
-            {period: '2012 Q2', iphone: 8432, ipad: 5713, itouch: 1791}
+            {period: '2017-01-01 00:00', iphone: 4666, ipad: null, itouch: 2647},
+            {period: '2017-01-01 01:00', iphone: 4778, ipad: 2294, itouch: 2441},
+            {period: '2017-01-01 02:00', iphone: 4912, ipad: 1969, itouch: 2501},
+            {period: '2017-01-01 03:00', iphone: 4767, ipad: 3597, itouch: 5689},
+            {period: '2017-01-01 04:00', iphone: 6810, ipad: 1914, itouch: 2293},
+            {period: '2017-01-01 05:00', iphone: 5670, ipad: 4293, itouch: 1881},
+            {period: '2017-01-01 06:00', iphone: 4820, ipad: 3795, itouch: 1588},
+            {period: '2017-01-01 07:00', iphone: 6073, ipad: 5967, itouch: 5175},
+            {period: '2017-01-01 08:00', iphone: 6687, ipad: 4460, itouch: 2028},
+            {period: '2017-01-01 09:00', iphone: 8432, ipad: 5713, itouch: 1791},
+            {period: '2017-01-01 10:00', iphone: 4666, ipad: null, itouch: 2647},
+            {period: '2017-01-01 11:00', iphone: 4778, ipad: 2294, itouch: 2441},
+            {period: '2017-01-01 12:00', iphone: 4912, ipad: 1969, itouch: 2501},
+            {period: '2017-01-01 13:00', iphone: 4767, ipad: 3597, itouch: 5689},
+            {period: '2017-01-01 14:00', iphone: 6810, ipad: 1914, itouch: 2293},
+            {period: '2017-01-01 15:00', iphone: 5670, ipad: 4293, itouch: 1881},
+            {period: '2017-01-01 16:00', iphone: 4820, ipad: 3795, itouch: 1588},
+            {period: '2017-01-01 17:00', iphone: 6073, ipad: 5967, itouch: 5175},
+            {period: '2017-01-01 18:00', iphone: 8687, ipad: 4460, itouch: 2028},
+            {period: '2017-01-01 19:00', iphone: 8432, ipad: 5713, itouch: 1791},
+            {period: '2017-01-01 20:00', iphone: 4666, ipad: null, itouch: 2647},
+            {period: '2017-01-01 21:00', iphone: 4778, ipad: 2294, itouch: 2441},
+            {period: '2017-01-01 22:00', iphone: 4912, ipad: 1969, itouch: 2501},
+            {period: '2017-01-01 23:00', iphone: 4767, ipad: 3597, itouch: 5689}
         ],
         xkey: 'period',
         ykeys: ['iphone', 'ipad', 'itouch'],
