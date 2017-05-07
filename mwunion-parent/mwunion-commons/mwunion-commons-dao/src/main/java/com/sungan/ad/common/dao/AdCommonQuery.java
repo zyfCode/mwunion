@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 public abstract class AdCommonQuery<T> {
 	private Log log = LogFactory.getLog(AdCommonQuery.class);
 	@Autowired
+	@Qualifier("hibernateTemprate")
 	protected HibernateTemplate template;
 
 	/**

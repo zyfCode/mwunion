@@ -26,8 +26,11 @@ public class StmasterPlatAccount implements AdObject {
 	private String stmasterId;    //站长ID
 	@Column(length=64,nullable=false)
 	private String userId;    //站长ID
+	@Column(precision = 19, scale = 6)
 	private BigDecimal accountAmount; // 账户余额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal clearAmount; // 结算金额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal currentDayAmount; // 冻结金额
 	private Integer version;        //版本号
 	@DateToStr

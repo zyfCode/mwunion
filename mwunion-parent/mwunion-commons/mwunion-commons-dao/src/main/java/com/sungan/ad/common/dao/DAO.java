@@ -142,6 +142,8 @@ public interface DAO<T>{
 	 * @param t
 	 */
 	void update(T t);
+
+	int updateHql(UpdateByCondition<T> condition);
 }
 
 

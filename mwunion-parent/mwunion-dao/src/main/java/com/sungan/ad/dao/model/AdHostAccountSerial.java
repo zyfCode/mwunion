@@ -29,6 +29,7 @@ public class AdHostAccountSerial implements AdObject {
 	private String accountId; // 账号ID
 	@Column(length=64,nullable=false)
 	private String adHostId; // 广告主ID
+	@Column(precision = 19, scale = 6)
 	private BigDecimal accountAmount; // 流水金额
 	
     @StatusCn(dictId=EnumAdHostAccountSerialType.DICT_KEY)

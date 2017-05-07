@@ -25,8 +25,11 @@ public class AdHostAccount implements AdObject {
 	private String accountId;   //账号ID
 	@Column(length=64,nullable=false)
 	private String adHostId;    //广告主ID
+	@Column(precision = 19, scale = 6)
 	private BigDecimal accountAmount; // 账户余额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal useAmount; // 已经用金额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal frozenAmount; // 冻结金额
 	private Integer version;        //版本号
 	@DateToStr

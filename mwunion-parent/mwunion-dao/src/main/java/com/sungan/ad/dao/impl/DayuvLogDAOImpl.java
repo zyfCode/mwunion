@@ -15,6 +15,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by zhangyf18255 on 2017/5/2.
@@ -84,7 +85,28 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
 
     @Override
     public int insert(Collection<DayuvLog> collection) {
-      return -1;
+        if(collection==null||collection.isEmpty()){
+            return 0;
+        }
+        try {
+            List<DayuvLog> dataList = (List<DayuvLog>) collection;
+            String preAdHostId = null;
+            for(DayuvLog log:dataList){
+                if(preAdHostId==null){
+                    preAdHostId = log.getAdHostId();
+                }else{
+                    if(!preAdHostId.equals(log.getAdHostId())){
+                        throw new RuntimeException("集合adhostId必须一样");
+                    }
+                }
+            }
+            DayuvLog dayuvLog = dataList.get(0);
+            this.preHandle(dayuvLog.getAdHostId());
+            int insert = super.insert(collection);
+            return insert;
+        } finally {
+
+        }
     }
 
     @Override

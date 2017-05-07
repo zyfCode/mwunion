@@ -27,7 +27,9 @@ public class PlatProduct implements Serializable {
     @StatusCn(dictId= EnumProductType.DICT_KEY)
     @Column(length=2,nullable=false)
     private String productType;   //产品类型
+    @Column(precision = 19, scale = 6)
     private BigDecimal adhostPrice;  //广告主计价
+    @Column(precision = 19, scale = 6)
     private BigDecimal srPrice;     //站长计价
     @StatusCn(dictId = EnumProductStatus.DICT_KEY)
     @Column(length=2,nullable=false)

@@ -32,6 +32,7 @@ public class AdHostAccountPayOrder implements AdObject {
 	private String accountId;   //账号ID
 	@Column(length=64,nullable=false)
 	private String adHostId;    //广告主ID
+	@Column(precision = 19, scale = 6)
 	private BigDecimal accountAmount; // 充值金额
 	@StatusCn(dictId=EnumAdHostAccountPayOrderStatus.DICT_KEY)
 	private String payOrderStatus;

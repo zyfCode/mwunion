@@ -28,13 +28,7 @@ public class StmasterSiteDay implements AdObject {
 	private String stSerialId;
 	//站点ID
 	@Column(length=64,nullable=false)
-	private String siteId;
-	//站长ID
-	@Column(length=64,nullable=false)
-	private String stId;
-	//站点名称 
-	@Column(length=64)
-	private String siteName;
+	private String adHostId;
 	//展示数
 	private Integer showCount;
 	//点击数
@@ -45,6 +39,7 @@ public class StmasterSiteDay implements AdObject {
 	@Column(length=64)
 	private String settlementNo;
 	//结算金额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal settlementAmount;
 	//结算日期
 	@DateToStr
@@ -58,30 +53,23 @@ public class StmasterSiteDay implements AdObject {
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
-	public String getSiteId() {
-		return siteId;
-	}
-	public void setSiteId(String siteId) {
-		this.siteId = siteId;
-	}
-	public String getStId() {
-		return stId;
-	}
-	public void setStId(String stId) {
-		this.stId = stId;
-	}
+
 	public String getStSerialId() {
 		return stSerialId;
 	}
+
 	public void setStSerialId(String stSerialId) {
 		this.stSerialId = stSerialId;
 	}
-	public String getSiteName() {
-		return siteName;
+
+	public String getAdHostId() {
+		return adHostId;
 	}
-	public void setSiteName(String siteName) {
-		this.siteName = siteName;
+
+	public void setAdHostId(String adHostId) {
+		this.adHostId = adHostId;
 	}
+
 	public Integer getShowCount() {
 		return showCount;
 	}

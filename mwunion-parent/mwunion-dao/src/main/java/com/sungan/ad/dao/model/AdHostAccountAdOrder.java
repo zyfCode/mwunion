@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sungan.ad.common.dao.AdObject;
+import com.sungan.ad.dao.model.adenum.EnumAdHostAccountAdOrderPayType;
 import com.sungan.ad.dao.model.adenum.EnumAdHostAccountAdOrderStatus;
 import com.sungan.ad.dao.model.adenum.EnumAdHostAccountAdOrderType;
 import com.sungan.ad.expand.common.annotation.DateToStr;
@@ -33,21 +34,31 @@ public class AdHostAccountAdOrder implements AdObject {
 	private String adHostName;
 	private String productId;
 	private String productName;
+	private Long hitCount;
 	@StatusCn(dictId=EnumAdHostAccountAdOrderType.DICT_KEY)
 	@Column(length=2)
 	private String adOrderType;
-	private Long hitCount;
+	@StatusCn(dictId= EnumAdHostAccountAdOrderPayType.DICT_KEY)
+	@Column(length=2)
+	private String payType;
 	private Long showCount;
 	@StatusCn(dictId=EnumAdHostAccountAdOrderStatus.DICT_KEY)
 	private String adOrderStaus;
+	@Column(precision = 19, scale = 6)
 	private BigDecimal adHostAmount; // 广告主消费
-	private BigDecimal stmasterAmount; // 站长消费
-	private BigDecimal platAmount; // 平台盈利
 	private Integer version;        //版本号
 	@DateToStr
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
 
 	public String getAdHostName() {
 		return adHostName;
@@ -120,18 +131,6 @@ public class AdHostAccountAdOrder implements AdObject {
 	}
 	public void setAdHostAmount(BigDecimal adHostAmount) {
 		this.adHostAmount = adHostAmount;
-	}
-	public BigDecimal getStmasterAmount() {
-		return stmasterAmount;
-	}
-	public void setStmasterAmount(BigDecimal stmasterAmount) {
-		this.stmasterAmount = stmasterAmount;
-	}
-	public BigDecimal getPlatAmount() {
-		return platAmount;
-	}
-	public void setPlatAmount(BigDecimal platAmount) {
-		this.platAmount = platAmount;
 	}
 	public Integer getVersion() {
 		return version;

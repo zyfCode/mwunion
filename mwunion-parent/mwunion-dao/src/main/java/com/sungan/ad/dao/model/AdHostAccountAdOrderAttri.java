@@ -29,8 +29,11 @@ public class AdHostAccountAdOrderAttri implements AdObject {
 	private String accountId; // 账号ID
 	@Column(length=64,nullable=false)
 	private String adHostId; // 广告主ID
+	@Column(precision = 19, scale = 6)
 	private BigDecimal adAmount; // 消费上限
+	@Column(precision = 19, scale = 6)
 	private BigDecimal hitPrice; // 点击计费单价
+	@Column(precision = 19, scale = 6)
 	private BigDecimal showPrice; // 刷量计费单价
 	@DateToStr
 	private Date createTime;

@@ -44,6 +44,7 @@ public class AdHostAccountAdOrderHour implements AdObject{
 		@Column(length=64)
 		private String settlementNo;
 		//结算金额
+		@Column(precision = 19, scale = 6)
 		private BigDecimal settlementAmount;
 		//结算日期
 		private Date settlementTime;

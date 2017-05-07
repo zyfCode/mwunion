@@ -26,6 +26,10 @@ public class AdHost implements AdObject {
 	@Id
 	private String adhostId;
 
+	//计费等级
+	@Column(length=64)
+	private Integer priceLev;
+
 	/**
 	 * 用户名称
 	 */
@@ -83,6 +87,14 @@ public class AdHost implements AdObject {
 	private Date updateTime;
 
 	private String remark;
+
+	public Integer getPriceLev() {
+		return priceLev;
+	}
+
+	public void setPriceLev(Integer priceLev) {
+		this.priceLev = priceLev;
+	}
 
 	public String getUserName() {
 		return userName;

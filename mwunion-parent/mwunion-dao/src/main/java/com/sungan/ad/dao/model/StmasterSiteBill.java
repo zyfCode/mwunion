@@ -39,10 +39,13 @@ public class StmasterSiteBill implements AdObject {
 	//周次
 	private Integer weekOfMonth;
 	// 应结算金额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal settlementAmount;
 	// 未结算余额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal settlementAmountBalance;
 	// 已经结算金额
+	@Column(precision = 19, scale = 6)
 	private BigDecimal clearAmount;
 	// 结算日期
 	@DateToStr

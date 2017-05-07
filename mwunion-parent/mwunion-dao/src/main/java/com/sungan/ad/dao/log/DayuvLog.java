@@ -2,6 +2,7 @@ package com.sungan.ad.dao.log;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,21 +14,50 @@ import java.util.Date;
 @Entity
 @Table(name="t_dayuvlog")
 public class DayuvLog implements Serializable{
-    @Column(length=64,nullable=false)
+    @Id
     private String id;
     @Column(length=64,nullable=false)
     private String adOrderId;
     @Column(length=64,nullable=false)
     private String adHostId;
     @Column(length=64)
+    private String stSiteId;
+    @Column(length=64)
+    private String stSiteName;
+    @Column(length=64)
     private String uvKey;   //cooki UV记录
     @Column(length=64)
     private String uvIp;
+    private Integer accesTimeInt; //访问时间精确到小时yyyyMMddHH
     private Date accesTime;
     @Column(length=2,nullable=false)
     private String adOrderType;  //点击或者展示
     private Date createTime;
     private Date updateTime;
+
+    public String getStSiteId() {
+        return stSiteId;
+    }
+
+    public void setStSiteId(String stSiteId) {
+        this.stSiteId = stSiteId;
+    }
+
+    public String getStSiteName() {
+        return stSiteName;
+    }
+
+    public void setStSiteName(String stSiteName) {
+        this.stSiteName = stSiteName;
+    }
+
+    public Integer getAccesTimeInt() {
+        return accesTimeInt;
+    }
+
+    public void setAccesTimeInt(Integer accesTimeInt) {
+        this.accesTimeInt = accesTimeInt;
+    }
 
     public String getId() {
         return id;

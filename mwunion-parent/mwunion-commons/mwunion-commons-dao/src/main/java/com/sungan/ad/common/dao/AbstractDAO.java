@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -351,5 +352,14 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 		return t;
 	}
 
-	
+	@Override
+	public int updateHql(UpdateByCondition<T> condition) {
+		String hql = condition.getHql();
+		Map<String, Object> param = condition.getParam();
+		org.hibernate.classic.Session currentSession = template.getSessionFactory().getCurrentSession();
+		SQLQuery sqlQuery = currentSession.createSQLQuery(hql);
+		sqlQuery.setProperties(param);
+		int i = sqlQuery.executeUpdate();
+		return i;
+	}
 }
