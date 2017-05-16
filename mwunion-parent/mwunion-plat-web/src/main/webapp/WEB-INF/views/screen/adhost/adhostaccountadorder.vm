@@ -1,9 +1,11 @@
 #@screen({"title":"客户端查询"})  
     #@form({"name":"adhostaccountadordersearchForm"})  
         #@panel({"title":"查询条件"})  
-		   	           #textfield({"label":"开始时间 ", "name":"createTime ","value":"","defValue":""})
-		   	           #textfield({"label":"结束时间 ", "name":"updateTime ","value":"","defValue":""})
-		   	            #button_group({"buttons":[  
+                #combox({"label":"订单类型","name":"adOrderType","value":"","headItem":{"label":"","value":"请选择 ..."},
+                    "check":"required",  "dictName": "ADHOSTACCOUNTPAYORDER_TYPE"})
+                #combox({"label":"订单状态","name":"adOrderStaus","value":"","headItem":{"label":"","value":"请选择 ..."},
+                    "check":"required",  "dictName": "ADHOSTACCOUNTADORDER_STATUS"})
+		   	            #button_group({"buttons":[
                 {"label":"查询","event":"queryData()","className":"u-btn-primary"},  
 				{"label":"重置查询","event":"resetSearch()","className":"u-btn-primary"}  
             ]})
@@ -13,10 +15,16 @@
         "id":"adhostaccountadorderTable",  
         "name":"adhostaccountadorderTable",  
         "bindFormName":"adhostaccountadordersearchForm",  
-        "title":"查询列表",    
+        "title":"查询列表",
+        "selectModel":"single",
         "autoLoad":true,  
         "url":"/adhostaccountadorder/listadhostaccountadorder.json",  
-		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
+		   "buttons":[
+                  {"label":"新增","cls":"add","event":"add()"} ,
+                {"label":"暂停","event":"stopOrder()"},
+               {"label":"终止","event":"invalidOrder()"},
+               {"label":"启用","event":"enable()"}
+             ],
         "items":[ 
             {"name":"adOrderId",
             "text":"adOrderId",  
@@ -39,7 +47,7 @@
                 "hidden":true
             },
 
-            {"name":"adOrderType",  
+            {"name":"adOrderTypeCn",
             "text":"订单类型",
             "hAlign":"center",  
             "tAlign":"center"  
@@ -56,11 +64,15 @@
             "hAlign":"center",  
             "tAlign":"center"  
             },
-
             {"name":"adOrderStausCn",
             "text":"订单状态",
             "hAlign":"center",  
             "tAlign":"center"  
+            },
+            {"name":"payTypeCn",
+            "text":"计费类型",
+            "hAlign":"center",
+            "tAlign":"center"
             },
 
             {"name":"adHostAmount",  
@@ -69,19 +81,8 @@
             "tAlign":"center"  
             },
 
-            {"name":"stmasterAmount",  
-            "text":"站长金额",
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
 
-            {"name":"platAmount",  
-            "text":"平台盈利",
-            "hAlign":"center",  
-            "tAlign":"center"  
-            },
-
-            {"name":"createTime",  
+            {"name":"createTimeStr",
             "text":"创建时间",
             "hAlign":"center",  
             "tAlign":"center"  
@@ -94,7 +95,7 @@
                 "tAlign":"center",  
                 "hidden":false,  
                 "width":"200",  
-                "buttons":[{"label":"修改","event":"edit"},{"label":"删除","event":"del"}]
+                "buttons":[{"label":"确认","event":"comfireOrder"},{"label":"修改","event":"edit"},{"label":"删除","event":"del"},{"label":"详情","event":"orderInfo"}]
 			}
         ],  
         "numbercolumn":"true",  
@@ -103,79 +104,459 @@
         "hasPage":"true"
        })
             
-    #@window({"title":"编辑窗口", "name":"adhostaccountadorderEdit", "width":"750", "height":"250",  
+    #@window({"title":"编辑窗口", "name":"adhostaccountadorderEdit", "width":"750", "height":"250", "scroll":true,
             "buttons":[  
                 {"label":"提交","event":"saveData()","className":"u-btn-primary"},  
                 {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"adhostaccountadorderEditForm","url":""})  
-            #@panel({})  
-			                #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adOrderId", "name":"adOrderId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adOrderType", "name":"adOrderType","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"hitCount", "name":"hitCount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"showCount", "name":"showCount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adOrderStaus", "name":"adOrderStaus","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adHostAmount", "name":"adHostAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stmasterAmount", "name":"stmasterAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"platAmount", "name":"platAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"version", "name":"version","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			  			  #end  
-        #end  
-    #end  
+            ]})
+        #@form({"name":"adhostaccountadorderAttriEditForm","url":""})
+            #@panel({})
+                #textfield({"label":"计费上限", "name":"adAmount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"广告主PC计价", "name":"adPCPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"站长PC计价", "name":"stPCPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"广告主安卓计价", "name":"adAndoriPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"站长安卓计价", "name":"stAndriodPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"广告主IOS计价", "name":"adISOPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"站长IOS计价", "name":"stIOSPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"投放平以", "name":"publicSourceCn","value":"","defValue":"","disabled":true})
+            #end
+        #end
+        #@form({"name":"adhostaccountadorderEditForm","url":""})
+            #@panel({})
+                #textfield({"label":"adOrderId", "name":"adOrderId","value":"","defValue":"","check":"required","hidden":true})
+                #textfield({"label":"广告金额", "name":"adHostAmount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"计费类型", "name":"payTypeCn","value":"","defValue":"","disabled":true})
+                #textfield({"label":"点击量", "name":"hitCount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"浏览量", "name":"showCount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"订单状态", "name":"adOrderStausCn","value":"","defValue":"","disabled":true})
+                #textfield({"label":"计费类型", "name":"payTypeCn","value":"","defValue":"","disabled":true})
+                #textfield({"label":"计费上限", "name":"adAmount","value":"","defValue":"","check":"required;decmal1"})
+            #end
+        #end
+    #end
+    #@window({"title":"订单详情", "name":"adhostaccountadorderInfoEdit", "width":"750", "height":"350","scroll":true})
+        #@form({"name":"adhostaccountadorderInfoForm","url":""})
+            #@panel({})
+                #textfield({"label":"广告金额", "name":"adHostAmount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"计费类型", "name":"payTypeCn","value":"","defValue":"","disabled":true})
+                #textfield({"label":"点击量", "name":"hitCount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"浏览量", "name":"showCount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"订单状态", "name":"adOrderStausCn","value":"","defValue":"","disabled":true})
+                #textfield({"label":"计费类型", "name":"payTypeCn","value":"","defValue":"","disabled":true})
+            #end
+        #end
+        #@form({"name":"adhostaccountadorderAttriInfoForm","url":""})
+            #@panel({})
+                #textfield({"label":"计费上限", "name":"adAmount","value":"","defValue":"","disabled":true})
+                #textfield({"label":"广告主PC计价", "name":"adPCPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"站长PC计价", "name":"stPCPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"广告主安卓计价", "name":"adAndoriPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"站长安卓计价", "name":"stAndriodPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"广告主IOS计价", "name":"adISOPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"站长IOS计价", "name":"stIOSPrice","value":"","defValue":"","disabled":true})
+                #textfield({"label":"投放平以", "name":"publicSourceCn","value":"","defValue":"","disabled":true})
+            #end
+        #end
+        #datagrid({
+            "id":"adhostorderannexesTable",
+            "name":"adhostorderannexesTable",
+            "autoLoad":true,
+            "baseParams":{},
+            "url":"",
+            "items":[
+        {"name":"sourceId",
+            "text":"sourceId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"adOrderId",
+            "text":"adOrderId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"accountId",
+            "text":"accountId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"adHostId",
+            "text":"adHostId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"sourceName",
+            "text":"附件名称",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+        {"name":"createTime",
+            "text":"上传时间",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {
+            "name":"operation",
+            "text":"操作",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":false,
+            "width":"200",
+            "buttons":[{"label":"下载","event":"download"}]
+        }
+        ],
+            "numbercolumn":"true",
+            "pageConfig":{"pageSize":10,"pageNo":1},
+            "rowSelect":"false",
+            "hasPage":"true"
+        })
+
+    #end
+
 	
-	
-	    #@window({"title":"添加", "name":"adhostaccountadorderAdd", "width":"750", "height":"250",  
-            "buttons":[  
+	    #@window({"title":"添加", "name":"adhostaccountadorderAdd", "width":"750", "height":"250", "scroll":true,
+            "buttons":[
                 {"label":"提交","event":"addSubmit()","className":"u-btn-primary"},  
                 {"label":"重置","event":"resetDataForm()"}  
-            ]})  
-        #@form({"name":"adhostaccountadorderAddForm","url":""})  
-            #@panel({})  
-                               #textfield({"label":"serialVersionUID", "name":"serialVersionUID","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adOrderId", "name":"adOrderId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"accountId", "name":"accountId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adHostId", "name":"adHostId","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adOrderType", "name":"adOrderType","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"hitCount", "name":"hitCount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"showCount", "name":"showCount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adOrderStaus", "name":"adOrderStaus","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"adHostAmount", "name":"adHostAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"stmasterAmount", "name":"stmasterAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"platAmount", "name":"platAmount","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"version", "name":"version","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"createTime", "name":"createTime","value":"","defValue":"","check":"required"})  
-			                  #textfield({"label":"updateTime", "name":"updateTime","value":"","defValue":"","check":"required"})  
-			              #end  
-        #end  
-    #end  
-#end  
-  
-  
-#jscode()  
-    var action = "";  
-  
-      
-    function add(rowData){  
+            ]})
+            #@form({"name":"adhostaccountadorderAddForm","url":""})
+                #@panel({"cols":2})
+                    #textfield({"label":"adhostId", "name":"adhostId","value":"","defValue":"","check":"required",
+                        "hidden":true})
+                    #textfield({"label":"广告主", "name":"adhostName","check":"required"})
+                    #button_group({
+                        "buttons" : [
+                    {"label":"选择","event":"queryAdHost()","className":"u-btn-primary"}
+                    ]
+                    })
+                    #textfield({"label":"产品编号", "name":"productId","check":"required","hidden":true})
+                    #textfield({"label":"产品", "name":"productName","check":"required"})
+                    #button_group({
+                        "buttons" : [
+                    {"label":"选择","event":"queryProduct()","className":"u-btn-primary"}
+                    ]
+                    })
+                    #combox({"label":"计费方式","name":"payType","value":"","headItem":{"label":"","value":"请选择 ..."},
+                        "check":"required",  "dictName": "ADHOSTACCOUNTPAYORDERPAY_TYPE"})
+                    #textfield({"label":"计费上限", "name":"adAmount","value":"","defValue":"","check":"decmal1"})
+                    #@panel({"cols":1})
+                        #upload_group({"name":"annxFile","id":"annxFile", "label":"附件上传", "check": "required;","cols":"3","url":"$appServer/common/upload","savePath":"E:/upload","fileSizeLimit":20,"progressData":"speed","fileTypeExts":"*.jpg;*.gif;*.jpeg;*.png;*.bmp;*.zip;*.rar;*.7z","multi":false,"auto":false,"onUploadSuccess":"onUploadSuccess"})
+                    #end
+                    #@panel({"cols":1})
+                        #datagrid({
+                            "id" : "anxFileTable1",
+                            "name":"anxFileTable1",
+                            "title":"附件列表",
+                            "numbercolumn":false,
+                            "textOverHidden":false,
+                            "rowSelect":"true",
+                            "isDragColumn":false,
+                            "items":[
+                        {"name":"fileNo", "text":"附件编号"},
+                        {"name":"fileName","text":"附件名称"},
+                        {"name":"branchNo", "text":"操作","showwhenover":"true","buttons":[{"label":"删除","event":"deleteFile","className":"import"}]}
+                        ]
+                        ,"data":[]
+                        })
+                    #end
+                #end
+            #end
+    #end
+
+    #@window({"title":"选择广告主", "name":"adProductsearchWindow", "width":"750", "height":"350","scroll":true
+    })
+        #@form({"name":"productSearchForm"})
+            #@panel({})
+                #textfield({"label":"产品名称", "name":"productName ","value":"","defValue":""})
+                #button_group({"buttons":[
+                {"label":"查询","event":"queryProductData()","className":"u-btn-primary"}
+                ]})
+            #end
+        #end
+        #datagrid({
+            "id":"platproductTable",
+            "name":"platproductTable",
+            "bindFormName":"productSearchForm",
+            "title":"查询列表",
+            "autoLoad":true,
+            "baseParams":{"productStatus":"1"},
+            "url":"",
+            "items":[
+        {"name":"productId",
+            "text":"productId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"productName",
+            "text":"名称",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+        {"name":"productType",
+            "text":"类型",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+        {"name":"productTypeCn",
+            "text":"类型",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+        {"name":"adAndoriPrice",
+            "text":"广告主安卓计价",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {"name":"adPCPrice",
+            "text":"广告主PC计价",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+        {"name":"adISOPrice",
+            "text":"站长IOS计价",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {"name":"stPCPrice",
+            "text":"站长PC计价",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {"name":"stIOSPrice",
+            "text":"站长IOS计价",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {"name":"stAndriodPrice",
+            "text":"站长安卓计价",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+        {"name":"productStatus",
+            "text":"productStatus",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+        {"name":"publicSourceCn",
+            "text":"投放平台",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {"name":"publicSource",
+            "text":"投放平台",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+        {
+            "name":"operation",
+            "text":"操作",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":false,
+            "width":"200",
+            "buttons":[{"label":"选择","event":"chooseProduct"}]
+        }
+        ],
+            "numbercolumn":"true",
+            "pageConfig":{"pageSize":10,"pageNo":1},
+            "rowSelect":"false",
+            "hasPage":"true"
+        })
+    #end
+    #@window({"title":"选择广告主", "name":"adhostsearchWindow", "width":"750", "height":"350","scroll":true
+    })
+        #@form({"name":"adhostsearchForm"})
+            #@panel({})
+                #textfield({"label":"广告主", "name":"adhostName ","value":"","defValue":""})
+                #button_group({"buttons":[
+                {"label":"查询","event":"queryData()","className":"u-btn-primary"}
+                ]})
+            #end
+        #end
+        #datagrid({
+            "id":"adhostTable",
+            "name":"adhostTable",
+            "bindFormName":"adhostsearchForm",
+            "title":"查询列表",
+            "autoLoad":true,
+            "url":"",
+            "items":[
+        {"name":"adhostId",
+            "text":"adhostId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"userAccount",
+            "text":"账号",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {"name":"adhostName",
+            "text":"名称",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+        {"name":"userId",
+            "text":"userId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden": true
+        },
+
+        {"name":"recId",
+            "text":"recId",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":true
+        },
+
+        {"name":"recName",
+            "text":"接待员",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+
+
+
+        {"name":"mobile",
+            "text":"手机号",
+            "hAlign":"center",
+            "tAlign":"center"
+        },
+        {
+            "name":"operation",
+            "text":"操作",
+            "hAlign":"center",
+            "tAlign":"center",
+            "hidden":false,
+            "width":"200",
+            "buttons":[{"label":"选择","event":"chooseAdhost"}]
+        }
+        ],
+
+            "numbercolumn":"true",
+            "pageConfig":{"pageSize":10,"pageNo":1},
+            "rowSelect":"false",
+            "hasPage":"true"
+        })
+    #end
+#end
+
+
+#jscode()
+
+    function download(rowData){
+        var annexesName = rowData.rowdata.sourceName;
+        window.location.href="${imageServer}/common/download?annexesName="+annexesName;
+    }
+
+    function deleteFile(){
+          var selectedData = (Horn.getComp('anxFileTable1').getSelecteds())[0]
+          var fileNo = selectedData.fileNo;
+          if(!fileNo){
+              return;
+          }
+          var dataArr = Horn.getComp("anxFileTable1").data;
+          var newData = [];
+          $.each(dataArr,function(index,obj){
+              if(obj.fileNo==fileNo){
+                  dataArr[index]=null;
+              }else{
+                  newData.push(obj);
+              }
+              Horn.getComp("anxFileTable1").loadData(newData);
+          })
+      }
+
+    var action = "";
+    function queryProduct(){
+        Horn.getComp("platproductTable").url="/platproduct/listplatproduct.json";
+        Horn.getComp("platproductTable").load();
+        Horn.getComp("adProductsearchWindow").show();
+    }
+    function queryAdHost(){
+            Horn.getComp("adhostTable").url="/adhost/listadhost.json";
+            Horn.getComp("adhostTable").load();
+            Horn.getComp("adhostsearchWindow").show();
+    }
+
+
+    //附件上传成功
+    function onUploadSuccess(file, data, response){
+        var rs = $.parseJSON(data);
+        var returnCode = rs.return_code;
+        var returnMsg = rs.return_msg;
+        if(returnCode=="10000"){
+            var filename = rs.success.fileName;
+            uploadAnxFile(filename);
+            Horn.getComp("annxFile").reset();
+        }else{
+             Horn.Tip.warn("附件上传失败");
+        }
+    }
+    function uploadAnxFile(fileName){
+            var fileNo = new Date().getTime();
+            var dataArr = Horn.getComp("anxFileTable1").data;
+            var length = dataArr.length;
+            dataArr[length]={"fileNo":fileNo+"","fileName":fileName};
+            Horn.getComp("anxFileTable1").loadData(dataArr);
+        }
+
+    function add(rowData){
         Horn.getComp("adhostaccountadorderAddForm").reset();  
         Horn.getComp("adhostaccountadorderAdd").show();  
     }  
       
     function edit(rowData){  
-        rowDatarowData = rowData || Horn.getComp('adhostaccountadorderTable').getSelecteds().length && (Horn.getComp('adhostaccountadorderTable').getSelecteds())[0];  
-        Horn.getComp("adhostaccountadorderEditForm").setValues(rowData.rowdata);  
-        Horn.getComp("adhostaccountadorderEdit").show();  
-    }  
-      
+        Horn.getComp("adhostaccountadorderEditForm").setValues(rowData.rowdata);
+        Horn.getComp("adhostaccountadorderEdit").show();
+        var id =  rowData.rowdata.adOrderId;
+        $.post("${imageServer}/adhostaccountadorder/orderinfo",{"adOrderId":id},function(backData){
+                if(backData){
+                    Horn.getComp("adhostaccountadorderAttriEditForm").setValues(backData);
+                }
+        },"json")
+    }
+
+    function orderInfo(rowData){
+        Horn.getComp("adhostaccountadorderInfoForm").setValues(rowData.rowdata);
+        Horn.getComp("adhostaccountadorderInfoEdit").show();
+        var id =  rowData.rowdata.adOrderId;
+        $.post("${imageServer}/adhostaccountadorder/orderinfo",{"adOrderId":id},function(backData){
+            if(backData){
+                Horn.getComp("adhostaccountadorderAttriInfoForm").setValues(backData);
+            }
+        },"json")
+        Horn.getComp("adhostorderannexesTable").url="/adhostaccountadorder/listadhostaccountadordersources.json";
+        Horn.getComp("adhostorderannexesTable").baseParams={"adOrderId":id};
+        Horn.getComp("adhostorderannexesTable").load();
+    }
+
     function del(rowData){  
-	  Horn.Msg.confirm("确认","这是一条确认信息",function(){  
+	  Horn.Msg.confirm("确认","确认删除吗?",function(){
 		 	 rowDatarowData = rowData || Horn.getComp('adhostaccountadorderTable').getSelecteds().length && (Horn.getComp('adhostaccountadorderTable').getSelecteds())[0];  
-               var id =  rowData.rowdata.id;  
-        	   	$.post("${imageServer}/adhostaccountadorder/deleteadhostaccountadorder",{"id":id},function(backData){
+               var id =  rowData.rowdata.adOrderId;
+        	   	$.post("${imageServer}/adhostaccountadorder/deleteadhostaccountadorder",{"adOrderId":id},function(backData){
             		if(backData){
             			if(backData.success){
             				 Horn.getComp("adhostaccountadorderTable").load();  
@@ -189,7 +570,92 @@
             log("确认框的取消执行了")  
         });
     }  
-	
+
+    function comfireOrder(rowData){
+	  Horn.Msg.confirm("确认","这是一条确认信息",function(){
+		 	 rowDatarowData = rowData || Horn.getComp('adhostaccountadorderTable').getSelecteds().length && (Horn.getComp('adhostaccountadorderTable').getSelecteds())[0];
+               var id =  rowData.rowdata.adOrderId;
+        	   	$.post("${imageServer}/adhostaccountadorder/comfireOrder",{"adOrderId":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("adhostaccountadorderTable").load();
+            				   Horn.Tip.info("订单已生效");
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg);
+            			 }
+            		 }
+            	},"json")
+        },function(){
+            log("确认框的取消执行了")
+        });
+    }
+    function stopOrder(){
+        var rowData = (Horn.getComp('adhostaccountadorderTable').getSelecteds())[0]
+        if(!rowData){
+            Horn.Tip.info("请选择行!");
+            return;
+        }
+	  Horn.Msg.confirm("确认","确认暂停订单?",function(){
+               var id =  rowData.adOrderId;
+        	   	$.post("${imageServer}/adhostaccountadorder/stoporder",{"adOrderId":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("adhostaccountadorderTable").load();
+            				   Horn.Tip.info("订单暂停");
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg);
+            			 }
+            		 }
+            	},"json")
+        },function(){
+            log("确认框的取消执行了")
+        });
+    }
+    function enable(){
+        var rowData = (Horn.getComp('adhostaccountadorderTable').getSelecteds())[0]
+        if(!rowData){
+            Horn.Tip.info("请选择行!");
+            return;
+        }
+	  Horn.Msg.confirm("确认","确认启用订单?",function(){
+               var id =  rowData.adOrderId;
+        	   	$.post("${imageServer}/adhostaccountadorder/enable",{"adOrderId":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("adhostaccountadorderTable").load();
+            				   Horn.Tip.info("订单启用成功");
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg);
+            			 }
+            		 }
+            	},"json")
+        },function(){
+            log("确认框的取消执行了")
+        });
+    }
+    function invalidOrder(){
+            var rowData = (Horn.getComp('adhostaccountadorderTable').getSelecteds())[0]
+            if(!rowData){
+                Horn.Tip.info("请选择行!");
+                return;
+            }
+	  Horn.Msg.confirm("确认","确认终止",function(){
+               var id =  rowData.adOrderId;
+        	   	$.post("${imageServer}/adhostaccountadorder/invalidorder",{"adOrderId":id},function(backData){
+            		if(backData){
+            			if(backData.success){
+            				 Horn.getComp("adhostaccountadorderTable").load();
+            				   Horn.Tip.info("订单已终止");
+            			 }else{
+            				Horn.Tip.warn(backData.errorMesg);
+            			 }
+            		 }
+            	},"json")
+        },function(){
+            log("确认框的取消执行了")
+        });
+    }
+
 	function addSubmit(){
 		var form = $("form[name='adhostaccountadorderAddForm']")
 		var result = Horn.Validate.isFormValidate(form);
@@ -198,6 +664,13 @@
 		}
 		Horn.getComp("adhostaccountadorderAdd").hide();  
 		var data = $("form[name='adhostaccountadorderAddForm']").serializeJSON();
+        var dataArr = Horn.getComp("anxFileTable1").data;
+        var anax = [];
+        $.each(dataArr,function(index,obj){
+            var fileName = obj.fileName;
+            anax[index]=fileName;
+        });
+        data.anaxNames = JSON.stringify(anax);
     	$.post("${imageServer}/adhostaccountadorder/addadhostaccountadorder",data,function(backData){
     		if(backData){
     			if(backData.success){
@@ -234,8 +707,23 @@
 			Horn.getComp("adhostaccountadorderTable").baseParams={};
 			 Horn.getComp("adhostaccountadorderTable").load();  
 		}
-      
+
+        function chooseAdhost(rowData){
+            Horn.getComp("adhostaccountadorderAddForm").setValues(rowData.rowdata);
+            Horn.getComp("adhostsearchWindow").hide();
+        }
+
     function queryData() {  
    		 Horn.getComp("adhostaccountadorderTable").load();  
     }  
-#end  
+    function queryProductData() {
+   		 Horn.getComp("platproductTable").load();
+    }
+    function chooseProduct(rowData){
+         var data = Horn.getComp("adhostaccountadorderAddForm").getValues();
+         data.productId=rowData.rowdata.productId;
+         data.productName=rowData.rowdata.productName;
+         Horn.getComp("adhostaccountadorderAddForm").setValues(data);
+         Horn.getComp("adProductsearchWindow").hide();
+    }
+#end

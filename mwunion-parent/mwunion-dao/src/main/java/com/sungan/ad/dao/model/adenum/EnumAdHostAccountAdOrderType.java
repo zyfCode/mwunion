@@ -19,7 +19,7 @@ public enum EnumAdHostAccountAdOrderType {
 	AD_SHOW("1","刷量 ")
 	;//贴片 刷量
 	public static final String DICT_KEY="ADHOSTACCOUNTPAYORDER_TYPE";
-	public static final String DICT_NAME="站点状态";
+	public static final String DICT_NAME="订单类型";
 	private String key;
 	private String label;
 	
@@ -65,9 +65,9 @@ public enum EnumAdHostAccountAdOrderType {
 			
 			@Override
 			public List<DictItem> getItems() {
-				  EnumStmasterStatus[] values = EnumStmasterStatus.values();
+				EnumAdHostAccountAdOrderType[] values = EnumAdHostAccountAdOrderType.values();
 				  List<DictItem> result = new ArrayList<DictItem>();
-				  for(EnumStmasterStatus status:values){
+				  for(EnumAdHostAccountAdOrderType status:values){
 					  DictItem item = new DictItem(status.getKey(), status.getLabel());
 					  result.add(item);
 				  }

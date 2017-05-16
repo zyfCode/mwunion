@@ -69,6 +69,8 @@ public class Stmaster implements AdObject {
 	 */
 	@Column(length=64)
 	private String mobile;
+
+	private Integer countWeight;
 	/**
 	 * 站长微信
 	 */
@@ -80,6 +82,14 @@ public class Stmaster implements AdObject {
 	private Date updateTime;
 	@Column(length=128)
 	private String remark;
+
+	public Integer getCountWeight() {
+		return countWeight;
+	}
+
+	public void setCountWeight(Integer countWeight) {
+		this.countWeight = countWeight;
+	}
 
 	public String getUserStatus() {
 		return userStatus;

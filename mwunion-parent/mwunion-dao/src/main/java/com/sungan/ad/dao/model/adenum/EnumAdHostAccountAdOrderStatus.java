@@ -17,8 +17,9 @@ import com.sungan.ad.exception.AdRuntimeException;
 public enum EnumAdHostAccountAdOrderStatus {
 	UNSURE("0","未确认"),
 	WORKINIG("1","生效中 "),
-	STOP("1","暂停"),
-	DONED("1","完成")
+	STOP("2","暂停"),
+	DONED("3","完成"),
+	INVALID("4","终止")
 	;//贴片 刷量
 	public static final String DICT_KEY="ADHOSTACCOUNTADORDER_STATUS";
 	public static final String DICT_NAME="站点状态";
@@ -66,9 +67,9 @@ public enum EnumAdHostAccountAdOrderStatus {
 			
 			@Override
 			public List<DictItem> getItems() {
-				  EnumStmasterStatus[] values = EnumStmasterStatus.values();
+				EnumAdHostAccountAdOrderStatus[] values = EnumAdHostAccountAdOrderStatus.values();
 				  List<DictItem> result = new ArrayList<DictItem>();
-				  for(EnumStmasterStatus status:values){
+				  for(EnumAdHostAccountAdOrderStatus status:values){
 					  DictItem item = new DictItem(status.getKey(), status.getLabel());
 					  result.add(item);
 				  }

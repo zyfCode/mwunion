@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by zhangyf18255 on 2017/5/6.
  */
 @Entity
-@Table(name="t_plat_flowcount")
+@Table(name="t_plat_account")
 public class PlatAccount {
     @Id
     private String id;

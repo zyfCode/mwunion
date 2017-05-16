@@ -32,15 +32,32 @@ public class AdHostAccountAdOrderAttri implements AdObject {
 	@Column(precision = 19, scale = 6)
 	private BigDecimal adAmount; // 消费上限
 	@Column(precision = 19, scale = 6)
-	private BigDecimal hitPrice; // 点击计费单价
+	private BigDecimal adAndoriPrice; //广告主费单价
 	@Column(precision = 19, scale = 6)
-	private BigDecimal showPrice; // 刷量计费单价
+	private BigDecimal adPCPrice; //广告主费单价
+	@Column(precision = 19, scale = 6)
+	private BigDecimal adISOPrice; // 广告主费单价
+	@Column(precision = 19, scale = 6)
+	private BigDecimal stPCPrice; // 站长PC计费单价
+	@Column(precision = 19, scale = 6)
+	private BigDecimal stIOSPrice; // 站长ISO计费单价
+	@Column(precision = 19, scale = 6)
+	private BigDecimal stAndriodPrice; // 站长ISO计费单价
+	@Column(length=64)
+	private String publicSource;  // 投放源
 	@DateToStr
 	private Date createTime;
 	@DateToStr
 	private Date updateTime;
 
-	
+	public String getPublicSource() {
+		return publicSource;
+	}
+
+	public void setPublicSource(String publicSource) {
+		this.publicSource = publicSource;
+	}
+
 	public String getAdOrderAtrriId() {
 		return adOrderAtrriId;
 	}
@@ -81,20 +98,52 @@ public class AdHostAccountAdOrderAttri implements AdObject {
 		this.adAmount = adAmount;
 	}
 
-	public BigDecimal getHitPrice() {
-		return hitPrice;
+	public BigDecimal getAdAndoriPrice() {
+		return adAndoriPrice;
 	}
 
-	public void setHitPrice(BigDecimal hitPrice) {
-		this.hitPrice = hitPrice;
+	public void setAdAndoriPrice(BigDecimal adAndoriPrice) {
+		this.adAndoriPrice = adAndoriPrice;
 	}
 
-	public BigDecimal getShowPrice() {
-		return showPrice;
+	public BigDecimal getAdPCPrice() {
+		return adPCPrice;
 	}
 
-	public void setShowPrice(BigDecimal showPrice) {
-		this.showPrice = showPrice;
+	public void setAdPCPrice(BigDecimal adPCPrice) {
+		this.adPCPrice = adPCPrice;
+	}
+
+	public BigDecimal getAdISOPrice() {
+		return adISOPrice;
+	}
+
+	public void setAdISOPrice(BigDecimal adISOPrice) {
+		this.adISOPrice = adISOPrice;
+	}
+
+	public BigDecimal getStPCPrice() {
+		return stPCPrice;
+	}
+
+	public void setStPCPrice(BigDecimal stPCPrice) {
+		this.stPCPrice = stPCPrice;
+	}
+
+	public BigDecimal getStIOSPrice() {
+		return stIOSPrice;
+	}
+
+	public void setStIOSPrice(BigDecimal stIOSPrice) {
+		this.stIOSPrice = stIOSPrice;
+	}
+
+	public BigDecimal getStAndriodPrice() {
+		return stAndriodPrice;
+	}
+
+	public void setStAndriodPrice(BigDecimal stAndriodPrice) {
+		this.stAndriodPrice = stAndriodPrice;
 	}
 
 	public Date getCreateTime() {

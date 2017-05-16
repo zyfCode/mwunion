@@ -65,9 +65,9 @@ public enum EnumAdHostAccountAdOrderPayType {
 			
 			@Override
 			public List<DictItem> getItems() {
-				  EnumStmasterStatus[] values = EnumStmasterStatus.values();
+				EnumAdHostAccountAdOrderPayType[] values = EnumAdHostAccountAdOrderPayType.values();
 				  List<DictItem> result = new ArrayList<DictItem>();
-				  for(EnumStmasterStatus status:values){
+				  for(EnumAdHostAccountAdOrderPayType status:values){
 					  DictItem item = new DictItem(status.getKey(), status.getLabel());
 					  result.add(item);
 				  }

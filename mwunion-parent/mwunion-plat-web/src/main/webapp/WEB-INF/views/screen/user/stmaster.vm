@@ -56,6 +56,11 @@
         "hAlign":"center",
         "tAlign":"center"
     },
+    {"name":"countWeight",
+        "text":"计费权重",
+        "hAlign":"center",
+        "tAlign":"center"
+    },
 
     {"name":"stmasterQQ",
         "text":"QQ",
@@ -130,6 +135,7 @@
             #@panel({})
                 #textfield({"label":"stmasterId", "name":"stmasterId","value":"","defValue":"","check":"required",
                     "hidden":true})
+                #textfield({"label":"站点权重", "name":"countWeight","value":"","defValue":"","check":"required;intege1"})
                 #textfield({"label":"接待员", "name":"recName","value":"","defValue":"","check":"required"})
                 #textfield({"label":"QQ", "name":"stmasterQQ","value":"","defValue":"","check":"required"})
                 #textfield({"label":"邮箱", "name":"stmasterEmail","value":"","defValue":"","check":
@@ -162,7 +168,7 @@
             #@fieldset({"title":"站点信息"})
                 #@panel({})
                     #textfield({"label":"站点名", "name":"siteName","value":"","defValue":""})
-                    #textfield({"label":"站点权重", "name":"countWeight","value":"","defValue":"","check":"intege1"})
+                    #textfield({"label":"站点权重", "name":"countWeight","value":"","defValue":"","check":"required;intege1"})
                     #textarea({ "label":"站点URL","name":"siteUrl","cols":3,"value":"","check":"url"})
                 #end
             #end

@@ -1,6 +1,7 @@
 package com.sungan.ad.common.dao;
 
 import com.sungan.ad.commons.AdCommonsUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -20,7 +22,13 @@ public class UpdateByCondition<T> {
     private String hql;
     private Map<String,Object> param;
     private boolean lockModel = false;
+
+    public T getEntity() {
+        return instance;
+    }
+
     protected  void init(){
+        param = new LinkedHashMap<>();
         if(StringUtils.isBlank(hql)){
             hql = "update "+instance.getClass().getName();
             Map<String, Object> beanFile = null;
@@ -63,7 +71,7 @@ public class UpdateByCondition<T> {
             this.andWhere(idFile.getName(),idVal);
             if(this.lockModel){
                 if(versionFile==null||varsionVal==null){
-                    throw new RuntimeException(instance.getClass().getName()+"理新的版本号不能为空!");
+                    throw new RuntimeException(instance.getClass().getName()+"更新新的版本号不能为空!");
                 }
                 this.andWhere(versionFile.getName(),varsionVal);
             }

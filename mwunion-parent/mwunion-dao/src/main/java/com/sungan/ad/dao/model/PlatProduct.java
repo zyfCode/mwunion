@@ -28,9 +28,17 @@ public class PlatProduct implements Serializable {
     @Column(length=2,nullable=false)
     private String productType;   //产品类型
     @Column(precision = 19, scale = 6)
-    private BigDecimal adhostPrice;  //广告主计价
+    private BigDecimal adAndoriPrice; //广告主费单价
     @Column(precision = 19, scale = 6)
-    private BigDecimal srPrice;     //站长计价
+    private BigDecimal adPCPrice; //广告主费单价
+    @Column(precision = 19, scale = 6)
+    private BigDecimal adISOPrice; // 广告主费单价
+    @Column(precision = 19, scale = 6)
+    private BigDecimal stPCPrice; // 站长PC计费单价
+    @Column(precision = 19, scale = 6)
+    private BigDecimal stIOSPrice; // 站长ISO计费单价
+    @Column(precision = 19, scale = 6)
+    private BigDecimal stAndriodPrice; // 站长ISO计费单价
     @StatusCn(dictId = EnumProductStatus.DICT_KEY)
     @Column(length=2,nullable=false)
     private String productStatus;  //产品状态
@@ -73,20 +81,52 @@ public class PlatProduct implements Serializable {
         this.productType = productType;
     }
 
-    public BigDecimal getAdhostPrice() {
-        return adhostPrice;
+    public BigDecimal getAdAndoriPrice() {
+        return adAndoriPrice;
     }
 
-    public void setAdhostPrice(BigDecimal adhostPrice) {
-        this.adhostPrice = adhostPrice;
+    public void setAdAndoriPrice(BigDecimal adAndoriPrice) {
+        this.adAndoriPrice = adAndoriPrice;
     }
 
-    public BigDecimal getSrPrice() {
-        return srPrice;
+    public BigDecimal getAdPCPrice() {
+        return adPCPrice;
     }
 
-    public void setSrPrice(BigDecimal srPrice) {
-        this.srPrice = srPrice;
+    public void setAdPCPrice(BigDecimal adPCPrice) {
+        this.adPCPrice = adPCPrice;
+    }
+
+    public BigDecimal getAdISOPrice() {
+        return adISOPrice;
+    }
+
+    public void setAdISOPrice(BigDecimal adISOPrice) {
+        this.adISOPrice = adISOPrice;
+    }
+
+    public BigDecimal getStPCPrice() {
+        return stPCPrice;
+    }
+
+    public void setStPCPrice(BigDecimal stPCPrice) {
+        this.stPCPrice = stPCPrice;
+    }
+
+    public BigDecimal getStIOSPrice() {
+        return stIOSPrice;
+    }
+
+    public void setStIOSPrice(BigDecimal stIOSPrice) {
+        this.stIOSPrice = stIOSPrice;
+    }
+
+    public BigDecimal getStAndriodPrice() {
+        return stAndriodPrice;
+    }
+
+    public void setStAndriodPrice(BigDecimal stAndriodPrice) {
+        this.stAndriodPrice = stAndriodPrice;
     }
 
     public String getProductStatus() {

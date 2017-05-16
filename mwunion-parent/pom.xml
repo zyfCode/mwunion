@@ -27,7 +27,7 @@
         <httpcoreVersion>4.4.1</httpcoreVersion>
         <httpclientVersion>4.4.1</httpclientVersion>
         <httpmimeVersion>4.4.1</httpmimeVersion>
-        <commonsCodecVersion>1.9</commonsCodecVersion>
+        <commonsCodecVersion>1.10</commonsCodecVersion>
         <zxingVersion>2.3.0</zxingVersion>
         <jasperreportsVersion>6.0.0</jasperreportsVersion>
         <snakerVersion>2.5.1</snakerVersion>
@@ -306,7 +306,6 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -327,9 +326,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>mwunion-adhost-service</module>
-        <module>mwunion-stmaster-service</module>
-        <module>mwunion-plat-service</module>
         <module>mwunion-commons</module>
         <module>mwunion-dao</module>
         <module>mwunion-plat-web</module>
@@ -339,6 +335,7 @@
         <module>mwunion-log-deploy</module>
         <module>mwunion-flow-deploy</module>
         <module>mwunion-code-generator</module>
+        <module>mwunion-service</module>
     </modules>
 
 

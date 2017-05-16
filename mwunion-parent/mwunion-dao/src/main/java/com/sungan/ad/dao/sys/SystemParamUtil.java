@@ -42,7 +42,9 @@ public class SystemParamUtil implements InitializingBean{
             account.setPayAmount(BigDecimal.ZERO);
             account.setToalAmount(BigDecimal.ZERO);
             account.setUpdateTime(new Date());
+            account.setVersion(1);
             account.setId(IdGeneratorFactory.nextId());
+            util.platAccountDAO.insert(account);
         }else {
             if (query.size() > 1){
                 logger.warn("查询到多个平台账号!");

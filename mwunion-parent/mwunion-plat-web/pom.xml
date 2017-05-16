@@ -326,7 +326,7 @@
 						<contextPath>/${project.artifactId}</contextPath>
 						<tempDirectory>${project.build.directory}/work</tempDirectory>
 						<!-- 热加载扫描间隔秒数 -->
-						<scanIntervalSeconds>10</scanIntervalSeconds>
+						<scanIntervalSeconds>2</scanIntervalSeconds>
 						<stopKey>foo</stopKey>
 						<stopPort>9999</stopPort>
 						<scanTargetPatterns>

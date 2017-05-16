@@ -24,6 +24,8 @@ public class DayuvLog implements Serializable{
     private String stSiteId;
     @Column(length=64)
     private String stSiteName;
+    @Column(length = 256)
+    private String clientAgent;
     @Column(length=64)
     private String uvKey;   //cooki UV记录
     @Column(length=64)
@@ -34,6 +36,14 @@ public class DayuvLog implements Serializable{
     private String adOrderType;  //点击或者展示
     private Date createTime;
     private Date updateTime;
+
+    public String getClientAgent() {
+        return clientAgent;
+    }
+
+    public void setClientAgent(String clientAgent) {
+        this.clientAgent = clientAgent;
+    }
 
     public String getStSiteId() {
         return stSiteId;

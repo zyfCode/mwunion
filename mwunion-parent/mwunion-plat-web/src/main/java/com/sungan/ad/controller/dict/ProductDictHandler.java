@@ -62,14 +62,15 @@ public class ProductDictHandler extends DictHandler {
             DictEntry entry = new DictEntry() {
                 @Override
                 public String getValue() {
-                    return productId;
+                    return productName;
                 }
 
                 @Override
                 public String getLabel() {
-                    return productName;
+                    return productId;
                 }
             };
+            entryList.add(entry);
         }
         return entryList;
     }

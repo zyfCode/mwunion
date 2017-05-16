@@ -14,7 +14,7 @@
         "name":"platproductTable",  
         "bindFormName":"platproductsearchForm",  
         "title":"查询列表",    
-        "autoLoad":true,  
+        "autoLoad":true,
         "url":"/platproduct/listplatproduct.json",  
 		   "buttons":[{"label":"新增","cls":"add","event":"add()"} ],
         "items":[ 
@@ -43,16 +43,36 @@
             "tAlign":"center"
             },
 
-            {"name":"adhostPrice",  
-            "text":"广告主计价",
+            {"name":"adAndoriPrice",
+            "text":"广告主安卓计价",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+            {"name":"adPCPrice",
+            "text":"广告主PC计价",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+
+            {"name":"adISOPrice",
+            "text":"站长IOS计价",
             "hAlign":"center",  
             "tAlign":"center"  
             },
-
-            {"name":"srPrice",  
-            "text":"站长计价",
-            "hAlign":"center",  
-            "tAlign":"center"  
+            {"name":"stPCPrice",
+            "text":"站长PC计价",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+            {"name":"stIOSPrice",
+            "text":"站长IOS计价",
+            "hAlign":"center",
+            "tAlign":"center"
+            },
+            {"name":"stAndriodPrice",
+            "text":"站长安卓计价",
+            "hAlign":"center",
+            "tAlign":"center"
             },
 
             {"name":"productStatus",  
@@ -110,9 +130,13 @@
 			                #textfield({"label":"productId", "name":"productId","value":"","defValue":"","check":"required","hidden":true})
 			                  #textfield({"label":"产品名称", "name":"productName","value":"","defValue":"","check":"required"})
                                 #combox({"label":"产品类型","name":"productType","value":"","check":"required","headItem":{"label":"","value":"请选择 ..."},  "dictName": "PRODUCT_TYPE"})
-                                #textfield({"label":"广告主计价", "name":"adhostPrice","value":"","defValue":"","check":"required;decmal1"})
-			                  #textfield({"label":"站长计价", "name":"srPrice","value":"","defValue":"","check":"required;decmal1"})
-                        #checkbox_group({"id":"publicSource1","cols":1, "value": "0,1,2", "name":"publicSource_update","check":"required","label":"投放平台","defValue":"0,1,2","items":[
+                #textfield({"label":"广告主PC计价", "name":"adPCPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长PC计价", "name":"stPCPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"广告主安卓计价", "name":"adAndoriPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长安卓计价", "name":"stAndriodPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"广告主IOS计价", "name":"adISOPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长IOS计价", "name":"stIOSPrice","value":"","defValue":"","check":"required;decmal1"})
+                #checkbox_group({"id":"publicSource1","cols":1, "value": "0,1,2", "name":"publicSource_update","check":"required","label":"投放平台","defValue":"0,1,2","items":[
                         {"text":"PC","code":"0"},
                         {"text":"苹果","code":"1"},
                         {"text":"安卓","code":"2"}
@@ -133,8 +157,12 @@
             #@panel({"cols":2})
                 #textfield({"label":"产品名称", "name":"productName","value":"","defValue":"","check":"required"})
                 #combox({"label":"产品类型","name":"productType","value":"","check":"required","headItem":{"label":"","value":"请选择 ..."},  "dictName": "PRODUCT_TYPE"})
-                #textfield({"label":"广告主计价", "name":"adhostPrice","value":"","defValue":"","check":"required;decmal1"})
-                #textfield({"label":"站长计价", "name":"srPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"广告主PC计价", "name":"adPCPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长PC计价", "name":"stPCPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"广告主安卓计价", "name":"adAndoriPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长安卓计价", "name":"stAndriodPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"广告主IOS计价", "name":"adISOPrice","value":"","defValue":"","check":"required;decmal1"})
+                #textfield({"label":"站长IOS计价", "name":"stIOSPrice","value":"","defValue":"","check":"required;decmal1"})
                     #checkbox_group({"id":"publicSource2","cols":1, "value": "0,1,2", "name":"publicSource_add","check":"required","label":"投放平台","defValue":"0,1,2","items":[
                     {"text":"PC","code":"0"},
                     {"text":"苹果","code":"1"},

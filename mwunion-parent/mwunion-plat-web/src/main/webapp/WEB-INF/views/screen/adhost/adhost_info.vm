@@ -6,7 +6,7 @@
                 #@panel({"cols":2,"title":"账户信息"})
                     #label({"label":"余额","name":"accountAmount","value":"0.00元","defValue":""})
                     #label({"label":"消费金额","name":"useAmount","value":"0.00元","defValue":""})
-                    #label({"label":"冻结金额","name":"frozenAmount","value":"0.00元","defValue":""})
+                    #label({"label":"预扣金额","name":"frozenAmount","value":"0.00元","defValue":""})
                 #button_group({
                     "buttons" : [
                       {"label":"充值","event":"addMoneyShow()","className":"u-btn-primary"}

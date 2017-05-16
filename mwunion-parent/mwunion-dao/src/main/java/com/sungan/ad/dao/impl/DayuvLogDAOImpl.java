@@ -12,6 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Created by zhangyf18255 on 2017/5/2.
  */
+@Component
 public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements InitializingBean {
     @Autowired
     @Qualifier("hibernateTemprateLog")
