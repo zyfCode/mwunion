@@ -27,12 +27,12 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Qualifier("hibernateTemprateLog")
     protected HibernateTemplate template;
 
-    protected void preHandle(String adhostId){
-        if(adhostId==null){
+    protected void preHandle(DayuvLog dayLog){
+        if(dayLog==null){
             throw new RuntimeException("分表站长ID不允许为空!");
         }
         InterceptorBean value = new InterceptorBean();
-        value.setId(adhostId);
+        value.setId(dayLog.getStId());
         SpLogInterceptor.local.set(value);
     }
     protected void afterHandle(){
@@ -43,7 +43,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     public AdPager<DayuvLog> queryPageInOrder(DayuvLog dayuvLog, QueryHandler handler, int pageIndex, int rows, OrderType orderType, String orderColumn) {
 
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.queryPageInOrder(dayuvLog, handler, pageIndex, rows, orderType, orderColumn);
         } finally {
             this.afterHandle();
@@ -58,7 +58,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public AdPager<DayuvLog> queryPage(DayuvLog dayuvLog, QueryHandler handler, int pageIndex, int rows) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.queryPage(dayuvLog, handler, pageIndex, rows);
         }  finally {
             this.afterHandle();
@@ -68,7 +68,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public AdPager<DayuvLog> queryPageEq(DayuvLog dayuvLog, QueryHandler handler, int pageIndex, int rows) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.queryPageEq(dayuvLog, handler, pageIndex, rows);
         } finally {
             this.afterHandle();
@@ -78,7 +78,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public Long count(DayuvLog dayuvLog, QueryHandler handler) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.count(dayuvLog, handler);
         } finally {
             this.afterHandle();
@@ -103,11 +103,11 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
                 }
             }
             DayuvLog dayuvLog = dataList.get(0);
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             int insert = super.insert(collection);
             return insert;
         } finally {
-
+            this.afterHandle();
         }
     }
 
@@ -119,7 +119,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public AdPager<DayuvLog> queryPageEq(DayuvLog dayuvLog, int pageIndex, int rows) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.queryPageEq(dayuvLog, pageIndex, rows);
         } finally {
             this.afterHandle();
@@ -129,7 +129,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public AdPager<DayuvLog> queryPage(DayuvLog dayuvLog, int pageIndex, int rows) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.queryPage(dayuvLog, pageIndex, rows);
         } finally {
             this.afterHandle();
@@ -139,7 +139,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public AdPager<DayuvLog> queryPageInOrder(DayuvLog dayuvLog, int pageIndex, int rows, OrderType orderType, String orderColumn) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.queryPageInOrder(dayuvLog, pageIndex, rows, orderType, orderColumn);
         } finally {
             this.afterHandle();
@@ -150,7 +150,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public Collection<DayuvLog> query(DayuvLog dayuvLog, QueryHandler handler) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.query(dayuvLog, handler);
         } finally {
             this.afterHandle();
@@ -165,7 +165,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public Collection<DayuvLog> query(DayuvLog dayuvLog) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.query(dayuvLog);
         } finally {
             this.afterHandle();
@@ -175,7 +175,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public Long count(DayuvLog dayuvLog) {
         try {
-            this.preHandle(dayuvLog.getAdHostId());
+            this.preHandle(dayuvLog);
             return super.count(dayuvLog);
         } finally {
             this.afterHandle();
@@ -190,7 +190,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public Serializable insert(DayuvLog dayuvLog) {
         try {
-            this.preHandle(dayuvLog.getId());
+            this.preHandle(dayuvLog);
             return super.insert(dayuvLog);
         } finally {
             this.afterHandle();
@@ -200,7 +200,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public void delete(DayuvLog dayuvLog) {
         try {
-            this.preHandle(dayuvLog.getId());
+            this.preHandle(dayuvLog);
             super.delete(dayuvLog);
         } finally {
             this.afterHandle();
@@ -220,7 +220,7 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
     @Override
     public void update(DayuvLog dayuvLog) {
         try {
-            this.preHandle(dayuvLog.getId());
+            this.preHandle(dayuvLog);
             super.update(dayuvLog);
         } finally {
             this.afterHandle();
@@ -229,22 +229,12 @@ public class DayuvLogDAOImpl extends DayuvLogDAOAbstract implements Initializing
 
     @Override
     public DayuvLog find(Serializable id) {
-        try {
-            this.preHandle(id.toString());
-            return super.find(id);
-        } finally {
-            this.afterHandle();
-        }
+        return null;
     }
 
     @Override
     public DayuvLog findByLoad(Serializable id) {
-        try {
-            this.preHandle(id.toString());
-            return super.findByLoad(id);
-        } finally {
-            this.afterHandle();
-        }
+        return null;
     }
 
     @Override

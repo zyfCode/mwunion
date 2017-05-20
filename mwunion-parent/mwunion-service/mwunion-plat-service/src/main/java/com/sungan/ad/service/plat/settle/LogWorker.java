@@ -52,6 +52,11 @@ public class LogWorker {
             } catch (IOException e) {
                 logger.error("解析文件{}异常",fileName,e);
             }finally{
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    logger.error("",e);
+                }
                 logLoader.finishe(fileName);
             }
         }
@@ -59,36 +64,36 @@ public class LogWorker {
 
 
     protected  void handle(List<DayuvLog> datas){
-        Map<String,List<DayuvLog>> spByAdhost= new HashMap<String,List<DayuvLog>>();
+        Map<String,List<DayuvLog>> spbyStId= new HashMap<String,List<DayuvLog>>();
         for(DayuvLog log :datas){
-            String adHostId = log.getAdHostId();
-            if(StringUtils.isBlank(adHostId)){
+            String stID = log.getStId();
+            if(StringUtils.isBlank(stID)){
                 continue;
             }
-            List<DayuvLog> dayuvLogs = spByAdhost.get(adHostId);
+            List<DayuvLog> dayuvLogs = spbyStId.get(stID);
             if(dayuvLogs==null){
                 dayuvLogs = new ArrayList<>();
-                spByAdhost.put(log.getAdHostId(),dayuvLogs);
+                spbyStId.put(log.getStId(),dayuvLogs);
             }
             dayuvLogs.add(log);
         }
         if(logger.isInfoEnabled()){
-            logger.info("处理{}日志信息",spByAdhost.keySet());
+            logger.info("处理{}日志信息",spbyStId.keySet());
         }
-        Set<Map.Entry<String, List<DayuvLog>>> entries = spByAdhost.entrySet();
+        Set<Map.Entry<String, List<DayuvLog>>> entries = spbyStId.entrySet();
         for(Map.Entry<String, List<DayuvLog>> kv:entries){
-            String key = kv.getKey();//key=adhostId
+            String key = kv.getKey();//key=stmasterId
             Map<UVlogKey, UVCount> settleLog = this.getSettleLog(key);
             List<DayuvLog> value = kv.getValue();
             List<DayuvLog> enAble = new ArrayList<>();
             for(DayuvLog log:value) {
                 //一个站长 一个IP 一个订单 1个UV只计费一次
-                UVlogKey uVlogKeyUv = new UVlogKey(log.getUvIp(),log.getAdHostId(), log.getAdOrderId(),log.getUvKey());
+                UVlogKey uVlogKeyUv = new UVlogKey(log.getUvIp(),log.getStId(), log.getAdOrderId(),log.getUvKey());
                 if(settleLog.get(uVlogKeyUv)!=null){
                     continue;
                 }
                 //一个站长 一个IP 一个定单，最多计费5次
-                UVlogKey uVlogKey = new UVlogKey(log.getUvIp(),log.getAdHostId(), log.getAdOrderId());
+                UVlogKey uVlogKey = new UVlogKey(log.getUvIp(),log.getStId(), log.getAdOrderId());
                 UVCount uvCount = settleLog.get(uVlogKey);
                 if(uvCount!=null&&uvCount.getUv()>5){
                     continue;
@@ -112,21 +117,21 @@ public class LogWorker {
 //        dayuvLogService.query()
     }
 
-    private   Map<UVlogKey,UVCount> getSettleLog(String adHostId){  //分成计算站长 订单 IP 维度和计算站长 订单 IP 维度 UV维度
+    private   Map<UVlogKey,UVCount> getSettleLog(String stId){  //分成计算站长 订单 IP 维度和计算站长 订单 IP 维度 UV维度
         Map<UVlogKey,UVCount> cache = new LinkedHashMap<>();
         long begin = System.currentTimeMillis();
         if(logger.isInfoEnabled()){
-            logger.info("站长{}计费记录",adHostId);
+            logger.info("站长{}计费记录",stId);
         }
 
-        List<DayuvLog> query = dayuvLogService.query(adHostId, null);
+        List<DayuvLog> query = dayuvLogService.query(stId, null);
         if(logger.isInfoEnabled()){
             long end = System.currentTimeMillis();
             long t = end-begin;
-            logger.info("站长{}查询出{}计费记录,耗时",new Object[]{adHostId,query.size(),t});
+            logger.info("站长{}查询出{}计费记录,耗时",new Object[]{stId,query.size(),t});
         }
         for(DayuvLog log:query){
-            UVlogKey key1 = new UVlogKey(log.getUvIp(),log.getAdHostId(), log.getAdOrderId());  //站长 订单 IP 维度
+            UVlogKey key1 = new UVlogKey(log.getUvIp(),log.getStId(), log.getAdOrderId());  //站长 订单 IP 维度
             UVCount uvCount1 = cache.get(key1);
             if(uvCount1!=null){
                 uvCount1.add();
@@ -136,7 +141,7 @@ public class LogWorker {
             }
 
 
-            UVlogKey key = new UVlogKey(log.getUvIp(),log.getAdHostId(), log.getAdOrderId(),log.getUvKey());//站长 订单 IP 维度 UV维度
+            UVlogKey key = new UVlogKey(log.getUvIp(),log.getStId(), log.getAdOrderId(),log.getUvKey());//站长 订单 IP 维度 UV维度
             UVCount uvCount = cache.get(key);
             if(uvCount!=null){
                 uvCount.add();
@@ -160,19 +165,19 @@ public class LogWorker {
 
     class UVlogKey{
         private String ip;
-        private String adHost;
+        private String stId;
         private String orderId;
         private String uv;
 
-        public UVlogKey(String ip, String adHost, String orderId) {
+        public UVlogKey(String ip, String stId, String orderId) {
             this.ip = ip;
-            this.adHost = adHost;
+            this.stId = stId;
             this.orderId = orderId;
         }
 
-        public UVlogKey(String ip, String adHost, String orderId, String uv) {
+        public UVlogKey(String ip, String stId, String orderId, String uv) {
             this.ip = ip;
-            this.adHost = adHost;
+            this.stId = stId;
             this.orderId = orderId;
             this.uv = uv;
         }
@@ -185,7 +190,7 @@ public class LogWorker {
             UVlogKey uVlogKey = (UVlogKey) o;
 
             if (ip != null ? !ip.equals(uVlogKey.ip) : uVlogKey.ip != null) return false;
-            if (adHost != null ? !adHost.equals(uVlogKey.adHost) : uVlogKey.adHost != null) return false;
+            if (stId != null ? !stId.equals(uVlogKey.stId) : uVlogKey.stId != null) return false;
             if (orderId != null ? !orderId.equals(uVlogKey.orderId) : uVlogKey.orderId != null) return false;
             return uv != null ? uv.equals(uVlogKey.uv) : uVlogKey.uv == null;
         }
@@ -193,10 +198,26 @@ public class LogWorker {
         @Override
         public int hashCode() {
             int result = ip != null ? ip.hashCode() : 0;
-            result = 31 * result + (adHost != null ? adHost.hashCode() : 0);
+            result = 31 * result + (stId != null ? stId.hashCode() : 0);
             result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
             result = 31 * result + (uv != null ? uv.hashCode() : 0);
             return result;
+        }
+
+        public String getStId() {
+            return stId;
+        }
+
+        public void setStId(String stId) {
+            this.stId = stId;
+        }
+
+        public String getUv() {
+            return uv;
+        }
+
+        public void setUv(String uv) {
+            this.uv = uv;
         }
 
         public String getIp() {
@@ -207,13 +228,6 @@ public class LogWorker {
             this.ip = ip;
         }
 
-        public String getAdHost() {
-            return adHost;
-        }
-
-        public void setAdHost(String adHost) {
-            this.adHost = adHost;
-        }
 
         public String getOrderId() {
             return orderId;

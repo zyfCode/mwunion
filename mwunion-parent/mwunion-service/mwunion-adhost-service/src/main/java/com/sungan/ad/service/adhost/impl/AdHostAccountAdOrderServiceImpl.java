@@ -196,13 +196,13 @@ public class AdHostAccountAdOrderServiceImpl implements AdHostAccountAdOrderServ
 		if(adHostAccount.getAccountAmount().compareTo(BigDecimal.ONE)<1){
 			throw new AdRuntimeException("账号余额不足");
 		}
-		if(adHostAccountAdOrder.getPayType().equals(EnumAdHostAccountAdOrderPayType.SETTLE_PREPAID)){
+		if(adHostAccountAdOrder.getPayType().equals(EnumAdHostAccountAdOrderPayType.SETTLE_PREPAID.getKey())){
 			AdHostAccountAdOrderAttri condition = new AdHostAccountAdOrderAttri();
 			condition.setAdOrderId(adHostAccountAdOrder.getAdOrderId());
 			List<AdHostAccountAdOrderAttri> query = (List<AdHostAccountAdOrderAttri>) this.attriDAO.query(condition);
 			AdHostAccountAdOrderAttri orderAttri = query.get(0);
 			BigDecimal adAmount = orderAttri.getAdAmount();
-			if(adAmount.compareTo(adHostAccount.getAccountAmount())<0){
+			if(adAmount.compareTo(adHostAccount.getAccountAmount())>0){
 				throw new AdRuntimeException("预付费,账号余额不足");
 			}
 			adHostAccount.setFrozenAmount(adHostAccount.getFrozenAmount().add(adAmount));

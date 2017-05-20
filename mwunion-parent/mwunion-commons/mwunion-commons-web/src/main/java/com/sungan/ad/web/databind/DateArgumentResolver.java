@@ -3,6 +3,7 @@ package com.sungan.ad.web.databind;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.MethodParameter;
@@ -11,7 +12,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.hundsun.jresplus.common.util.StringUtil;
 import com.sungan.ad.exception.AdRuntimeException;
 
 /**
@@ -41,12 +41,12 @@ public class DateArgumentResolver implements HandlerMethodArgumentResolver {
 		String value = webRequest.getParameter(parameterName); 
 		String valueFormat = webRequest.getParameter(parameterName+"_format"); 
 		SimpleDateFormat format = null;
-		if(StringUtil.isNotBlank(valueFormat)){
+		if(StringUtils.isNotBlank(valueFormat)){
 			 format = new SimpleDateFormat(valueFormat);
 		}else{
 			 format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		}
-		 if(StringUtil.isNotBlank(value)){
+		 if(StringUtils.isNotBlank(value)){
 			 try {
 				Date parse = format.parse(value);
 				 return parse;

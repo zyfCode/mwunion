@@ -3,10 +3,10 @@ package com.sungan.ad.controller.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hundsun.jresplus.common.util.StringUtil;
 import com.sungan.ad.commons.AdConstants;
 
 /**
@@ -42,13 +42,13 @@ public class LoginInterceptor   implements HandlerInterceptor  {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		StringBuffer requestURL = request.getRequestURL();
 		System.out.println(requestURL);
-		if(StringUtil.isNotBlank(isMock)&&isMock.equalsIgnoreCase("true")){
+		if(StringUtils.isNotBlank(isMock)&&isMock.equalsIgnoreCase("true")){
 			return true;
 		}else{
 			Object attribute = request.getSession().getAttribute(AdConstants.ISLOGIN);
 			String contextPath = request.getContextPath();
 			String context = "";
-			if(StringUtil.isNotBlank(contextPath)&&!contextPath.endsWith("/")){
+			if(StringUtils.isNotBlank(contextPath)&&!contextPath.endsWith("/")){
 				context = contextPath;
 			}
 			if(attribute!=AdConstants.ISLOGIN_VALUE){

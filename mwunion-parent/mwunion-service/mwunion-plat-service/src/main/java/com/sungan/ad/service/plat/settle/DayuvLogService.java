@@ -12,11 +12,11 @@ public interface DayuvLogService extends LogService {
 
     /**
      * 查询已经计费记录
-     * @param adHostId
+     * @param stId
      * @param orderId
      * @return
      */
-    List<DayuvLog> query(String adHostId,String orderId);
+    List<DayuvLog> query(String stId,String orderId);
 
 
     /**

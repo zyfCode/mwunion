@@ -272,9 +272,22 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sungan.ad</groupId>
+			<artifactId>mwunion-commons-jresui</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sungan.ad</groupId>
 			<artifactId>mwunion-commons-test</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -1,3 +1,4 @@
+
 #@screen({"title":"客户端查询"})
     #@form({"name":"stmastersearchForm"})
         #@panel({"title":"查询条件"})

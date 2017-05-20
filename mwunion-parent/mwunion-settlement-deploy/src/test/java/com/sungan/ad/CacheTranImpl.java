@@ -28,30 +28,33 @@ public class CacheTranImpl implements CacheTran {
 
     @Override
     public void testTan() {
-        List<PlatAccount> query = (List<PlatAccount>) platAccountDAO.query();
-        PlatAccount account = query.get(0);
-        System.out.println(account.getVersion());
-        account.setNowAmount(BigDecimal.ONE);
-        UpdateByCondition<PlatAccount> condition = new UpdateByCondition<PlatAccount>(account,true);
-        platAccountDAO.updateHql(condition);
-//        PlatAccount account1 = platAccountDAO.find(account.getId());
-//        template.getSessionFactory().getCurrentSession().clear();
-        template.getSessionFactory().getCurrentSession().evict(account);
-        PlatAccount account1 =  ((List<PlatAccount>) platAccountDAO.query()).get(0);
-        System.out.println(account1.getVersion());
-//        PlatAccountWrapper platAccountWrapper = SystemParamUtil.getPlatAccount();
-//        PlatAccount platAccount = platAccountWrapper.;getPlatAccount();
-//        platAccount.setNowAmount(BigDecimal.ONE);
-//        int i = platAccountWrapper.updatePlatAccount();
-//        System.out.print(i);
-//         platAccountWrapper = SystemParamUtil.getPlatAccount();
-//         platAccount = platAccountWrapper.getPlatAccount();
-//        platAccount.setNowAmount(BigDecimal.ONE);
-//         i = platAccountWrapper.updatePlatAccount();
-//        System.out.print(i);
-//        if(i<1){
-//            throw new RuntimeException("");
-//        }
+        //SHOW TABLES LIKE 't_dayuvlog_140fe8cb8604498395c0619ac98f9388_20170517'
+
+
+//        List<PlatAccount> query = (List<PlatAccount>) platAccountDAO.query();
+//        PlatAccount account = query.get(0);
+//        System.out.println(account.getVersion());
+//        account.setNowAmount(BigDecimal.ONE);
+//        UpdateByCondition<PlatAccount> condition = new UpdateByCondition<PlatAccount>(account,true);
+//        platAccountDAO.updateHql(condition);
+////        PlatAccount account1 = platAccountDAO.find(account.getId());
+////        template.getSessionFactory().getCurrentSession().clear();
+//        template.getSessionFactory().getCurrentSession().evict(account);
+//        PlatAccount account1 =  ((List<PlatAccount>) platAccountDAO.query()).get(0);
+//        System.out.println(account1.getVersion());
+////        PlatAccountWrapper platAccountWrapper = SystemParamUtil.getPlatAccount();
+////        PlatAccount platAccount = platAccountWrapper.;getPlatAccount();
+////        platAccount.setNowAmount(BigDecimal.ONE);
+////        int i = platAccountWrapper.updatePlatAccount();
+////        System.out.print(i);
+////         platAccountWrapper = SystemParamUtil.getPlatAccount();
+////         platAccount = platAccountWrapper.getPlatAccount();
+////        platAccount.setNowAmount(BigDecimal.ONE);
+////         i = platAccountWrapper.updatePlatAccount();
+////        System.out.print(i);
+////        if(i<1){
+////            throw new RuntimeException("");
+////        }
     }
 
 }

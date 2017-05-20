@@ -19,6 +19,8 @@ public class DayuvLog implements Serializable{
     @Column(length=64,nullable=false)
     private String adOrderId;
     @Column(length=64,nullable=false)
+    private String stId;
+    @Column(length=64,nullable=false)
     private String adHostId;
     @Column(length=64)
     private String stSiteId;
@@ -36,6 +38,14 @@ public class DayuvLog implements Serializable{
     private String adOrderType;  //点击或者展示
     private Date createTime;
     private Date updateTime;
+
+    public String getStId() {
+        return stId;
+    }
+
+    public void setStId(String stId) {
+        this.stId = stId;
+    }
 
     public String getClientAgent() {
         return clientAgent;

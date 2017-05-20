@@ -21,9 +21,9 @@ public class DayuvLogServiceImpl implements DayuvLogService {
     private DayuvLogDAO dayuvLogDAO;
 
     @Override
-    public List<DayuvLog> query(String adHostId, String orderId) {
+    public List<DayuvLog> query(String stId, String orderId) {
         DayuvLog condition = new DayuvLog();
-        condition.setAdHostId(adHostId);
+        condition.setStId(stId);
         condition.setAdOrderId(orderId);
         List<DayuvLog> query = (List<DayuvLog>) dayuvLogDAO.query(condition);
         return  query;
@@ -37,12 +37,12 @@ public class DayuvLogServiceImpl implements DayuvLogService {
             log.setUpdateTime(new Date());
             log.setCreateTime(new Date());
             DayuvLog newLog = new DayuvLog();
-            AdCommonsUtil.beanCopyWithoutNull(newLog,log);
+            AdCommonsUtil.beanCopyWithoutNull(log,newLog);
             //clientAgent过大，不保存此字段
             newLog.setClientAgent(null);
-            newList.add(log);
+            newList.add(newLog);
         }
-        int insert = dayuvLogDAO.insert(datas);
+        int insert = dayuvLogDAO.insert(newList);
         return insert;
     }
 

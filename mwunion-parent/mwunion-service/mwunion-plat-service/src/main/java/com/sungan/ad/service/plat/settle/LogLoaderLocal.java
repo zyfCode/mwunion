@@ -68,7 +68,10 @@ public class LogLoaderLocal implements   LogLoader{
         File newFile = new File(logFile,fileName+DONE);
         try {
             if(file.exists()){
-                file.renameTo(newFile);
+                boolean success = file.renameTo(newFile);
+                if(!success){
+                    logger.warn("文件[{}]重全名[{}]失败!",file,newFile);
+                }
             }
         } catch (Exception e) {
             logger.error("文件{}重命名-->{}异常",file,newFile,e);

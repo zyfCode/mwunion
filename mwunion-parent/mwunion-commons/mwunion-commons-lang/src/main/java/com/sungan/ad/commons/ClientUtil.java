@@ -16,17 +16,17 @@ public class ClientUtil {
         String[] androidArr = new String[]{"Android","Linux"};
         String[] IOSArr= new String[]{"iPhone","ipad"};
         for(String agen:pcAgentArr){
-            if(agent.toUpperCase().indexOf(agen.toLowerCase())>0){
+            if(agent.toUpperCase().indexOf(agen.toUpperCase())>0){
                 return EnumClientType.PC;
             }
         }
         for(String agen:androidArr){
-            if(agent.toUpperCase().indexOf(agen.toLowerCase())>0){
+            if(agent.toUpperCase().indexOf(agen.toUpperCase())>0){
                 return EnumClientType.ANDROID;
             }
         }
-        for(String agen:androidArr){
-            if(agent.toUpperCase().indexOf(agen.toLowerCase())>0){
+        for(String agen:IOSArr){
+            if(agent.toUpperCase().indexOf(agen.toUpperCase())>0){
                 return EnumClientType.IOS;
             }
         }

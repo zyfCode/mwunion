@@ -4,12 +4,15 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.sungan.ad.commons.DateUtil;
+import com.sungan.ad.exception.AdRuntimeException;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.EmptyInterceptor;
 
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,30 +26,37 @@ public class SpLogInterceptor extends EmptyInterceptor {
             build(new CacheLoader<String, String>() {
         @Override
         /** 当本地缓存命没有中时，调用load方法获取结果并将结果缓存 **/
-        public String load(String tableName)  {
+        public String load(String tableName) {
             boolean exist = CreateTableHandlerUtil.isExist(tableName);
-            return exist+"";
+            if (!exist) {
+                return "";
+            }
+            return String.valueOf(exist);
         }
     });
-    private static final  String orgTable = "t_dayuvlog";
-    private  String getTableName(String id,Integer dayInt){
-        if(dayInt==null){
+    private static final String orgTable = "t_dayuvlog";
+
+    private String getTableName(String id, Integer dayInt) {
+        if (dayInt == null) {
             dayInt = DateUtil.dateToIntDay(new Date());
         }
-       String tablename =  orgTable+"_"+id+"_"+dayInt;
-       return tablename;
+        String tablename = orgTable + "_" + id + "_" + dayInt;
+        return tablename;
     }
 
     @Override
     public String onPrepareStatement(String sql) {
-        if(local.get()!=null){
+        if (local.get() != null && sql.contains(orgTable)) {
             InterceptorBean bean = local.get();
-            String tableName = this.getTableName(bean.getId(),bean.getDayint());
-            String unchecked = cache.getUnchecked(tableName);
-            if(!Boolean.valueOf(unchecked)){ //如果表不存在
-                CreateTableHandlerUtil.createTable(orgTable,tableName);
+            String tableName = this.getTableName(bean.getId(), bean.getDayint());
+            if (!sql.contains(tableName)) { //防止递归情况出现
+                String unchecked = cache.getUnchecked(tableName);
+                if (StringUtils.isBlank(unchecked)) { //如果表不存在
+                    cache.invalidate(tableName);
+                    CreateTableHandlerUtil.createTable(orgTable, tableName);
+                }
+                sql = sql.replaceAll(orgTable, tableName);
             }
-            sql = sql.replaceAll(orgTable,tableName);
         }
         return sql;
     }

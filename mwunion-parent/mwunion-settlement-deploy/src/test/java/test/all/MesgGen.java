@@ -2,7 +2,9 @@ package test.all;
 
 import com.sungan.ad.CacheTran;
 import com.sungan.ad.cmmon.test.BaseTest;
+import com.sungan.ad.commons.ClientUtil;
 import com.sungan.ad.commons.DateUtil;
+import com.sungan.ad.commons.EnumClientType;
 import com.sungan.ad.dao.log.DayuvLog;
 import com.sungan.ad.dao.model.AdHostAccountAdOrder;
 import com.sungan.ad.dao.model.PlatAccount;
@@ -60,17 +62,23 @@ public class MesgGen extends BaseTest {
     }
     @Test
     public void testWork(){
+        this.testGd();
         logWorker.Work();
     }
 
 
     public static void main(String[] args){
-//        getAgent();
+        List<String> agents = getAgent();
+        for(String agent:agents) {
+            EnumClientType typeByAgent = ClientUtil.getTypeByAgent(agent);
+            System.out.println(typeByAgent.getDesc()+"::"+agent);
+        }
     }
 
     private static List<String> getAgent(){
         try {
-            File file = new File("D:/log/agents_微信.txt");
+//            File file = new File("D:/log/agents_微信.txt");
+            File file = new File("D:/log/agents_Safari.txt");
             BufferedReader eader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
             Properties clientAgent = new Properties();
             clientAgent.load(eader);
@@ -135,7 +143,7 @@ public class MesgGen extends BaseTest {
     @Test
     public void testGd(){
         List<DayuvLog> dataList = new ArrayList<>();
-        for (int i=0;i<1000;i++) {
+        for (int i=0;i<200;i++) {
             DayuvLog log = new DayuvLog();
             AdHostAccountAdOrderVo adHostAccountAdOrderVo = this.randomOrderId();
             log.setAdOrderId(adHostAccountAdOrderVo.getAdOrderId());
@@ -145,6 +153,7 @@ public class MesgGen extends BaseTest {
             log.setAdOrderType(adHostAccountAdOrderVo.getAdOrderType());
             log.setClientAgent(this.randomAgent());
             StmasterSiteVo stmasterSiteVo = this.randomSite();
+            log.setStId(stmasterSiteVo.getStId());
             log.setStSiteId(stmasterSiteVo.getSiteId());
             log.setStSiteName(stmasterSiteVo.getSiteName());
             log.setUvIp(getRandomIp());

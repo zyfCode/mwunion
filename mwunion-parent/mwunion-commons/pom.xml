@@ -13,5 +13,6 @@
   	<module>mwunion-commons-test</module>
   	<module>mwunion-commons-web</module>
   	<module>mwunion-commons-service</module>
+  	<module>mwunion-commons-jresui</module>
   </modules>
 </project>

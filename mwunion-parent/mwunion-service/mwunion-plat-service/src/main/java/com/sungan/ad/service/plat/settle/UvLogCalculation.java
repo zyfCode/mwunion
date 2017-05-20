@@ -11,5 +11,5 @@ import java.util.List;
  * Created by zhangyf18255 on 2017/5/4.
  */
 public interface UvLogCalculation extends MuService{
-    void settleLog(List<DayuvLog> logList,String adHostId);
+    void settleLog(List<DayuvLog> logList,String stId);
 }

@@ -46,11 +46,9 @@ public class UvLogCalculationImpl implements UvLogCalculation {
     @Autowired
     private StmasterSiteHourDAO siteHourDAO;
 
-    @Autowired
-    private AdHostDAO adHostDAO;
 
     @Override
-    public void settleLog(List<DayuvLog> logList,String adHostId) {
+    public void settleLog(List<DayuvLog> logList,String stId) {
         if(logList==null||logList.size()<1){
             return;
         }
@@ -63,7 +61,7 @@ public class UvLogCalculationImpl implements UvLogCalculation {
             ignores =ignores+this.adHostCount(key, value);
         }
 
-        this.stMasterCount(adHostId,ignores,logList);
+        this.stMasterCount(stId,ignores,logList);
     }
 
     private Map<String,List<DayuvLog>> spByOrderId(List<DayuvLog> list){
@@ -106,6 +104,11 @@ public class UvLogCalculationImpl implements UvLogCalculation {
         return price;
     }
 
+    /**
+     * 根据终端类型进行分类
+     * @param logs
+     * @return
+     */
     private Map<EnumClientType,List<DayuvLog>>  spByClientType(List<DayuvLog> logs){
 
         Map<EnumClientType,List<DayuvLog>> map = new HashMap<>();
@@ -324,14 +327,17 @@ public class UvLogCalculationImpl implements UvLogCalculation {
         }
     }
 
+
+    @Autowired
+    private StmasterDAO stmasterDAO;
     /**
+     *
      * 站长计费
      *
      * @param ignoresCount  忽略总数,有些订单存在已结清的情况，这些订单的日志将不在计费
      * @param logs
-     * @param type
      */
-    private void stMasterCount(String adHostId,int ignoresCount,List<DayuvLog> logs){
+    private void stMasterCount(String stId,int ignoresCount,List<DayuvLog> logs){
         int count = logs.size()-ignoresCount;
         if(count<=0){
             return;
@@ -339,8 +345,8 @@ public class UvLogCalculationImpl implements UvLogCalculation {
             logs = logs.subList(ignoresCount,logs.size());
         }
         Map<String,List<DayuvLog>> hourCat = new HashMap<String,List<DayuvLog>>();
-        AdHost adHost = adHostDAO.find(adHostId);
-        if(adHost==null){
+        Stmaster stmaster = stmasterDAO.find(stId);
+        if(stmaster==null){
             return;
         }
         for (DayuvLog log:logs) { //根据时间分类
@@ -421,11 +427,11 @@ public class UvLogCalculationImpl implements UvLogCalculation {
             hour.setSettlementAmount(newAamount);
             hour.setSettlementNo(IdGeneratorFactory.nextId());
             hour.setShowCount(0);
-            hour.setAdHostId(adHostId);
+            hour.setAdHostId(stId);
             hour.setUpdateTime(new Date());
             siteHourDAO.insert(hour);
             logAcount = logAcount.add(newAamount);
         }
-        this.updateStPlatAccount(logAcount);
+//        this.updateStPlatAccount(logAcount);
     }
 }
