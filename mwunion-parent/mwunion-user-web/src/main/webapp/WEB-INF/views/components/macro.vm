@@ -1,0 +1,25 @@
+#macro ( pagecontent $dataurl)
+<div id="_page_content_data"></div>
+<script type="text/javascript">
+	jQuery.ajaxGetHtml({
+		url:"$dataurl",
+		successFn:function(re){
+			$("#_page_content_data").empty();
+			$("#_page_content_data").html(re);
+		}
+		
+	});
+</script>
+#end
+
+#macro ( ajaxcontent $dataurl $divid)
+<script type="text/javascript">
+	jQuery.ajaxGetHtml({
+		url:"$dataurl",
+		successFn:function(re){
+			$("#$divid").html(re);
+		}
+		
+	});
+</script>
+#end
